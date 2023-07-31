@@ -44,15 +44,15 @@
         /*TODO:Actualizar Registro*/
         public function updateCliente($idcliente, $idempresa, $nombrecliente, $ruccliente, $telefonocliente,$direccioncliente,$correocliente){
             $conectar = parent::Conexion();
-            $sql = "spUpdateCliente ?,?,?";
+            $sql = "spUpdateCliente ?,?,?,?,?,?,?";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcliente);
             $query->bindValue(2,$idempresa);
             $query->bindValue(3,$nombrecliente);
-            $query->bindValue(3,$ruccliente);
-            $query->bindValue(3,$telefonocliente);
-            $query->bindValue(3,$direccioncliente);
-            $query->bindValue(3,$correocliente);
+            $query->bindValue(4,$ruccliente);
+            $query->bindValue(5,$telefonocliente);
+            $query->bindValue(6,$direccioncliente);
+            $query->bindValue(7,$correocliente);
             $query->execute();
         }        
 
