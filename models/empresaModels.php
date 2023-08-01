@@ -2,7 +2,7 @@
 
     class EmpresaModels extends Conectar{
         /*TODO: Listar Empresa*/
-        public function getEmpresa_x_sucursalId($idcompania) {
+        public function getEmpresa_x_companialId($idcompania) {
             $conectar = parent::Conexion();
             $sql = "spListarEmpresa ?";
             $query = $conectar->prepare($sql);

@@ -2,7 +2,7 @@
 
     class ProveedorModels extends Conectar{
         /*TODO: Listar Proveedor*/
-        public function getProveedor_x_sucursalId($idempresa) {
+        public function getProveedor_x_empresaId($idempresa) {
             $conectar = parent::Conexion();
             $sql = "spListarProveedor ?";
             $query = $conectar->prepare($sql);

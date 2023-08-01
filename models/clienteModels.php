@@ -2,7 +2,7 @@
 
     class ClienteModels extends Conectar{
         /*TODO: Listar Cliente*/
-        public function getCliente_x_sucursalId($idempresa) {
+        public function getCliente_x_empresaId($idempresa) {
             $conectar = parent::Conexion();
             $sql = "spListarCliente ?";
             $query = $conectar->prepare($sql);
