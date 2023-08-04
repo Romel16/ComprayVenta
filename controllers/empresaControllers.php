@@ -19,11 +19,13 @@ switch ($_GET["op"]) {
 
         /*TODO: Listado de registros formato json para Datatables js     */
     case 'listar':
-        $datos = $empresa->getEmpresa_x_companialId($idcompania);
+        $datos = $empresa->getEmpresa_x_companialId($_POST["idcompania"]);
         $data = Array();
         foreach ($datos as $row) {
             $sub_array = array();
+            $sub_array = $row["rucempresa"];
             $sub_array = $row["nombreempresa"];
+            $sub_array = $row["fechacreacionempresa"];
             $sub_array = "Editar";
             $sub_array = "Eliminar";
             $data[] = $sub_array;
@@ -56,6 +58,20 @@ switch ($_GET["op"]) {
     /*TODO: Cambiar estado del registro a 0 */
     case 'eliminar':
         $empresa->eliminarEmpresa($_POST["idempresa"]);
+        break;
+
+    /*TODO: Listar Combobox */
+    case 'combo':
+        $datos = $empresa->getEmpresa_x_companialId($_POST["empresaCompaniaId"]); 
+                    
+        if (is_array($datos)==true and count($datos)>0) {
+            $html="";
+            $html.="<option selected>Seleccionar</option>";
+            foreach ($datos as $row) {
+                $html.="<option value='".$row["idempresa"]."'>".$row["nombreempresa"]."</option>";
+            }
+            echo $html;
+        }
         break;
     
 }

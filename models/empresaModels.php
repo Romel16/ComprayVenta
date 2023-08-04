@@ -4,10 +4,10 @@
         /*TODO: Listar Empresa*/
         public function getEmpresa_x_companialId($idcompania) {
             $conectar = parent::Conexion();
-            $sql = "spListarEmpresa ?";
+            $sql = "call spListarEmpresa (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcompania);
-            $query->execute();
+           // $query->execute(); 
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }
         /*TODO: Listar Empresa por Id*/
@@ -46,7 +46,7 @@
             $query->bindValue(1,$idempresa);
             $query->bindValue(2,$idcompania);
             $query->bindValue(3,$nombreempresa);
-            $query->bindValue(4,$nombreempresa);
+            $query->bindValue(4,$rucempresa);
             $query->execute();
         }        
 

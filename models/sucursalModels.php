@@ -2,7 +2,7 @@
 
     class SucursalModels extends Conectar{
         /*TODO: Listar Sucursal*/
-        public function getSucursal_x_sucursalId($idempresa) {
+        public function getSucursal_x_empresalId($idempresa) {
             $conectar = parent::Conexion();
             $sql = "spListarSucursal ?";
             $query = $conectar->prepare($sql);
