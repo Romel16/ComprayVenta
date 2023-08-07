@@ -61,8 +61,8 @@ switch ($_GET["op"]) {
         break;
 
     /*TODO: Listar Combobox */
-    case 'combo':
-        $datos = $empresa->getEmpresa_x_companialId($_POST["empresaCompaniaId"]); 
+    case "combo":
+        $datos = $empresa->getEmpresa_x_companialId($_POST["idcompania"]); 
                     
         if (is_array($datos)==true and count($datos)>0) {
             $html="";

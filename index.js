@@ -1,18 +1,18 @@
 $(document).ready(function(){
     var idcompania = getUrlParameter('c');
 
-    $('#empresaCompaniaId').select2();
+    $('#idcompania').select2();
 
-    $('#empresaCompaniaId').select2();
+    $('#id_sucursal').select2();
 
 
     $.post("controllers/empresaControllers.php?op=combo",{idcompania:idcompania}, function(data){
         console.log(data);
-        $("#empresaCompaniaId").html(data);
+        $("#idcompania").html(data);
     });
 
-    $("#empresaCompaniaId").change(function(){
-        $("#empresaCompaniaId").each(function(){
+    $("#idcompania").change(function(){
+        $("#idcompania").each(function(){
             idempresa = $(this).val();
 
             $.post("controllers/sucursalControllers.php?op=combo",{idempresa:idempresa},function(data){

@@ -90,14 +90,14 @@
                                             <form action="" method="post" id="login_form">
 
                                                 <div class="mb-3">
-                                                    <label for="empresaCompaniaId" class="form-label">Empresa</label>
-                                                    <select type="text" class="form-control form-select" id="empresaCompaniaId" aria-label="Seleccionar">
+                                                    <label for="idcompania" class="form-label">Empresa</label>
+                                                    <select type="text" class="form-control form-select" id="idcompania" name="idcompania" aria-label="Seleccionar">
                                                         <option selected>Seleccionar</option>
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="id_sucursal" class="form-label">Sucursal</label>
-                                                    <select type="text" class="form-control form-select" id="id_sucursal" aria-label="Seleccionar">
+                                                    <select type="text" class="form-control form-select" id="id_sucursal" name="id_sucursal" aria-label="Seleccionar">
                                                         <option selected>Seleccionar</option>
                                                     </select>
                                                 </div>
@@ -164,21 +164,25 @@
     </div>
     <!-- end auth-page-wrapper -->
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    
+    
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
-
-
+    
+    <script src="assets/libs/node-waves/waves.min.js"></script>
+    
+    
     <!-- password-addon init -->
     <script src="assets/js/pages/password-addon.init.js"></script>
-
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 
     <script type="text/javascript" src="index.js"></script>

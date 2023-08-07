@@ -1,19 +1,18 @@
 <?php
-
     class EmpresaModels extends Conectar{
         /*TODO: Listar Empresa*/
         public function getEmpresa_x_companialId($idcompania) {
             $conectar = parent::Conexion();
-            $sql = "call spListarEmpresa (?)";
+            $sql = "call spListarEmpresa (?);";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcompania);
-           // $query->execute(); 
+            $query->execute(); 
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }
         /*TODO: Listar Empresa por Id*/
         public function getEmpresa_x_id($idempresa){
             $conectar = parent::Conexion();
-            $sql = "spListarEmpresaporId ?";
+            $sql = "call spListarEmpresaporId (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idempresa);
             $query->execute();
