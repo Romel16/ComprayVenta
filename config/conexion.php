@@ -1,5 +1,8 @@
 <?php
 
+    session_start();
+
+
 class Conectar{
     protected $dbh;
 
@@ -15,5 +18,10 @@ class Conectar{
             die();
         }
 
+    }
+
+
+    public static function ruta(){
+        return "http://localhost/sistemas/ComprayVenta/";
     }
 }

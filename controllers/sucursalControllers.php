@@ -61,7 +61,7 @@
                 $html="";
                 $html.="<option selected>Seleccionar</option>";
                 foreach($datos as $row){
-                    $html.= "<option value='".$row["idsucursal"]."'>".$row["idsucursal"]."</option>";
+                    $html.= "<option value='".$row["sucursalId"]."'>".$row["sucursalNombre"]."</option>";
                 }
                 echo $html;
             }

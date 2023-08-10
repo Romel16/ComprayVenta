@@ -12,7 +12,7 @@
         /*TODO: Listar Empresa por Id*/
         public function getEmpresa_x_id($idempresa){
             $conectar = parent::Conexion();
-            $sql = "call spListarEmpresaporId (?)";
+            $sql = "call spListarEmpresaporId (?);";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idempresa);
             $query->execute();

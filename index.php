@@ -1,3 +1,15 @@
+<?php
+    require_once ("config/conexion.php");
+    if (isset($_POST["enviar"]) and $_POST["enviar"]=="si") {
+        require_once ("models/usuarioModels.php");
+        $usuario = new UsuarioModels();
+        $usuario->login();
+    
+    }
+
+
+?>
+
 <!doctype html>
 <html lang="es" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
 
@@ -90,20 +102,20 @@
                                             <form action="" method="post" id="login_form">
 
                                                 <div class="mb-3">
-                                                    <label for="idcompania" class="form-label">Empresa</label>
-                                                    <select type="text" class="form-control form-select" id="idcompania" name="idcompania" aria-label="Seleccionar">
+                                                    <label for="idempresa" class="form-label">Empresa</label>
+                                                    <select type="text" class="form-control form-select" name="idempresa" id="idempresa"  aria-label="Seleccionar">
                                                         <option selected>Seleccionar</option>
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="id_sucursal" class="form-label">Sucursal</label>
-                                                    <select type="text" class="form-control form-select" id="id_sucursal" name="id_sucursal" aria-label="Seleccionar">
+                                                    <select type="text" class="form-control form-select" name="id_sucursal" id="id_sucursal"  aria-label="Seleccionar">
                                                         <option selected>Seleccionar</option>
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label">Usuario</label>
-                                                    <input type="text" class="form-control" id="username" placeholder="Ingrese su usuario">
+                                                    <label for="usuariocorreo" class="form-label">Usuario</label>
+                                                    <input type="text" class="form-control" name="usuariocorreo" id="usuarusuariocorreoio" placeholder="Ingrese su Correo">
                                                 </div>
 
                                                 <div class="mb-3">
@@ -112,7 +124,7 @@
                                                     </div>
                                                     <label class="form-label" for="password-input">Contraseña</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
-                                                        <input type="password" class="form-control pe-5" placeholder="Ingrese su Contraseña" id="password-input">
+                                                        <input type="password" class="form-control pe-5" placeholder="Ingrese su Contraseña" name="usuariopassword" id="usuariopassword">
                                                         <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                     </div>
                                                 </div>
@@ -123,6 +135,7 @@
                                                 </div>
 
                                                 <div class="mt-4">
+                                                    <input type="hidden" name="enviar" id="enviar" class="form-control" value="si">
                                                     <button class="btn btn-success w-100" type="submit">Acceder</button>
                                                 </div>
 

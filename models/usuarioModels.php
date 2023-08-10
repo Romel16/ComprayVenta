@@ -62,6 +62,42 @@
             $query->execute();
         }        
 
+        /*TODO: Acceso al Sistema */
+        public function login(){
+            $conectar = parent::Conexion();
+            if (isset($_POST["enviar"])) {
+                $sucursal = $_POST["id_sucursal"];
+                $correo = $_POST["usuariocorreo"];
+                $pass = $_POST["usuariopassword"];
+
+                if (empty($sucursal) and empty($correo) and empty($pass)) {
+                    exit();
+                }else {
+                    $sql = "call spListarLogin (?,?,?)";
+                    $query = $conectar->prepare($sql);
+                    $query->bindValue(1,$sucursal);
+                    $query->bindValue(2,$correo);
+                    $query->bindValue(3,$pass);
+                    $query->execute();
+                    $resultado = $query->fetch();
+                    if (is_array($resultado) and count($resultado)>0) {
+                        $_SESSION["usuarioId"] = $resultado["usuarioId"];
+                        $_SESSION["usuarioNombre"] = $resultado["usuarioNombre"];
+                        $_SESSION["usuarioApellido"] = $resultado["usuarioApellido"];
+                        $_SESSION["usuarioCorreo"] = $resultado["usuarioCorreo"];
+                        $_SESSION["usuarioSucursalId"] = $resultado["usuarioSucursalId"];
+                        $_SESSION["empresaCompaniaId"] = $resultado["empresaCompaniaId"];
+
+                        header("Location:".Conectar::ruta()."vistas/home/");
+                    }else {
+                        exit();
+                    }
+                }
+            }else{
+
+            }
+        }
+
     }
 
 ?>

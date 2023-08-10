@@ -4,7 +4,7 @@
         /*TODO: Listar Sucursal*/
         public function getSucursal_x_empresalId($idempresa) {
             $conectar = parent::Conexion();
-            $sql = "spListarSucursal ?";
+            $sql = "call spListarSucursal (?);";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idempresa);
             $query->execute();
@@ -13,7 +13,7 @@
         /*TODO: Listar Sucursal por Id*/
         public function getSucursal_x_id($idsucursal){
             $conectar = parent::Conexion();
-            $sql = "spListarSucursalporId ?";
+            $sql = "call spListarSucursalporId (?);";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->execute();

@@ -58,7 +58,7 @@ create table usuario (
     usuarioTelefono varchar (30)not null,
     usuarioPassword varchar(250)not null,
 	usuarioFechaCreacion datetime not null,
-    susuarioEstado int(1) not null ,
+    usuarioEstado int(1) not null ,
     constraint fksucursal foreign key (usuarioSucursalId) references sucursal(sucursalId),
     constraint fkrol foreign key (usuarioRolId) references rol(rolId)
 );

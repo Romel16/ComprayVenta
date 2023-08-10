@@ -110,3 +110,25 @@ create  PROCEDURE `spCambioContrasena`
 		usuarioId = idUsuario ;
     
 DELIMITER ;
+
+
+/*Listar usuario con sucursal, correo, pass especificos*/
+create procedure `spListarLogin`
+(in idUsuarioSucursal int,
+in correoUsuario varchar(150),
+in passwordUsuario varchar(150))
+ 
+
+select u.usuarioId,u.usuarioSucursalId, u.usuarioRolId,u.usuarioCorreo,u.usuarioNombre,u.usuarioApellido,u.usuarioDni,
+	u.usuarioTelefono,u.usuarioPassword, s.sucursalEmpresaId,s.sucursalNombre,e.empresaNombre,e.empresaRuc,
+    e.empresaCompaniaId, c.companiaNombre    
+from usuario u 
+join	sucursal s on u.usuarioSucursalId = s.sucursalId
+join 	empresa e on s.sucursalEmpresaId = e.empresaId
+join 	compania c on e.empresaCompaniaId = c.companiaId
+where u.usuarioSucursalId = idUsuarioSucursal
+	and u.usuarioCorreo = correoUsuario
+	and u.usuarioPassword = passwordUsuario
+    and u.usuarioEstado=1;
+
+Delimiter ;;
