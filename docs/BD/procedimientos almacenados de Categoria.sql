@@ -1,9 +1,28 @@
 /*Procedimiento Almacenado Listar Categoria*/
+
+/*
+DELIMITER $$
+USE `comprayventa`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarCategoria`(in idCategoriaSucursal int)
+SELECT categoriaId,categoriaSucursalId,categoriaNombre, 
+date_format(categoriaFechaCreacion,"%d-%m-%y") as categoriaFechaCreacion,
+categoriaEstado
+ FROM 
+	categoria  
+ WHERE  
+	 categoriaSucursalId = idCategoriaSucursal
+     and categoriaEstado=1$$
+
+DELIMITER ;
+*/
+
 create  PROCEDURE `spListarCategoria`
 (in idCategoriaSucursal int)
   
- SELECT *
- FROM 
+ SELECT categoriaId,categoriaSucursalId,categoriaNombre, 
+date_format(categoriaFechaCreacion,"%d-%m-%y") as categoriaFechaCreacion,
+categoriaEstado
+FROM 
 	categoria  
  WHERE  
 	 categoriaSucursalId = idCategoriaSucursal
@@ -56,9 +75,24 @@ CREATE  PROCEDURE `spUpdateCategoria`
 
 	update categoria
     set 
-		idCategoriaSucursal = categoriaSucursalId,
-        nombreCategoria = categoriaNombre
+		categoriaSucursalId = idCategoriaSucursal,
+        categoriaNombre = nombreCategoria
 	where
 		categoriaId = idCategoria;
 
 DELIMITER ;
+/*
+DELIMITER $$
+USE `comprayventa`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateCategoria`(in idCategoria int,
+ idCategoriaSucursal int,
+ nombreCategoria varchar(150))
+update categoria
+    set 
+		categoriaSucursalId = idCategoriaSucursal,
+        categoriaNombre = nombreCategoria
+	where
+		categoriaId = idCategoria$$
+
+DELIMITER ;
+*/

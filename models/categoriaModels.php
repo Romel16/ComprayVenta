@@ -4,7 +4,7 @@
         /*TODO: Listar Categoria*/
         public function getCategoria_x_sucursalId($idsucursal) {
             $conectar = parent::Conexion();
-            $sql = "spListarCategoria ?";
+            $sql = "call spListarCategoria (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->execute();
@@ -13,7 +13,7 @@
         /*TODO: Listar Categoria por Id*/
         public function getCategoria_x_id($idcategoria){
             $conectar = parent::Conexion();
-            $sql = "spListarCategoriaporId ?";
+            $sql = "call spListarCategoriaporId (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcategoria);
             $query->execute();
@@ -22,7 +22,7 @@
         /*TODO: Eliminar Categoria*/
         public function eliminarCategoria($idcategoria){
             $conectar = parent::Conexion();
-            $sql = "spEliminarCategoria ?";
+            $sql = "call spEliminarCategoria (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcategoria);
             $query->execute();
@@ -30,7 +30,7 @@
         /*TODO: Insertar Categoria*/
         public function insertarCategoria($idsucursal, $nombrecategoria){
             $conectar = parent::Conexion();
-            $sql = "spRegistrarCategoria ?,?";
+            $sql = "call spRegistrarCategoria (?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->bindValue(2,$nombrecategoria);
@@ -40,7 +40,7 @@
         /*TODO:Actualizar Registro*/
         public function updateCategoria($idcategoria, $idsucursal, $nombrecategoria){
             $conectar = parent::Conexion();
-            $sql = "spUpdateCategoria ?,?,?";
+            $sql = "call spUpdateCategoria (?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcategoria);
             $query->bindValue(2,$idsucursal);

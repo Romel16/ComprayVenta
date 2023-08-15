@@ -10,22 +10,23 @@ $categoria = new CategoriaModels();
 switch ($_GET["op"]) {
     /*TODO: guardar y Editar, guardar cuando el ID este vacion, y Actualuzar cuando se envie el ID */
     case 'guardaryeditar':
-        if (empty($_POST["idcategoria"])) {
-            $categoria->insertarCategoria($_POST["idsucursal"], $_POST["nombrecategoria"]);
+        if (empty($_POST["categoriaId"])) {
+            $categoria->insertarCategoria($_POST["categoriaSucursalId"], $_POST["categoriaNombre"]);
         }else{
-            $categoria->updateCategoria($_POST["idcategoria"], $_POST["idsucursal"],$_POST["nombrecategoria"]);
+            $categoria->updateCategoria($_POST["categoriaId"], $_POST["categoriaSucursalId"],$_POST["categoriaNombre"]);
         }
-        break;
+    break;
 
         /*TODO: Listado de registros formato json para Datatables js     */
     case 'listar':
-        $datos = $categoria->getCategoria_x_sucursalId($idsucursal);
+        $datos = $categoria->getCategoria_x_sucursalId($_POST["idsucursal"]);
         $data = Array();
         foreach ($datos as $row) {
             $sub_array = array();
-            $sub_array = $row["nombrecategoria"];
-            $sub_array = "Editar";
-            $sub_array = "Eliminar";
+            $sub_array[] = $row["categoriaNombre"];
+            $sub_array[] = $row["categoriaFechaCreacion"];
+            $sub_array[] = '<button type="button" onClick="editar('.$row["categoriaId"].')" id="'.$row["categoriaId"].'" class="btn btn-warning btn-icon waves-effect waves-light"><i class="ri-edit-2-line"></i></button>';;
+            $sub_array[] = '<button type="button" onClick="eliminar('.$row["categoriaId"].')" id="'.$row["categoriaId"].'" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-delete-bin-5-line"></i></button>';;
             $data[] = $sub_array;
 
         }
@@ -41,12 +42,12 @@ switch ($_GET["op"]) {
     
         /*TODO: mostrar registros con informacion por medio ID */
     case 'mostrar':
-        $datos = $categoria->getCategoria_x_id($_POST["idcategoria"]);
+        $datos = $categoria->getCategoria_x_id($_POST["categoriaId"]);
         if (is_array($datos)== true and count($datos)>0) {
             foreach ($datos as $row) {
-                $output["idcategoria"] = $row["idcategoria"];
-                $output["idsucursal"] = $row["idsucursal"];
-                $output["nombrecategoria"] = $row["nombrecategoria"];
+                $output["categoriaId"] = $row["categoriaId"];
+                $output["categoriaSucursalId"] = $row["categoriaSucursalId"];
+                $output["categoriaNombre"] = $row["categoriaNombre"];
 
             }
             echo json_encode($output);
@@ -54,7 +55,7 @@ switch ($_GET["op"]) {
         break;
     /*TODO: Cambiar estado del registro a 0 */
     case 'eliminar':
-        $categoria->eliminarCategoria($_POST["idcategoria"]);
+        $categoria->eliminarCategoria($_POST["categoriaId"]);
         break;
     
 }

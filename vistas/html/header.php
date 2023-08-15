@@ -95,8 +95,8 @@
                     </button>
                     
                     <!-- TODO: Variables de Session ocultas -->
+                    <input type="hidden" name="usuariosucursal" id="usuariosucursal" value="<?php echo $_SESSION["usuarioSucursalId"]?>"/>
                     <!--<input type="hidden" name="USU_IDx" id="USU_IDx" value=""/>
-                    <input type="hidden" name="SUC_IDx" id="SUC_IDx" value=""/>
                     <input type="hidden" name="COM_IDx" id="COM_IDx" value=""/>
                     <input type="hidden" name="EMP_IDx" id="EMP_IDx" value=""/>-->
                             

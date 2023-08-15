@@ -1,5 +1,3 @@
-
-
 <div class="app-menu navbar-menu">
 
     <div class="navbar-brand-box">
@@ -36,19 +34,29 @@
             </div>
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-                
-                    
-                
-                <li class="menu-title"><span data-key="t-menu">Mantenimiento</span></li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets"></span>
+                    </a>
+                </li>
 
-                
+
+                <li class="menu-title"><span data-key="t-menu">Mantenimiento</span></li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="../MntMoneda/index.php">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets"></span>
+                    </a>
+                </li>
+
+
+
                 <li class="menu-title"><span data-key="t-menu">Compra</span></li>
 
-                
+
 
                 <li class="menu-title"><span data-key="t-menu">Venta</span></li>
 
-                
+
             </ul>
         </div>
 
