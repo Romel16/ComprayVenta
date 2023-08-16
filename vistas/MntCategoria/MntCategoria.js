@@ -120,8 +120,8 @@ function eliminar(categoriaId){
 }
 
 $(document).on("click","#btnNuevo", function(){
-    $('#categoriaid').val('');
-    $('#nombrecategoria').val('');    
+    $('#categoriaId').val('');
+    $('#categoriaNombre').val('');    
     $('#lbltitulo').html('Nuevo Registro');
     $('#mantenimiento_form')[0].reset();
     $('#modalmantenimiento').modal('show');

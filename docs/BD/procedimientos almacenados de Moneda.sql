@@ -2,7 +2,8 @@
 create  PROCEDURE `spListarMoneda`
 (in idMonedaSucursal int)
   
- SELECT *
+ SELECT SELECT monedaId,monedaSucursalId, monedaNombre,
+ date_format(monedaFechaCreacion,"%d-%m-%y") as monedaFechaCreacion,monedaEstado
  FROM 
 	moneda  
  WHERE  
@@ -56,8 +57,8 @@ CREATE  PROCEDURE `spUpdateMoneda`
 
 	update moneda
     set 
-		idMonedaSucursal = monedaSucursalId,
-        nombreMoneda = monedaNombre
+		monedaSucursalId = idMonedaSucursal,
+        monedaNombre = nombreMoneda
 	where
 		monedaId = idMoneda;
 

@@ -10,22 +10,23 @@ $moneda = new MonedaModels();
 switch ($_GET["op"]) {
     /*TODO: guardar y Editar, guardar cuando el ID este vacion, y Actualuzar cuando se envie el ID */
     case 'guardaryeditar':
-        if (empty($_POST["idmoneda"])) {
-            $moneda->insertarMoneda($_POST["idsucursal"], $_POST["nombreMoneda"]);
+        if (empty($_POST["monedaId"])) {
+            $moneda->insertarMoneda($_POST["monedaSucursalId"], $_POST["monedaNombre"]);
         }else{
-            $moneda->updateMoneda($_POST["idmoneda"], $_POST["idsucursal"],$_POST["nombreMoneda"]);
+            $moneda->updateMoneda($_POST["monedaId"], $_POST["monedaSucursalId"],$_POST["monedaNombre"]);
         }
         break;
 
         /*TODO: Listado de registros formato json para Datatables js     */
     case 'listar':
-        $datos = $moneda->getMoneda_x_sucursalId($idsucursal);
+        $datos = $moneda->getMoneda_x_sucursalId($_POST["idsucursal"]);
         $data = Array();
         foreach ($datos as $row) {
             $sub_array = array();
-            $sub_array = $row["nombremoneda"];
-            $sub_array = "Editar";
-            $sub_array = "Eliminar";
+            $sub_array[] = $row["monedaNombre"];
+            $sub_array[] = $row["monedaFechaCreacion"];
+            $sub_array[] = '<button type="button" onClick="editar('.$row["monedaId"].')" id="'.$row["monedaId"].'" class="btn btn-warning btn-icon waves-effect waves-light"><i class="ri-edit-2-line"></i></button>';;
+            $sub_array[] = '<button type="button" onClick="eliminar('.$row["monedaId"].')" id="'.$row["monedaId"].'" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-delete-bin-5-line"></i></button>';;
             $data[] = $sub_array;
 
         }
@@ -41,20 +42,20 @@ switch ($_GET["op"]) {
     
         /*TODO: mostrar registros con informacion por medio ID */
     case 'mostrar':
-        $datos = $moneda->getMoneda_x_id($_POST["idmoneda"]);
+        $datos = $moneda->getMoneda_x_id($_POST["monedaId"]);
         if (is_array($datos)== true and count($datos)>0) {
             foreach ($datos as $row) {
-                $output["idmoneda"] = $row["idmoneda"];
-                $output["idsucursal"] = $row["idsucursal"];
-                $output["nombremoneda"] = $row["nombremoneda"];
+                $output["monedaId"] = $row["monedaId"];
+                $output["monedaSucursalId"] = $row["monedaSucursalId"];
+                $output["monedaNombre"] = $row["monedaNombre"];
 
             }
             echo json_encode($output);
         }
-        break;
+    break;
     /*TODO: Cambiar estado del registro a 0 */
     case 'eliminar':
-        $moneda->eliminarMoneda($_POST["idmoneda"]);
+        $moneda->eliminarMoneda($_POST["monedaId"]);
         break;
     
 }
