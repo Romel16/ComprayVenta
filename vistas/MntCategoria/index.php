@@ -2,6 +2,9 @@
 
     require_once("../../config/conexion.php");
 
+    if (isset($_SESSION["usuarioId"])) {
+
+
 ?>
 
 <!doctype html>
@@ -105,3 +108,9 @@
 </body>
 
 </html>
+
+<?php
+    }else {
+        header("Location:".Conectar::ruta()."vistas/404/");
+    }
+?>

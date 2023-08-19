@@ -121,7 +121,7 @@ create table cliente (
     clienteNombre varchar(150) not null,
     clienteRuc varchar(50) not null,
 	clienteTelefono varchar(20) not null,
-    clientedDireccion varchar(100) not null,
+    clienteDireccion varchar(100) not null,
     clienteCorreo varchar(150)not null,
     clienteFechaCreacion datetime not null,
     clienteEstado int(1) not null ,

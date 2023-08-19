@@ -10,22 +10,23 @@ $unidad = new UnidadModels();
 switch ($_GET["op"]) {
     /*TODO: guardar y Editar, guardar cuando el ID este vacion, y Actualuzar cuando se envie el ID */
     case 'guardaryeditar':
-        if (empty($_POST["idunidad"])) {
-            $unidad->insertarUnidad($_POST["idsucursal"], $_POST["nombreUnidad"]);
+        if (empty($_POST["unidadId"])) {
+            $unidad->insertarUnidad($_POST["unidadSucursalId"], $_POST["unidadNombre"]);
         }else{
-            $unidad->updateUnidad($_POST["idunidad"], $_POST["idsucursal"],$_POST["nombreUnidad"]);
+            $unidad->updateUnidad($_POST["unidadId"], $_POST["unidadSucursalId"],$_POST["unidadNombre"]);
         }
         break;
 
         /*TODO: Listado de registros formato json para Datatables js     */
     case 'listar':
-        $datos = $unidad->getUnidad_x_sucursalId($idsucursal);
+        $datos = $unidad->getUnidad_x_sucursalId($_POST["idsucursal"]);
         $data = Array();
         foreach ($datos as $row) {
             $sub_array = array();
-            $sub_array = $row["nombreunidad"];
-            $sub_array = "Editar";
-            $sub_array = "Eliminar";
+            $sub_array[] = $row["unidadNombre"];
+            $sub_array[] = $row["unidadFechaCreacion"];
+            $sub_array[] = '<button type="button" onClick="editar('.$row["unidadId"].')" id="'.$row["unidadId"].'" class="btn btn-warning btn-icon waves-effect waves-light"><i class="ri-edit-2-line"></i></button>';;
+            $sub_array[] = '<button type="button" onClick="eliminar('.$row["unidadId"].')" id="'.$row["unidadId"].'" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-delete-bin-5-line"></i></button>';;
             $data[] = $sub_array;
 
         }
@@ -41,12 +42,12 @@ switch ($_GET["op"]) {
     
         /*TODO: mostrar registros con informacion por medio ID */
     case 'mostrar':
-        $datos = $unidad->getUnidad_x_id($_POST["idunidad"]);
+        $datos = $unidad->getUnidad_x_id($_POST["unidadId"]);
         if (is_array($datos)== true and count($datos)>0) {
             foreach ($datos as $row) {
-                $output["idunidad"] = $row["idunidad"];
-                $output["idsucursal"] = $row["idsucursal"];
-                $output["nombreunidad"] = $row["nombreunidad"];
+                $output["unidadId"] = $row["unidadId"];
+                $output["unidadSucursalId"] = $row["unidadSucursalId"];
+                $output["unidadNombre"] = $row["unidadNombre"];
 
             }
             echo json_encode($output);
@@ -54,7 +55,7 @@ switch ($_GET["op"]) {
         break;
     /*TODO: Cambiar estado del registro a 0 */
     case 'eliminar':
-        $unidad->eliminarUnidad($_POST["idunidad"]);
+        $unidad->eliminarUnidad($_POST["unidadId"]);
         break;
     
 }

@@ -4,7 +4,7 @@
         /*TODO: Listar Unidad*/
         public function getUnidad_x_sucursalId($idsucursal) {
             $conectar = parent::Conexion();
-            $sql = "spListarUnidad ?";
+            $sql = "call spListarUnidad (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->execute();
@@ -13,7 +13,7 @@
         /*TODO: Listar Unidad por Id*/
         public function getUnidad_x_id($idunidad){
             $conectar = parent::Conexion();
-            $sql = "spListarUnidadporId ?";
+            $sql = "call spListarUnidadporId (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idunidad);
             $query->execute();
@@ -22,7 +22,7 @@
         /*TODO: Eliminar Unidad*/
         public function eliminarUnidad($idUnidad){
             $conectar = parent::Conexion();
-            $sql = "spEliminarUnidad ?";
+            $sql = "call spEliminarUnidad (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idUnidad);
             $query->execute();
@@ -30,7 +30,7 @@
         /*TODO: Insertar Unidad*/
         public function insertarUnidad($idsucursal, $nombreUnidad){
             $conectar = parent::Conexion();
-            $sql = "spRegistrarUnidad ?,?";
+            $sql = "call spRegistrarUnidad (?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->bindValue(2,$nombreUnidad);
@@ -40,7 +40,7 @@
         /*TODO:Actualizar Registro*/
         public function updateUnidad($idunidad, $idsucursal, $nombreUnidad){
             $conectar = parent::Conexion();
-            $sql = "spUpdateUnidad ?,?,?";
+            $sql = "call spUpdateUnidad (?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idunidad);
             $query->bindValue(2,$idsucursal);

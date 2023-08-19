@@ -2,7 +2,8 @@
 create  PROCEDURE `spListarCliente`
 (in idClienteEmpresa int)
   
- SELECT *
+ SELECT clienteId, clienteNombre,clienteRuc,clienteTelefono,clienteDireccion,clienteCorreo,
+date_format(clienteFechaCreacion,"%d-%m-%y") as clienteFechaCreacion
  FROM 
 	proveedor  
  WHERE  

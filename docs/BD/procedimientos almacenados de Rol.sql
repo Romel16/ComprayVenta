@@ -56,8 +56,8 @@ CREATE  PROCEDURE `spUpdateRol`
 
 	update rol
     set 
-		idRolSucursal = rolSucursalId,
-        nombreRol = rolNombre
+		rolSucursalId  = idRolSucursal,
+        rolNombre  = nombreRol
 	where
 		rolId = idRol;
 

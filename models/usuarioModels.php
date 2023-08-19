@@ -81,12 +81,14 @@
                     $query->execute();
                     $resultado = $query->fetch();
                     if (is_array($resultado) and count($resultado)>0) {
+                        /*TODO: Generar variables de sesion del usuario */
                         $_SESSION["usuarioId"] = $resultado["usuarioId"];
                         $_SESSION["usuarioNombre"] = $resultado["usuarioNombre"];
                         $_SESSION["usuarioApellido"] = $resultado["usuarioApellido"];
                         $_SESSION["usuarioCorreo"] = $resultado["usuarioCorreo"];
-                        $_SESSION["usuarioSucursalId"] = $resultado["usuarioSucursalId"];
-                        $_SESSION["empresaCompaniaId"] = $resultado["empresaCompaniaId"];
+                        $_SESSION["sucursalId"] = $resultado["sucursalId"];
+                        $_SESSION["empresaId"] = $resultado["empresaId"];
+                        $_SESSION["companiaId"] = $resultado["companiaId"];
 
                         header("Location:".Conectar::ruta()."vistas/home/");
                     }else {

@@ -1,7 +1,8 @@
 /*Procedimiento Almacenado Listar empresa*/
 create  PROCEDURE `spListarEmpresa`
   (IN IdCompania int)
- SELECT *
+ SELECT empresaId, empresaCompaniaId, empresaNombre, 
+date_format(empresaFechaCreacion,"%d-%m-%y") as empresaFechaCreacion, empresaEstado
  FROM 
 	empresa  
  WHERE  
@@ -57,9 +58,9 @@ CREATE  PROCEDURE `spUpdateEmpresa`
 
 	update empresa
     set 
-		idCompaniaEmpresa = empresaCompaniaId,
-		nombreEmpresa = empresaNombre,
-        rucEmpresa = empresaRuc
+		empresaCompaniaId = idCompaniaEmpresa,
+		empresaNombre = nombreEmpresa ,
+        empresaRuc  = rucEmpresa
 	where
 		empresaId = idempresa;
 

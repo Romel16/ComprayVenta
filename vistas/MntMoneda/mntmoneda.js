@@ -1,3 +1,6 @@
+var sucursalId = $('#usuariosucursal').val();
+
+
 function init() {
     $("#mantenimiento_form").on("submit", function(e) {
         guardaryeditar(e);
@@ -45,7 +48,7 @@ $(document).ready(function(){
         "ajax":{
             url:"../../controllers/monedaControllers.php?op=listar",
             type:"POST",
-            data:{idsucursal:13}
+            data:{idsucursal:sucursalId}
         },
         "bDestroy": true,
         "responsive": true,

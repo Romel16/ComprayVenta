@@ -1,7 +1,7 @@
 /*Procedimiento Almacenado Listar Compania*/
 create  PROCEDURE `spListarCompania`
   ()
- SELECT *
+ SELECT * 
  FROM 
 	compania  
  WHERE  
@@ -52,7 +52,7 @@ CREATE  PROCEDURE `spUpdateCompania`
 
 	update compania
     set 
-		nombreCompania = companiaNombre
+		companiaNombre = nombreCompania
 	where
 		companiaId = idCompania;
 

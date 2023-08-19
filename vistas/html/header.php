@@ -95,10 +95,12 @@
                     </button>
                     
                     <!-- TODO: Variables de Session ocultas -->
-                    <input type="hidden" name="usuariosucursal" id="usuariosucursal" value="<?php echo $_SESSION["usuarioSucursalId"]?>"/>
+                    <input type="hidden" name="usuariosucursal" id="usuariosucursal" value="<?php echo $_SESSION["sucursalId"]?>"/>
+                    <input type="hidden" name="empresacompania" id="empresacompania" value="<?php echo $_SESSION["companiaId"]?>"/>
+                    <input type="hidden" name="sucursalEmpresa" id="sucursalEmpresa" value="<?php echo $_SESSION["empresaId"]?>"/>
                     <!--<input type="hidden" name="USU_IDx" id="USU_IDx" value=""/>
-                    <input type="hidden" name="COM_IDx" id="COM_IDx" value=""/>
-                    <input type="hidden" name="EMP_IDx" id="EMP_IDx" value=""/>-->
+                
+                        -->
                             
                     <div class="dropdown-menu dropdown-menu-end">
 

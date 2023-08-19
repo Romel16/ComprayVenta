@@ -21,7 +21,7 @@
         /*TODO: Eliminar Empresa*/
         public function eliminarEmpresa($idempresa){
             $conectar = parent::Conexion();
-            $sql = "spEliminarEmpresa ?";
+            $sql = "call spEliminarEmpresa (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idempresa);
             $query->execute();
@@ -29,7 +29,7 @@
         /*TODO: Insertar Empresa*/
         public function insertarEmpresa($idcompania, $nombreempresa,$rucempresa){
             $conectar = parent::Conexion();
-            $sql = "spRegistrarEmpresa ?,?,?";
+            $sql = "call spRegistrarEmpresa (?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcompania);
             $query->bindValue(2,$nombreempresa);
@@ -40,7 +40,7 @@
         /*TODO:Actualizar Registro*/
         public function updateEmpresa($idempresa, $idcompania, $nombreempresa, $rucempresa){
             $conectar = parent::Conexion();
-            $sql = "spUpdateEmpresa ?,?,?,?";
+            $sql = "call spUpdateEmpresa (?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idempresa);
             $query->bindValue(2,$idcompania);

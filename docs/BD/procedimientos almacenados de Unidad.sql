@@ -2,7 +2,8 @@
 create  PROCEDURE `spListarUnidad`
 (in idUnidadSucursal int)
   
- SELECT *
+ SELECT unidadId, unidadNombre, date_format(unidadFechaCreacion,"%d-%m-%y") as unidadFechaCreacion,
+	unidadEstado
  FROM 
 	unidad  
  WHERE  

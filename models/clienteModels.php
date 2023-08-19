@@ -4,7 +4,7 @@
         /*TODO: Listar Cliente*/
         public function getCliente_x_empresaId($idempresa) {
             $conectar = parent::Conexion();
-            $sql = "spListarCliente ?";
+            $sql = "call spListarCliente (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idempresa);
             $query->execute();
@@ -13,7 +13,7 @@
         /*TODO: Listar Cliente por Id*/
         public function getCliente_x_id($idcliente){
             $conectar = parent::Conexion();
-            $sql = "spListarClienteporId ?";
+            $sql = "call spListarClienteporId (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcliente);
             $query->execute();
@@ -22,7 +22,7 @@
         /*TODO: Eliminar Cliente*/
         public function eliminarCliente($idcliente){
             $conectar = parent::Conexion();
-            $sql = "spEliminarCliente ?";
+            $sql = "call spEliminarCliente (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcliente);
             $query->execute();
@@ -30,7 +30,7 @@
         /*TODO: Insertar Cliente*/
         public function insertarCliente($idempresa, $nombrecliente, $ruccliente, $telefonocliente,$direccioncliente,$correocliente){
             $conectar = parent::Conexion();
-            $sql = "spRegistrarCliente ?,?,?,?,?,?";
+            $sql = "call spRegistrarCliente (?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idempresa);
             $query->bindValue(2,$nombrecliente);
@@ -44,7 +44,7 @@
         /*TODO:Actualizar Registro*/
         public function updateCliente($idcliente, $idempresa, $nombrecliente, $ruccliente, $telefonocliente,$direccioncliente,$correocliente){
             $conectar = parent::Conexion();
-            $sql = "spUpdateCliente ?,?,?,?,?,?,?";
+            $sql = "call spUpdateCliente (?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcliente);
             $query->bindValue(2,$idempresa);

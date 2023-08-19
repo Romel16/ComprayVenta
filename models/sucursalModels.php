@@ -22,7 +22,7 @@
         /*TODO: Eliminar Sucursal*/
         public function eliminarSucursal($idsucursal){
             $conectar = parent::Conexion();
-            $sql = "spEliminarSucursal ?";
+            $sql = "call spEliminarSucursal (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->execute();
@@ -30,7 +30,7 @@
         /*TODO: Insertar Sucursal*/
         public function insertarSucursal($idempresa, $nombresucursal){
             $conectar = parent::Conexion();
-            $sql = "spRegistrarSucursal ?,?";
+            $sql = "call spRegistrarSucursal (?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idempresa);
             $query->bindValue(2,$nombresucursal);
@@ -40,7 +40,7 @@
         /*TODO:Actualizar Registro*/
         public function updateSucursal($idsucursal, $idempresa, $nombresucursal){
             $conectar = parent::Conexion();
-            $sql = "spUpdateSucursal ?,?,?";
+            $sql = "call spUpdateSucursal (?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->bindValue(2,$idempresa);

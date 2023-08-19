@@ -56,7 +56,7 @@ CREATE  PROCEDURE `spUpdateCategoria`
 
 	update categoria
     set 
-		idCategoriaSucursal = categoriaSucursalId,
+		categoriaSucursalId = idCategoriaSucursal,
         nombreCategoria = categoriaNombre
 	where
 		categoriaId = idCategoria;

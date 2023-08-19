@@ -69,7 +69,7 @@ create  PROCEDURE `spUpdateUsuario`
  
 	update usuario
     set 
-		usuarioSucursalId = idUsuarioSucursal,
+		    usuarioSucursalId = idUsuarioSucursal,
         usuarioRolId = idUsuarioRol,
         usuarioCorreo = correoUsuario,
         usuarioNombre = nombreUsuario,
