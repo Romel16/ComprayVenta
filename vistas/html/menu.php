@@ -43,8 +43,35 @@
 
                 <li class="menu-title"><span data-key="t-menu">Mantenimiento</span></li>
                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="../MntCategoria/index.php">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Categoria</span>
+                    </a>
+                    <a class="nav-link menu-link" href="../MntProducto/index.php">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Producto</span>
+                    </a>
                     <a class="nav-link menu-link" href="../MntCliente/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets"></span>
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Cliente</span>
+                    </a>
+                    <a class="nav-link menu-link" href="../MntProveedor/index.php">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Proveedor</span>
+                    </a>
+                    <a class="nav-link menu-link" href="../MntMoneda/index.php">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Moneda</span>
+                    </a>
+                    <a class="nav-link menu-link" href="../MntUnidadmedida/index.php">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Unidad Medida</span>
+                    </a>
+                    <a class="nav-link menu-link" href="../MntEmpresa/index.php">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Empresa</span>
+                    </a>
+                    <a class="nav-link menu-link" href="../MntSucursal/index.php">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Sucursal</span>
+                    </a>
+                    <a class="nav-link menu-link" href="../MntUsuario/index.php">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Usuario</span>
+                    </a>
+                    <a class="nav-link menu-link" href="../MntRol/index.php">
+                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Rol</span>
                     </a>
                 </li>
 

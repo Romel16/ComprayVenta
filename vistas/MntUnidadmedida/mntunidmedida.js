@@ -1,3 +1,7 @@
+var sucursalId =$('#sucursal').val();
+//console.log(sucursalId);
+
+
 function init() {
     $("#mantenimiento_form").on("submit", function(e) {
         guardaryeditar(e);
@@ -7,7 +11,7 @@ function init() {
 function guardaryeditar(e) {
     e.preventDefault();
     var formData = new FormData($("#mantenimiento_form")[0]);
-    formData.append('unidadSucursalId', $('#usuariosucursal').val());
+    formData.append('unidadSucursalId', $('#sucursal').val());
 
     $.ajax({
         url:"../../controllers/unidadControllers.php?op=guardaryeditar",
@@ -44,7 +48,7 @@ $(document).ready(function(){
         "ajax":{
             url:"../../controllers/unidadControllers.php?op=listar",
             type:"post",
-            data:{idsucursal:13}
+            data:{idsucursal:sucursalId}
         },
         "bDestroy": true,
         "responsive": true,

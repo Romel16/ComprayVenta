@@ -1,4 +1,5 @@
-var empresaId = $('#empresa').val();
+var sucursalId =$('#sucursal').val();
+//console.log(sucursalId);
 
 function init() {
     $("#mantenimiento_form").on("submit", function(e) {
@@ -9,10 +10,10 @@ function init() {
 function guardaryeditar(e) {
     e.preventDefault();
     var formData = new FormData($("#mantenimiento_form")[0]);
-    formData.append('proveedorEmpresaId', $('#empresa').val());
+    formData.append('rolSucursalId', $('#sucursal').val());
 
     $.ajax({
-        url:"../../controllers/proveedorControllers.php?op=guardaryeditar",
+        url:"../../controllers/rolControllers.php?op=guardaryeditar",
         type:"POST",
         data:formData,
         contentType:false,
@@ -23,7 +24,7 @@ function guardaryeditar(e) {
 
             /* TODO: Mensaje de sweetalert */
             swal.fire({
-                title:'Proveedor Registrado Exitosamente',
+                title:'Rol Registrado Exitosamente',
                 icon: 'success'
             });
         }
@@ -33,7 +34,7 @@ function guardaryeditar(e) {
 
 $(document).ready(function(){
 
-    /* TODO: Listar informacion en el datatable js de Proveedor*/
+    /* TODO: Listar informacion en el datatable js de Rol*/
     $('#table_data').DataTable({
         "aProcessing": true,
         "aServerSide": true,
@@ -44,9 +45,9 @@ $(document).ready(function(){
             'csvHtml5',
         ],
         "ajax":{
-            url:"../../controllers/proveedorControllers.php?op=listar",
+            url:"../../controllers/rolControllers.php?op=listar",
             type:"post",
-            data:{proveedorEmpresaId:empresaId}
+            data:{idsucursal:sucursalId}
         },
         "bDestroy": true,
         "responsive": true,
@@ -82,15 +83,12 @@ $(document).ready(function(){
 
 } );
 
-function editar(proveedorId){
-    $.post("../../controllers/proveedorControllers.php?op=mostrar",{proveedorId:proveedorId},function(data){
+function editar(rolId){
+    $.post("../../controllers/rolControllers.php?op=mostrar",{rolId:rolId},function(data){
         data = JSON.parse(data);
-        $('#proveedorId').val(data.proveedorId);
-        $('#proveedorNombre').val(data.proveedorNombre);
-        $('#proveedorRuc').val(data.proveedorRuc);
-        $('#proveedorTelefono').val(data.proveedorTelefono);
-        $('#proveedorDireccion').val(data.proveedorDireccion);
-        $('#proveedorCorreo').val(data.proveedorCorreo);
+        console.log(data);
+        $('#rolId').val(data.rolId);
+        $('#rolNombre').val(data.rolNombre);
     });
     $('#lbltitulo').html('Editar Registro');
     $('#modalmantenimiento').modal('show');
@@ -98,10 +96,10 @@ function editar(proveedorId){
 
 }
 
-function eliminar(proveedorId){
+function eliminar(rolId){
     /* TODO: Mensaje de sweetalert */
     swal.fire({
-        title:"Proveedor",
+        title:"Rol",
         text: "¿Desea eliminar el registro?",
         icon: "error",
         confirmButtonText: "Si",
@@ -109,14 +107,14 @@ function eliminar(proveedorId){
         cancelButtonText: "No",
     }).then((result)=>{
         if (result.value) {
-            $.post("../../controllers/proveedorControllers.php?op=eliminar",{proveedorId:proveedorId},function(data){
-                console.log(data);
+            $.post("../../controllers/rolControllers.php?op=eliminar",{rolId:rolId},function(data){
+                //console.log(data);
             });
 
             $('#table_data').DataTable().ajax.reload();
 
             swal.fire({
-                title: 'Proveedor Eliminado',
+                title: 'Rol Eliminado',
                 icon: 'success'
             });
 
@@ -126,8 +124,8 @@ function eliminar(proveedorId){
 }
 
 $(document).on("click","#btnNuevo", function(){
-    $('#proveedorId').val('');
-    $('#proveedorNombre').val('');    
+    $('#rolId').val('');
+    $('#rolNombre').val('');    
     $('#lbltitulo').html('Nuevo Registro');
     $('#mantenimiento_form')[0].reset();
     $('#modalmantenimiento').modal('show');

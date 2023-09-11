@@ -1,5 +1,5 @@
-var sucursalId = $('#usuariosucursal').val();
-
+var sucursalId = $('#sucursal').val();
+console.log(sucursalId);
 
 function init() {
     $("#mantenimiento_form").on("submit", function(e) {
@@ -10,7 +10,7 @@ function init() {
 function guardaryeditar(e) {
     e.preventDefault();
     var formData = new FormData($("#mantenimiento_form")[0]);
-    formData.append('monedaSucursalId', $('#usuariosucursal').val());
+    formData.append('monedaId', $('#sucursal').val());
 
     $.ajax({
         url:"../../controllers/monedaControllers.php?op=guardaryeditar",

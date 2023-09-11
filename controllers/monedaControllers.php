@@ -58,6 +58,20 @@ switch ($_GET["op"]) {
         $moneda->eliminarMoneda($_POST["monedaId"]);
         break;
     
+    /*TODO: Listar Combobox */
+    case "combo":
+        $datos = $moneda->getMoneda_x_sucursalId($_POST["monedaSucursalId"]);
+                   
+        if (is_array($datos)==true and count($datos)>0) {
+            $html="";
+            $html.="<option selected>Seleccionar</option>";
+            foreach ($datos as $row) {
+                $html.="<option value='".$row["monedaId"]."'>".$row["monedaNombre"]."</option>";
+            }
+            echo $html;
+        }
+    break;
+    
 }
 
 ?>

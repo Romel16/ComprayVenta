@@ -4,7 +4,7 @@
         /*TODO: Listar Producto*/
         public function getProducto_x_sucursalId($idsucursal) {
             $conectar = parent::Conexion();
-            $sql = "spListarProducto ?";
+            $sql = "call spListarProducto (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->execute();
@@ -13,7 +13,7 @@
         /*TODO: Listar Producto por Id*/
         public function getProducto_x_id($idproducto){
             $conectar = parent::Conexion();
-            $sql = "spListarProductoporId ?";
+            $sql = "call spListarProductoporId (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idproducto);
             $query->execute();
@@ -22,17 +22,17 @@
         /*TODO: Eliminar Producto*/
         public function eliminarProducto($idproducto){
             $conectar = parent::Conexion();
-            $sql = "spEliminarProducto ?";
+            $sql = "call spEliminarProducto (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idproducto);
             $query->execute();
         }        
         /*TODO: Insertar Producto*/
         public function insertarProducto($idsucursal, $idcategoria, $nombreproducto, $descripcionproducto,
-                $idmoneda,$idunidad, $preciocompraproducto,$precioventaproducto,$stockproducto,$imagenproducto,
-                $fechaventaproducto){
+                $idmoneda,$idunidad, $preciocompraproducto,$precioventaproducto,$stockproducto,//$imagenproducto,$fechaventaproducto
+                ){
             $conectar = parent::Conexion();
-            $sql = "spRegistrarProducto ?,?,?,?,?,?,?,?,?,?,?";
+            $sql = "call spRegistrarProducto (?,?,?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->bindValue(2,$idcategoria);
@@ -43,17 +43,17 @@
             $query->bindValue(7,$preciocompraproducto);
             $query->bindValue(8,$precioventaproducto);
             $query->bindValue(9,$stockproducto);
-            $query->bindValue(10,$imagenproducto);
-            $query->bindValue(11,$fechaventaproducto);
+            //$query->bindValue(10,$fechaventaproducto);
+            //$query->bindValue(11,$imagenproducto);
             $query->execute();
             
         }        
         /*TODO:Actualizar Registro*/
         public function updateProducto($idproducto, $idsucursal, $idcategoria, $nombreproducto, $descripcionproducto,
-                $idmoneda,$idunidad, $preciocompraproducto,$precioventaproducto,$stockproducto,$imagenproducto,
-                $fechaventaproducto){
+                $idmoneda,$idunidad, $preciocompraproducto,$precioventaproducto,$stockproducto,//$imagenproducto,$fechaventaproducto
+                ){
             $conectar = parent::Conexion();
-            $sql = "spUpdateProducto ?,?,?,?,?,?,?,?,?,?,?,?";
+            $sql = "call spUpdateProducto (?,?,?,?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idproducto);
             $query->bindValue(2,$idsucursal);
@@ -65,8 +65,8 @@
             $query->bindValue(8,$preciocompraproducto);
             $query->bindValue(9,$precioventaproducto);
             $query->bindValue(10,$stockproducto);
-            $query->bindValue(11,$imagenproducto);
-            $query->bindValue(12,$fechaventaproducto);
+            //$query->bindValue(11,$fechaventaproducto);
+            //$query->bindValue(12,$imagenproducto);
             $query->execute();
         }        
 

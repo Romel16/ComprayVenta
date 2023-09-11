@@ -1,4 +1,4 @@
-var empresaId = $('#sucursalEmpresa').val();
+var empresaId = $('#empresa').val();
 
 function init() {
     $("#mantenimiento_form").on("submit", function(e) {
@@ -9,7 +9,7 @@ function init() {
 function guardaryeditar(e) {
     e.preventDefault();
     var formData = new FormData($("#mantenimiento_form")[0]);
-    formData.append('clienteEmpresaId', $('#sucursalEmpresa').val());
+    formData.append('clienteEmpresaId', $('#empresa').val());
 
     $.ajax({
         url:"../../controllers/clienteControllers.php?op=guardaryeditar",

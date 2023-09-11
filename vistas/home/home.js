@@ -1,4 +1,4 @@
-//var suc_id = $('#SUC_IDx').val();
+var sucursalId = $('#sucursal').val();
 /*
 $.post("../../controller/compra.php?op=listartopproducto",{suc_id:suc_id},function(data){
     $("#listtopcompraproducto").html(data);

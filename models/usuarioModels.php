@@ -4,7 +4,7 @@
         /*TODO: Listar Usuario*/
         public function getUsuario_x_sucursalId($idsucursal) {
             $conectar = parent::Conexion();
-            $sql = "spListarUsuario ?";
+            $sql = "call spListarUsuario (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->execute();
@@ -13,7 +13,7 @@
         /*TODO: Listar Usuario por Id*/
         public function getUsuario_x_id($idusuario){
             $conectar = parent::Conexion();
-            $sql = "spListarUsuarioporId ?";
+            $sql = "call spListarUsuarioporId (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idusuario);
             $query->execute();
@@ -22,7 +22,7 @@
         /*TODO: Eliminar Usuario*/
         public function eliminarUsuario($idusuario){
             $conectar = parent::Conexion();
-            $sql = "spEliminarUsuario ?";
+            $sql = "call spEliminarUsuario (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idusuario);
             $query->execute();
@@ -31,7 +31,7 @@
         public function insertarUsuario($idsucursal, $idrol, $correousuario, $nombreusuario, $apellidousuario,
                 $dniusuario, $telefonousuario,$passwordusuario){
             $conectar = parent::Conexion();
-            $sql = "spRegistrarUsuario ?,?,?,?,?,?,?,?";
+            $sql = "call spRegistrarUsuario (?,?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->bindValue(2,$idrol);
@@ -48,7 +48,7 @@
         public function updateUsuario($idusuario, $idsucursal, $idrol, $correousuario, $nombreusuario, $apellidousuario,
                     $dniusuario, $telefonousuario,$passwordusuario){
             $conectar = parent::Conexion();
-            $sql = "spUpdateUsuario ?,?,?,?,?,?,?,?,?";
+            $sql = "call spUpdateUsuario (?,?,?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idusuario);
             $query->bindValue(2,$idsucursal);

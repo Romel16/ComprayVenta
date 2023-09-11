@@ -4,7 +4,7 @@
         /*TODO: Listar Proveedor*/
         public function getProveedor_x_empresaId($idempresa) {
             $conectar = parent::Conexion();
-            $sql = "spListarProveedor ?";
+            $sql = "call spListarProveedor (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idempresa);
             $query->execute();
@@ -13,7 +13,7 @@
         /*TODO: Listar Proveedor por Id*/
         public function getProveedor_x_id($idproveedor){
             $conectar = parent::Conexion();
-            $sql = "spListarProveedorporId ?";
+            $sql = "call spListarProveedorporId (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idproveedor);
             $query->execute();
@@ -22,7 +22,7 @@
         /*TODO: Eliminar Proveedor*/
         public function eliminarProveedor($idproveedor){
             $conectar = parent::Conexion();
-            $sql = "spEliminarProveedor ?";
+            $sql = "call spEliminarProveedor (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idproveedor);
             $query->execute();
@@ -30,7 +30,7 @@
         /*TODO: Insertar Proveedor*/
         public function insertarProveedor($idempresa, $nombreproveedor, $rucproveedor, $telefonoproveedor,$direccionproveedor,$correoproveedor){
             $conectar = parent::Conexion();
-            $sql = "spRegistrarProveedor ?,?,?,?,?,?";
+            $sql = "call spRegistrarProveedor (?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idempresa);
             $query->bindValue(2,$nombreproveedor);
@@ -44,7 +44,7 @@
         /*TODO:Actualizar Registro*/
         public function updateProveedor($idproveedor, $idempresa, $nombreproveedor, $rucproveedor, $telefonoproveedor,$direccionproveedor,$correoproveedor){
             $conectar = parent::Conexion();
-            $sql = "spUpdateProveedor ?,?,?,?,?,?,?";
+            $sql = "call spUpdateProveedor (?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idproveedor);
             $query->bindValue(2,$idempresa);

@@ -10,7 +10,7 @@
 <!doctype html>
 <html lang="es" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
 <head>
-    <title>Punto de Venta | Proveedor</title>
+    <title>Punto de Venta | Rol</title>
     <?php require_once("../html/head.php") ?>
 
     <!-- jsvectormap css -->
@@ -40,7 +40,7 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Mantenimiento</a></li>
-                                        <li class="breadcrumb-item active">Proveedor </li>
+                                        <li class="breadcrumb-item active">Rol </li>
                                     </ol>
                                 </div>
 
@@ -53,15 +53,11 @@
                                     <button type="button" id="btnNuevo" name="btnNuevo" class="btn btn-primary btn-label waves-effect waves-light rounded-pill"><i class="ri-user-smile-line label-icon align-middle rounded-pill fs-16 me-2"></i> Nuevo Registro</button>
                                 </div>
                                 <div class="card-body">
-                                    <!-- TODO: Tabla de Proveedor -->
+                                    <!-- TODO: Tabla de Rol -->
                                     <table id="table_data" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Nombre</th>
-                                                <th>Ruc</th>
-                                                <th>telefono</th>
-                                                <th>Direccion</th>
-                                                <th>Correo</th>
                                                 <th>FechaCreacion</th>
                                                 <th></th>
                                                 <th></th>
@@ -84,7 +80,7 @@
 
     </div>
 
-    <?php require_once("mantenimientoProveedor.php"); ?>
+    <?php require_once("mantenimientoRol.php"); ?>
 
 
     <?php require_once("../html/js.php"); ?>
@@ -108,7 +104,7 @@
 
     <script src="../../assets/js/pages/chartjs.init.js"></script>
 
-    <script type="text/javascript" src="mntproveedor.js"></script>
+    <script type="text/javascript" src="mntrol.js"></script>
 </body>
 
 </html>

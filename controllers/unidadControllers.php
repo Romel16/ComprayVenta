@@ -57,6 +57,22 @@ switch ($_GET["op"]) {
     case 'eliminar':
         $unidad->eliminarUnidad($_POST["unidadId"]);
         break;
+
+
+    /*TODO: Listar Combobox */
+    case "combo":
+        $datos = $unidad->getUnidad_x_sucursalId($_POST["idsucursal"]);
+                    
+        if (is_array($datos)==true and count($datos)>0) {
+            $html="";
+            $html.="<option selected>Seleccionar</option>";
+            foreach ($datos as $row) {
+                $html.="<option value='".$row["unidadId"]."'>".$row["unidadNombre"]."</option>";
+            }
+            echo $html;
+        }
+        break;
+    
     
 }
 

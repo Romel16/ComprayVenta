@@ -4,7 +4,7 @@
         /*TODO: Listar Rol*/
         public function getRol_x_sucursalId($idsucursal) {
             $conectar = parent::Conexion();
-            $sql = "spListarRol ?";
+            $sql = "call spListarRol (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->execute();
@@ -13,7 +13,7 @@
         /*TODO: Listar Rol por Id*/
         public function getRol_x_id($idrol){
             $conectar = parent::Conexion();
-            $sql = "spListarRolporId ?";
+            $sql = "call spListarRolporId (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idrol);
             $query->execute();
@@ -22,7 +22,7 @@
         /*TODO: Eliminar Rol*/
         public function eliminarRol($idrol){
             $conectar = parent::Conexion();
-            $sql = "spEliminarRol ?";
+            $sql = "call spEliminarRol (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idrol);
             $query->execute();
@@ -30,7 +30,7 @@
         /*TODO: Insertar Rol*/
         public function insertarRol($idsucursal, $nombrerol){
             $conectar = parent::Conexion();
-            $sql = "spRegistrarRol ?,?";
+            $sql = "call spRegistrarRol (?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->bindValue(2,$nombrerol);
@@ -40,7 +40,7 @@
         /*TODO:Actualizar Registro*/
         public function updateRol($idrol, $idsucursal, $nombrerol){
             $conectar = parent::Conexion();
-            $sql = "spUpdateRol ?,?,?";
+            $sql = "call spUpdateRol (?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idrol);
             $query->bindValue(2,$idsucursal);

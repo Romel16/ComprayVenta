@@ -11,31 +11,32 @@ switch ($_GET["op"]) {
     /*TODO: guardar y Editar, guardar cuando el ID este vacion, y Actualuzar cuando se envie el ID */
     case 'guardaryeditar':
         if (empty($_POST["idusuario"])) {
-            $usuario->insertarUsuario($_POST["idsucursal"], $_POST["idrol"], $_POST["correousuario"], 
-                        $_POST["nombreusuario"], $_POST["apellidousuario"], $_POST["dniusuario"], 
-                        $_POST["telefonousuario"], $_POST["passwordusuario"]);
+            $usuario->insertarUsuario($_POST["usuarioSucursalId"], $_POST["usuarioRolId"], $_POST["usuarioCorreo"], 
+                        $_POST["usuarioNombre"], $_POST["usuarioApellido"], $_POST["usuarioDni"], 
+                        $_POST["usuarioTelefono"], $_POST["usuarioPassword"]);
         }else{
-            $usuario->updateUsuario($_POST["idusuario"], $_POST["idsucursal"],$_POST["idrol"], 
-                        $_POST["correousuario"], $_POST["nombreusuario"], $_POST["apellidousuario"], 
-                        $_POST["dniusuario"], $_POST["telefonousuario"], $_POST["passwordusuario"]);
+            $usuario->updateUsuario($_POST["usuarioId"], $_POST["usuarioSucursalId"],$_POST["usuarioRolId"], 
+                        $_POST["usuarioCorreo"], $_POST["usuarioNombre"], $_POST["usuarioApellido"], 
+                        $_POST["usuarioDni"], $_POST["usuarioTelefono"], $_POST["usuarioPassword"]);
         }
         break;
 
         /*TODO: Listado de registros formato json para Datatables js     */
     case 'listar':
-        $datos = $usuario->getUsuario_x_sucursalId($idsucursal);
+        $datos = $usuario->getUsuario_x_sucursalId($_POST["idsucursal"]);
         $data = Array();
         foreach ($datos as $row) {
             $sub_array = array();
-            $sub_array = $row["correousuario"];
-            $sub_array = $row["nombreusuario"];
-            $sub_array = $row["apellidousuario"];
-            $sub_array = $row["dniusuario"];
-            $sub_array = $row["telefonousuario"];
-            $sub_array = $row["passwordusuario"];
-            $sub_array = $row["idrol"];
-            $sub_array = "Editar";
-            $sub_array = "Eliminar";
+            $sub_array[] = $row["usuarioCorreo"];
+            $sub_array[] = $row["usuarioNombre"];
+            $sub_array[] = $row["usuarioApellido"];
+            $sub_array[] = $row["usuarioDni"];
+            $sub_array[] = $row["usuarioTelefono"];
+            $sub_array[] = $row["usuarioPassword"];
+            $sub_array[] = $row["rolNombre"];
+            $sub_array[] = $row["usuarioFechaCreacion"];
+            $sub_array[] = '<button type="button" onClick="editar('.$row["usuarioId"].')" id="'.$row["usuarioId"].'" class="btn btn-warning btn-icon waves-effect waves-light"><i class="ri-edit-2-line"></i></button>';;
+            $sub_array[] = '<button type="button" onClick="eliminar('.$row["usuarioId"].')" id="'.$row["usuarioId"].'" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-delete-bin-5-line"></i></button>';;
             $data[] = $sub_array;
 
         }
@@ -54,15 +55,15 @@ switch ($_GET["op"]) {
         $datos = $usuario->getUsuario_x_id($_POST["idusuario"]);
         if (is_array($datos)== true and count($datos)>0) {
             foreach ($datos as $row) {
-                $output["idusuario"] = $row["idusuario"];
-                $output["idsucursal"] = $row["idsucursal"];
-                $output["nombreusuario"] = $row["nombreusuario"];
-                $output["apellidousuario"] = $row["apellidousuario"];
-                $output["correousuario"] = $row["correousuario"];
-                $output["dniusuario"] = $row["dniusuario"];
-                $output["telefonousuario"] = $row["telefonousuario"];
-                $output["passwordusuario"] = $row["passwordusuario"];
-                $output["idrol"] = $row["idrol"];
+                $output["usuarioId"] = $row["usuarioId"];
+                $output["usuarioSucursalId"] = $row["usuarioSucursalId"];
+                $output["usuarioNombre"] = $row["usuarioNombre"];
+                $output["usuarioApellido"] = $row["usuarioApellido"];
+                $output["usuarioCorreo"] = $row["usuarioCorreo"];
+                $output["usuarioDni"] = $row["usuarioDni"];
+                $output["usuarioTelefono"] = $row["usuarioTelefono"];
+                $output["usuarioPassword"] = $row["usuarioPassword"];
+                $output["usuarioRolId"] = $row["usuarioRolId"];
 
             }
             echo json_encode($output);
@@ -70,7 +71,7 @@ switch ($_GET["op"]) {
         break;
     /*TODO: Cambiar estado del registro a 0 */
     case 'eliminar':
-        $usuario->eliminarUsuario($_POST["idusuario"]);
+        $usuario->eliminarUsuario($_POST["usuarioId"]);
         break;
     
 }

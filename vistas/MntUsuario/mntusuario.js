@@ -1,4 +1,5 @@
-var empresaId = $('#empresa').val();
+var sucursalId =$('#sucursal').val();
+//console.log(sucursalId);
 
 function init() {
     $("#mantenimiento_form").on("submit", function(e) {
@@ -9,10 +10,10 @@ function init() {
 function guardaryeditar(e) {
     e.preventDefault();
     var formData = new FormData($("#mantenimiento_form")[0]);
-    formData.append('proveedorEmpresaId', $('#empresa').val());
+    formData.append('usuarioSucursalId', $('#sucursal').val());
 
     $.ajax({
-        url:"../../controllers/proveedorControllers.php?op=guardaryeditar",
+        url:"../../controllers/usuarioControllers.php?op=guardaryeditar",
         type:"POST",
         data:formData,
         contentType:false,
@@ -23,7 +24,7 @@ function guardaryeditar(e) {
 
             /* TODO: Mensaje de sweetalert */
             swal.fire({
-                title:'Proveedor Registrado Exitosamente',
+                title:'Usuario Registrado Exitosamente',
                 icon: 'success'
             });
         }
@@ -33,7 +34,11 @@ function guardaryeditar(e) {
 
 $(document).ready(function(){
 
-    /* TODO: Listar informacion en el datatable js de Proveedor*/
+    $.post("../../controllers/rolControllers.php?op=combo",{idsucursal:sucursalId},function(data){
+        $("#usuarioRolId").html(data);
+    });
+
+    /* TODO: Listar informacion en el datatable js de Usuario*/
     $('#table_data').DataTable({
         "aProcessing": true,
         "aServerSide": true,
@@ -44,9 +49,9 @@ $(document).ready(function(){
             'csvHtml5',
         ],
         "ajax":{
-            url:"../../controllers/proveedorControllers.php?op=listar",
+            url:"../../controllers/usuarioControllers.php?op=listar",
             type:"post",
-            data:{proveedorEmpresaId:empresaId}
+            data:{idsucursal:sucursalId}
         },
         "bDestroy": true,
         "responsive": true,
@@ -82,15 +87,17 @@ $(document).ready(function(){
 
 } );
 
-function editar(proveedorId){
-    $.post("../../controllers/proveedorControllers.php?op=mostrar",{proveedorId:proveedorId},function(data){
+function editar(usuarioId){
+    $.post("../../controllers/usuarioControllers.php?op=mostrar",{usuarioId:usuarioId},function(data){
         data = JSON.parse(data);
-        $('#proveedorId').val(data.proveedorId);
-        $('#proveedorNombre').val(data.proveedorNombre);
-        $('#proveedorRuc').val(data.proveedorRuc);
-        $('#proveedorTelefono').val(data.proveedorTelefono);
-        $('#proveedorDireccion').val(data.proveedorDireccion);
-        $('#proveedorCorreo').val(data.proveedorCorreo);
+        $('#usuarioId').val(data.usuarioId);
+        $('#usuarioCorreo').val(data.usuarioCorreo);
+        $('#usuarioNombre').val(data.usuarioNombre);
+        $('#usuarioApellido').val(data.usuarioApellido);
+        $('#usuarioDni').val(data.usuarioDni);
+        $('#usuarioTelefono').val(data.usuarioTelefono);
+        $('#usuarioPassword').val(data.usuarioPassword);
+        $('#usuarioRolId').val(data.usuarioRolId).trigger('change');
     });
     $('#lbltitulo').html('Editar Registro');
     $('#modalmantenimiento').modal('show');
@@ -98,10 +105,10 @@ function editar(proveedorId){
 
 }
 
-function eliminar(proveedorId){
+function eliminar(usuarioId){
     /* TODO: Mensaje de sweetalert */
     swal.fire({
-        title:"Proveedor",
+        title:"Usuario",
         text: "¿Desea eliminar el registro?",
         icon: "error",
         confirmButtonText: "Si",
@@ -109,14 +116,14 @@ function eliminar(proveedorId){
         cancelButtonText: "No",
     }).then((result)=>{
         if (result.value) {
-            $.post("../../controllers/proveedorControllers.php?op=eliminar",{proveedorId:proveedorId},function(data){
-                console.log(data);
+            $.post("../../controllers/usuarioControllers.php?op=eliminar",{usuarioId:usuarioId},function(data){
+                //console.log(data);
             });
 
             $('#table_data').DataTable().ajax.reload();
 
             swal.fire({
-                title: 'Proveedor Eliminado',
+                title: 'Usuario Eliminado',
                 icon: 'success'
             });
 
@@ -126,8 +133,14 @@ function eliminar(proveedorId){
 }
 
 $(document).on("click","#btnNuevo", function(){
-    $('#proveedorId').val('');
-    $('#proveedorNombre').val('');    
+    $('#usuarioId').val('');
+    $('#usuarioCorreo').val('');
+    $('#usuarioNombre').val('');
+    $('#usuarioApellido').val('');
+    $('#usuarioDni').val('');
+    $('#usuarioTelefono').val('');
+    $('#usuarioPassword').val('');
+    $('#usuarioRolId').val('').trigger('change');    
     $('#lbltitulo').html('Nuevo Registro');
     $('#mantenimiento_form')[0].reset();
     $('#modalmantenimiento').modal('show');
