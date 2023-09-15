@@ -72,7 +72,12 @@ switch ($_GET["op"]) {
     /*TODO: Cambiar estado del registro a 0 */
     case 'eliminar':
         $usuario->eliminarUsuario($_POST["usuarioId"]);
-        break;
+    break;
+    
+    /*TODO: Cambiar de contraseña Controllers*/
+    case 'actualizar':
+        $usuario->updateUsuarioPass($_POST["usuarioId"], $_POST["passusuario"]);
+    break;
     
 }
 

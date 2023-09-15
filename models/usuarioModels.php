@@ -60,7 +60,19 @@
             $query->bindValue(8,$telefonousuario);
             $query->bindValue(9,$passwordusuario);
             $query->execute();
-        }        
+        }       
+        
+        /*TODO: Cambio de Contraseña Models*/
+        public function updateUsuarioPass($idusuario, $usuariopass) {
+            $conectar = parent::Conexion();
+            $sql = "call spCambioContrasena (?,?)";
+            $query = $conectar->prepare($sql);
+            $query->bindValue(1,$idusuario);
+            $query->bindValue(2,$usuariopass);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
+
 
         /*TODO: Acceso al Sistema */
         public function login(){
@@ -89,6 +101,7 @@
                         $_SESSION["sucursalId"] = $resultado["sucursalId"];
                         $_SESSION["empresaId"] = $resultado["empresaId"];
                         $_SESSION["companiaId"] = $resultado["companiaId"];
+                        $_SESSION["rolId"] = $resultado["rolId"];
 
                         header("Location:".Conectar::ruta()."vistas/home/");
                     }else {
@@ -99,7 +112,7 @@
 
             }
         }
-
+        
     }
 
 ?>

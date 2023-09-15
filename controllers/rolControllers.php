@@ -25,6 +25,7 @@ switch ($_GET["op"]) {
             $sub_array = array();
             $sub_array[] = $row["rolNombre"];
             $sub_array[] = $row["rolFechaCreacion"];
+            $sub_array[] = '<button type="button" onClick="permiso('.$row["rolId"].')" id="'.$row["rolId"].'" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-settings-2-line"></i></button>';;
             $sub_array[] = '<button type="button" onClick="editar('.$row["rolId"].')" id="'.$row["rolId"].'" class="btn btn-warning btn-icon waves-effect waves-light"><i class="ri-edit-2-line"></i></button>';;
             $sub_array[] = '<button type="button" onClick="eliminar('.$row["rolId"].')" id="'.$row["rolId"].'" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-delete-bin-5-line"></i></button>';;
             $data[] = $sub_array;

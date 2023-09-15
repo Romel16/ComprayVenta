@@ -143,3 +143,119 @@ create table proveedor (
 );
 
 /*Creacion de tablas*/
+create table menu(
+    menuId int(11) NOT NULL auto_increment primary key, 
+    menuNombre varchar(250) not null,
+    menuRuta varchar(250) not null,
+    menuIdentificacion varchar(250) not null,
+    menuGrupo varchar(150) not null,
+    menuFechaCreacion datetime,
+    menuEstado int(11) DEFAULT NULL,
+)
+
+create table detallemenu(
+    detallemenuId int(11) NOT NULL auto_increment primary key, 
+    detallemenuMenuId int(11) NOT NULL,
+    detallemenuRolId int(11) NOT NULL,
+    detallemenuPermiso varchar(2) NOT NULL,
+    detallemenuFechacreacion datetime,
+    detallemenuEstado int(11) DEFAULT NULL,
+    constraint fkmenu foreign key (detallemenuMenuId) references menu(menuId)
+    constraint fkrol_02 foreign key (detallemenuRolId) references rol(rolId)
+)
+
+
+/*==============*/
+/*FALTA AGRAGAR*/
+/*==============*/
+create table documento(
+    documentoId int(11) NOT NULL primary key auto_increment,
+    documentoNombre varchar(50) NOT NULL,
+    documentoTipo varchar(150) NOT NULL,
+    documentoEstado int(11) DEFAULT NULL
+)
+
+create table pago(
+    pagoId int(11) NOT NULL primary key auto_increment,
+    pagoNombre varchar(50) NOT NULL,
+    pagoFechaCreacion datetime,
+    pagoEstado int(11) DEFAULT NULL
+)
+
+
+create table compra(
+    compraId int(11) NOT NULL primary key auto_increment,
+    compraSucursalId int(11) not null,
+    compraPagoId int(11) not null,
+    compraProveedorId int(11) not null,
+    compraProveedorRuc varchar(150) not null,
+    compraProveedorDireccion varchar(150) not null,
+    compraProveedorCorreo varchar(150) not null,
+    compraSubtotal numeric(9,2) not null,
+    compraIgv numerical(9,2) not null,
+    compraTotal numeric(9,2) not null,
+    compraComentario varchar(250) not null,
+    compraUsuarioId int(11) not null,
+    compraMonedaId int(11) not null,
+    compraDocumentoId int(11) not null,
+    compraFechaCracion datetime,
+    compraEstado int(11) not null,
+    constraint fksucursal_7 foreign key (compraSucursalId) references sucursal(sucursalId),
+    constraint fkpago foreign key (compraPagoId) references pago(pagoId),
+    constraint fkproveedor foreign key (compraProveedorId) references proveedor(proveedorId),
+    constraint fkusuario foreign key (compraUsuarioId) references usuario(usuarioId),
+    constraint fkmoneda_2 foreign key (compraMonedaId) references moneda(monedaId),
+    constraint fkdocumento foreign key (compraDocumentoId) references documento(documentoId)
+
+)
+
+create table venta(
+    ventaId int(11) not null primary key auto_increment,
+    ventaSucursalId int(11) not null,
+    ventaPagoId int(11) not null,
+    ventaClienteId int(11) not null,
+    ventaClienteRuc varchar(20) not null,
+    ventaClienteDireccion varchar(250) not null,
+    ventaClienteCorreo varchar(150) not null,
+    ventaSubTotal numeric(9,2) not null,
+    ventaIgv numeric(9,2) not null,
+    ventaTotal numeric(9,2) not null,
+    ventaComentario varchar(250) not null,
+    ventaUsuarioId int(11) not null,
+    ventaMonedaId int(11) not null,
+    ventaDocumentoId int(11) not null,
+    ventaFechaCreacion datetime,
+    ventaEstado int(11) not null,
+    constraint fksucursal_8 foreign key (ventaSucursalId) references sucursal(sucursalId),
+    constraint fkpago_2 foreign key (ventaPagoId) references pago(pagoId),
+    constraint fkcliente foreign key (ventaClienteId) references cliente(clienteId),
+    constraint fkusuario_2 foreign key (ventaUsuarioId) references usuario(usuarioId),
+    constraint fkmoneda_3 foreign key (ventaMonedaId) references moneda(monedaId),
+    constraint fkdocumento_2 foreign key (ventaDocumentoId) references documento(documentoId)
+)
+
+create table detallecompra(
+    detallecompraId int(11) not null primary key auto_increment,
+    detallecompraCompraId int(11) not null,
+    detallecompraProductoId int(11) not null,
+    detallecompraProductoPrecioCompra numeric(9,2) not null,,
+    detallecompraCantidad int(11) not null,
+    detallecompraTotal numeric(9,2) not null,
+    detallecompraFechaCreacion datetime,
+    detallecompraEstado int(11)DEFAULT null,
+    constraint fkcompra foreign key (detallecompraCompraId) references compra(compraId),
+    constraint fkproducto foreign key (detallecompraProductoId) references producto(productoId),
+)
+
+create table detalleventa(
+    detalleventaId int(11) NOT NULL primary key auto_increment,
+    detalleventaVentaId int(11) NOT NULL,
+    detalleventaProductoId int(11) NOT NULL,
+    detalleventaProductoPrecioVenta numeric(9,2) NOT NULL,
+    detalleventaCantidad int(11) not NULL,
+    detalleventaTotal numeric(9,2) not null,
+    detalleventaFechaCreacion datetime,
+    detalleventaEstado int(11) DEFAULT null,
+    constraint fkcompra_2 foreign key (detalleventaVentaId) references compra(compraId),
+    constraint fkproducto_2 foreign key (detalleventaProductoId) references producto(productoId),
+)

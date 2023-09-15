@@ -1,8 +1,15 @@
+<?php
+    require_once("../../models/menuModels.php");
+    $menu = new MenuModels();
+    $datos = $menu->getmenu_x_rolId($_SESSION["rolId"]);
+    
+?>
+
 <div class="app-menu navbar-menu">
 
     <div class="navbar-brand-box">
 
-        <a href="index.html" class="logo logo-dark">
+        <a href="#" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="../../assets/images/logo-sm.png" alt="" height="22">
             </span>
@@ -11,7 +18,7 @@
             </span>
         </a>
 
-        <a href="index.html" class="logo logo-light">
+        <a href="#" class="logo logo-light">
             <span class="logo-sm">
                 <img src="../../assets/images/logo-sm.png" alt="" height="22">
             </span>
@@ -34,46 +41,42 @@
             </div>
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets"></span>
-                    </a>
-                </li>
+                
+                <?php
+                    
+                    foreach ($datos as $row) {
+                        if ($row["menuGrupo"]=="Dashboard" && $row["detallemenuPermiso"]=="Si") {
+                        ?>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" href="<?php echo $row["menuRuta"];?>">
+                                    <i class="ri-honour-line"></i> <span data-key="t-widgets"><?php echo $row["menuNombre"];?> </span>
+                                </a>
+                            </li>
+                        <?php
+                        }
+                    }
+
+                ?>
+                
+                
 
 
                 <li class="menu-title"><span data-key="t-menu">Mantenimiento</span></li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="../MntCategoria/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Categoria</span>
-                    </a>
-                    <a class="nav-link menu-link" href="../MntProducto/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Producto</span>
-                    </a>
-                    <a class="nav-link menu-link" href="../MntCliente/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Cliente</span>
-                    </a>
-                    <a class="nav-link menu-link" href="../MntProveedor/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Proveedor</span>
-                    </a>
-                    <a class="nav-link menu-link" href="../MntMoneda/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Moneda</span>
-                    </a>
-                    <a class="nav-link menu-link" href="../MntUnidadmedida/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Unidad Medida</span>
-                    </a>
-                    <a class="nav-link menu-link" href="../MntEmpresa/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Empresa</span>
-                    </a>
-                    <a class="nav-link menu-link" href="../MntSucursal/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Sucursal</span>
-                    </a>
-                    <a class="nav-link menu-link" href="../MntUsuario/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Usuario</span>
-                    </a>
-                    <a class="nav-link menu-link" href="../MntRol/index.php">
-                        <i class="ri-honour-line"></i> <span data-key="t-widgets">Rol</span>
-                    </a>
-                </li>
+                
+                <?php
+                    foreach ($datos as $row) {
+                       if ($row["menuGrupo"]=="Mantenimiento" && $row["detallemenuPermiso"]=="Si"){
+                            ?>
+                                <li class="nav-item">
+                                    <a class="nav-link menu-link" href="<?php echo $row["menuRuta"];?>">
+                                        <i class="ri-honour-line"></i> <span data-key="t-widgets"><?php echo $row["menuNombre"];?></span>
+                                    </a>
+                                </li>
+                            <?php
+                        }
+                    }
+                ?>
+
 
 
 

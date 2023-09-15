@@ -10,7 +10,7 @@
 <!doctype html>
 <html lang="es" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
 <head>
-    <title>Punto de Venta | Rol</title>
+    <title>Punto de Venta | Perfil</title>
     <?php require_once("../html/head.php") ?>
 
     <!-- jsvectormap css -->
@@ -35,42 +35,53 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Mantenimiento</h4>
+                                <h4 class="mb-sm-0">Mantenimiento Perfil</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Mantenimiento</a></li>
-                                        <li class="breadcrumb-item active">Rol </li>
+                                        <li class="breadcrumb-item active">Perfil </li>
                                     </ol>
                                 </div>
 
                             </div>
                         </div>
 
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <button type="button" id="btnNuevo" name="btnNuevo" class="btn btn-primary btn-label waves-effect waves-light rounded-pill"><i class="ri-user-smile-line label-icon align-middle rounded-pill fs-16 me-2"></i> Nuevo Registro</button>
-                                </div>
-                                <div class="card-body">
-                                    <!-- TODO: Tabla de Rol -->
-                                    <table id="table_data" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>FechaCreacion</th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
 
-                                        </tbody>
-                                    </table>
+                                    <div class="card-body">
+                                        <div class="live-preview">
+                                            <div class="row gy-4">
+                                                <div class="col-xxl-3 col-md-6">
+                                                    <div>
+                                                        <label for="basiInput" class="form-label">Contraseña</label>
+                                                        <input type="password" class="form-control" id="txtpass">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xxl-3 col-md-6">
+                                                    <div>
+                                                        <label for="labelInput" class="form-label">Confirmar Contraseña</label>
+                                                        <input type="password" class="form-control" id="txtpassconfirm">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xxl-3 col-md-6">
+                                                    <div>
+                                                        <label for="labelInput" class="form-label">&nbsp;</label>
+                                                        <button type="button" id="btnguardar" class="form-control btn btn-primary btn-label waves-effect waves-light rounded-pill"><i class="ri-user-smile-line label-icon align-middle rounded-pill fs-16 me-2"></i> Guardar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+
 
                     </div>
                 </div>
@@ -80,11 +91,6 @@
         </div>
 
     </div>
-
-    <?php require_once("mantenimientoRol.php"); ?>
-    
-    <?php require_once("modalpermiso.php"); ?>
-
 
     <?php require_once("../html/js.php"); ?>
 
@@ -107,7 +113,7 @@
 
     <script src="../../assets/js/pages/chartjs.init.js"></script>
 
-    <script type="text/javascript" src="mntrol.js"></script>
+    <script type="text/javascript" src="mntperfil.js"></script>
 </body>
 
 </html>

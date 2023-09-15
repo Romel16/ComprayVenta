@@ -1,4 +1,5 @@
 var empresaId = $('#empresa').val();
+console.log(empresaId);
 
 function init() {
     $("#mantenimiento_form").on("submit", function(e) {
