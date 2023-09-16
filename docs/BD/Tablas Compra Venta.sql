@@ -172,6 +172,7 @@ create table documento(
     documentoId int(11) NOT NULL primary key auto_increment,
     documentoNombre varchar(50) NOT NULL,
     documentoTipo varchar(150) NOT NULL,
+    documentoFechaCreacion datetime,
     documentoEstado int(11) DEFAULT NULL
 )
 
@@ -191,14 +192,14 @@ create table compra(
     compraProveedorRuc varchar(150) not null,
     compraProveedorDireccion varchar(150) not null,
     compraProveedorCorreo varchar(150) not null,
-    compraSubtotal numeric(9,2) not null,
+    compraSubTotal numeric(9,2) not null,
     compraIgv numerical(9,2) not null,
     compraTotal numeric(9,2) not null,
     compraComentario varchar(250) not null,
     compraUsuarioId int(11) not null,
     compraMonedaId int(11) not null,
     compraDocumentoId int(11) not null,
-    compraFechaCracion datetime,
+    compraFechaCreacion datetime,
     compraEstado int(11) not null,
     constraint fksucursal_7 foreign key (compraSucursalId) references sucursal(sucursalId),
     constraint fkpago foreign key (compraPagoId) references pago(pagoId),

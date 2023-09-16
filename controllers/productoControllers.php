@@ -74,6 +74,7 @@ switch ($_GET["op"]) {
                 $output["productoNombre"] = $row["productoNombre"];
                 $output["productoDescripcion"] = $row["productoDescripcion"];
                 $output["productoUnidadId"] = $row["productoUnidadId"];
+                $output["unidadNombre"] = $row["unidadNombre"];
                 $output["productoMonedaId"] = $row["productoMonedaId"];
                 $output["productoPrecioCompra"] = $row["productoPrecioCompra"];
                 $output["productoPrecioVenta"] = $row["productoPrecioVenta"];
@@ -94,7 +95,7 @@ switch ($_GET["op"]) {
         
     /*TODO: Listar Combobox */
     case "combo";
-        $datos = $producto->getProducto_x_sucursalId($_POST["productoId"]);
+        $datos = $producto->getProducto_x_categoriaid($_POST["categoriaId"]);
         
         if(is_array($datos)==true and count($datos)>0){
             $html="";
@@ -105,6 +106,8 @@ switch ($_GET["op"]) {
             echo $html;
         }
     break;
+
+
 
 }
 

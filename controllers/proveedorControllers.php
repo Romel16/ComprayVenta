@@ -64,8 +64,23 @@ switch ($_GET["op"]) {
     /*TODO: Cambiar estado del registro a 0 */
     case 'eliminar':
         $proveedor->eliminarProveedor($_POST["proveedorId"]);
-        break;
+    break;
     
+
+    /*TODO: Listar Combobox */
+    case "combo":
+        $datos = $proveedor->getProveedor_x_empresaId($_POST["proveedorEmpresaId"]);
+                  
+        if (is_array($datos)==true and count($datos)>0) {
+            $html="";
+            $html.="<option selected>Seleccionar</option>";
+            foreach ($datos as $row) {
+                $html.="<option value='".$row["proveedorId"]."'>".$row["proveedorNombre"]."</option>";
+            }
+            echo $html;
+        }
+    break;
+   
 }
 
 ?>

@@ -19,6 +19,15 @@
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }        
+        /*TODO: Listar Producto por Categoria*/
+        public function getProducto_x_categoriaid($idcategoria){
+            $conectar = parent::Conexion();
+            $sql = "call spListarProductoporCategoria (?)";
+            $query = $conectar->prepare($sql);
+            $query->bindValue(1,$idcategoria);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }        
         /*TODO: Eliminar Producto*/
         public function eliminarProducto($idproducto){
             $conectar = parent::Conexion();

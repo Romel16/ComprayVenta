@@ -1,14 +1,19 @@
 /*Procedimiento Almacenado Listar producto*/
-create  PROCEDURE `spListarProducto`
-(in idProductoSucursal int)
-  
- SELECT *
+cCREATE DEFINER=`root`@`localhost` PROCEDURE `spListarProducto`(in idProductoSucursal int)
+SELECT p.productoId,p.productoSucursalId, p.productoCategoriaId, p.productoNombre, p.productoDescripcion,
+	p.productoUnidadId, p.productoMonedaId, p.productoPrecioCompra, p.productoPrecioVenta, p.productoStock,
+    p.productoFechaVenta, 
+    date_format(p.productoFechaCreacion,"%d-%m-%y") as productoFechaCreacion, 
+    p.productoEstado, c.categoriaNombre,
+    u.unidadNombre, m.monedaNombre
  FROM 
-	producto  
+	producto  p inner join
+    categoria c on p.productoCategoriaId = c.categoriaId inner join
+    unidad u on p.productoUnidadId = u.unidadId inner join
+    moneda m on p.productoMonedaId = m.monedaId
  WHERE  
 	 productoSucursalId = idProductoSucursal
-     and productoEstado=1; 
-
+     and productoEstado=1
 DELIMITER ;
 -- Llamado del Store Procedure con argumento
 call spListarProducto(2) ;
@@ -88,3 +93,20 @@ CREATE  PROCEDURE `spUpdateProducto`
 		productoId = idProducto;
 
 DELIMITER ;
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarProductoporCategoria`(in idProductoCategoria int)
+SELECT p.productoId,p.productoSucursalId, p.productoCategoriaId, p.productoNombre, p.productoDescripcion,
+	p.productoUnidadId, p.productoMonedaId, p.productoPrecioCompra, p.productoPrecioVenta, p.productoStock,
+    p.productoFechaVenta, p.productoImagen,
+    date_format(p.productoFechaCreacion,"%d-%m-%y") as productoFechaCreacion, 
+    p.productoEstado, c.categoriaNombre,
+    u.unidadNombre, m.monedaNombre
+ FROM 
+	producto  p inner join
+    categoria c on p.productoCategoriaId = c.categoriaId inner join
+    unidad u on p.productoUnidadId = u.unidadId inner join
+    moneda m on p.productoMonedaId = m.monedaId
+ WHERE  
+	 productoCategoriaId = idProductoCategoria
+     and productoEstado=1

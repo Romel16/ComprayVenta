@@ -77,14 +77,36 @@
                     }
                 ?>
 
-
-
-
                 <li class="menu-title"><span data-key="t-menu">Compra</span></li>
 
-
+                <?php
+                    foreach ($datos as $row) {
+                       if ($row["menuGrupo"]=="Compra" && $row["detallemenuPermiso"]=="Si"){
+                            ?>
+                                <li class="nav-item">
+                                    <a class="nav-link menu-link" href="<?php echo $row["menuRuta"];?>">
+                                        <i class="ri-honour-line"></i> <span data-key="t-widgets"><?php echo $row["menuNombre"];?></span>
+                                    </a>
+                                </li>
+                            <?php
+                        }
+                    }
+                ?>
 
                 <li class="menu-title"><span data-key="t-menu">Venta</span></li>
+                <?php
+                    foreach ($datos as $row) {
+                       if ($row["menuGrupo"]=="Venta" && $row["detallemenuPermiso"]=="Si"){
+                            ?>
+                                <li class="nav-item">
+                                    <a class="nav-link menu-link" href="<?php echo $row["menuRuta"];?>">
+                                        <i class="ri-honour-line"></i> <span data-key="t-widgets"><?php echo $row["menuNombre"];?></span>
+                                    </a>
+                                </li>
+                            <?php
+                        }
+                    }
+                ?>
 
 
             </ul>
