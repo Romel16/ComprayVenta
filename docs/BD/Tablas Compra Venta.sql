@@ -193,7 +193,7 @@ create table compra(
     compraProveedorDireccion varchar(150) not null,
     compraProveedorCorreo varchar(150) not null,
     compraSubTotal numeric(9,2) not null,
-    compraIgv numerical(9,2) not null,
+    compraIgv numeric(9,2) not null,
     compraTotal numeric(9,2) not null,
     compraComentario varchar(250) not null,
     compraUsuarioId int(11) not null,

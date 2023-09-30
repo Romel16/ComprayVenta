@@ -1,10 +1,18 @@
 var emp_id = $('#empresa').val();
 var suc_id = $('#sucursal').val();
+//console.log(suc_id);
 var usu_id = $('#usuario').val();
-
+//console.log(usu_id);
 
 
 $(document).ready(function() {
+
+
+    $.post("../../controllers/compraControllers.php?op=registrar",{idsucursal:suc_id,idusuario:usu_id},function(data){
+        //console.log(data)
+        data=JSON.parse(data);
+        $('#compr_id').val(data.compraId);
+    });
 
     $('#prov_id').select2();
     
@@ -89,28 +97,20 @@ $(document).on("click","#btnagregar",function(){
     var prod_pcompra = $("#prod_pcompra").val();
     var detc_cant = $("#detc_cant").val();
 
-
-    if($("#prod_id").val()=='' || $("#prod_pcompra").val()=='' || $("#detc_cant").val()=='' ){
-
-        swal.fire({
-            title:'Compra',
-            text: 'Error Campos Vacios',
-            icon: 'error'
-        });
-
-    }else{
+    
 
         $.post("../../controllers/compraControllers.php?op=guardardetalle",{
-            compr_id:compr_id,
-            prod_id:prod_id,
-            prod_pcompra:prod_pcompra,
-            detc_cant:detc_cant
+            compraId:compr_id,
+            productoId:prod_id,
+            precioCompra:prod_pcompra,
+            cantidad:detc_cant
         },function(data){
             console.log(data);
         });
 
-        $.post("../../controllers/compraControllers.php?op=calculo",{compr_id:compr_id},function(data){
-            data=JSON.parse(data);
+        $.post("../../controllers/compraControllers.php?op=calculo",{idcompra:compr_id},function(data){
+            console.log(data);
+            data = JSON.parse(data);
             $('#txtsubtotal').html(data.compraSubTotal);
             $('#txtigv').html(data.compraIgv);
             $('#txttotal').html(data.compraTotal);
@@ -119,9 +119,7 @@ $(document).on("click","#btnagregar",function(){
         $("#prod_pcompra").val('');
         $("#detc_cant").val('');
 
-        listar(compr_id);
-
-    }
+        listar(compr_id);   
 });
 
 
@@ -136,15 +134,15 @@ function eliminar(detc_id,compr_id){
         cancelButtonText: "No",
     }).then((result)=>{
         if (result.value){
-            $.post("../../controller/compra.php?op=eliminardetalle",{detc_id:detc_id},function(data){
+            $.post("../../controllers/compraControllers.php?op=eliminardetalle",{detallecompraId:detc_id},function(data){
                 console.log(data);
-            });
+            }); 
 
-            $.post("../../controller/compra.php?op=calculo",{compr_id:compr_id},function(data){
+           $.post("../../controllers/compraControllers.php?op=calculo",{idcompra:compr_id},function(data){
                 data=JSON.parse(data);
-                $('#txtsubtotal').html(data.COMPR_SUBTOTAL);
-                $('#txtigv').html(data.COMPR_IGV);
-                $('#txttotal').html(data.COMPR_TOTAL);
+                $('#txtsubtotal').html(data.compraSubTotal);
+                $('#txtigv').html(data.compraIgv); 
+                $('#txttotal').html(data.compraTotal);
             });
 
             listar(compr_id);
@@ -170,9 +168,9 @@ function listar(compr_id){
             'csvHtml5',
         ],
         "ajax":{
-            url:"../../controller/compra.php?op=listardetalle",
+            url:"../../controllers/compraControllers.php?op=listardetalle",
             type:"post",
-            data:{compr_id:compr_id}
+            data:{idcompra:compr_id}
         },
         "bDestroy": true,
         "responsive": true,
@@ -226,10 +224,10 @@ $(document).on("click","#btnguardar",function(){
         });
 
     }else{
-        $.post("../../controller/compra.php?op=calculo",{compr_id:compr_id},function(data){
+        $.post("../../controller/compra.php?op=calculo",{idcompra:compr_id},function(data){
             data=JSON.parse(data);
             console.log(data);
-            if (data.COMPR_TOTAL==null){
+            if (data.compraTotal==null){
                 /* TODO:Validacion de Detalle */
                 swal.fire({
                     title:'Compra',
