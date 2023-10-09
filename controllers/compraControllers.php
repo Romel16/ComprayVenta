@@ -22,36 +22,13 @@ switch ($_GET["op"]) {
     break;
     /*TODO: Calculo de SubTota, Igv, Total */
     case 'calculo':
-       /* $datos = $compra->calcularCampos($_POST["idcompra"]);
-        
+    $datos = $compra->calcularCampos($_POST["idcompra"]);        
         foreach ($datos as $row){
             $output["compraSubTotal"] = $row["compraSubTotal"];
             $output["compraIgv"] = $row["compraIgv"];
             $output["compraTotal"] = $row["compraTotal"];
         }
-        json_encode($output);*/
-
-        if (isset($_POST["idcompra"])) {
-            $idCompra = $_POST["idcompra"];
-            
-            $datos = $compra->calcularCampos($idCompra);
-        
-            if ($datos !== false) {
-                // Los datos se obtuvieron correctamente
-                foreach ($datos as $row){
-                    $output["compraSubTotal"] = $row["compraSubTotal"];
-                    $output["compraIgv"] = $row["compraIgv"];
-                    $output["compraTotal"] = $row["compraTotal"];
-                }
-                echo json_encode($output);
-            } else {
-                // La función calcularCampos no devolvió datos válidos
-                echo json_encode(["error" => "No se pudieron obtener los datos."]);
-            }
-        } else {
-            // El parámetro idcompra no se envió en $_POST
-            echo json_encode(["error" => "Falta el parámetro idcompra en la solicitud."]);
-        }
+        echo json_encode($output);
         
     break;
     /*TODO: Eliminar registro de detallecompra */
@@ -84,7 +61,86 @@ switch ($_GET["op"]) {
                         
         echo json_encode($result);
         break;
-   
+
+        /* TODO: Formato compra para la vista del documento */
+        case "listardetalleformato";
+            $datos=$compra->getList_detallecompra($_POST["idcompra"]);
+            foreach($datos as $row){
+                ?>
+                     <tr>
+                        <td><?php echo $row["categoriaNombre"];?></td>
+                        <td><?php echo $row["productoNombre"];?></td>
+                        <td scope="row"><?php echo $row["unidadNombre"];?></td>
+                        <td><?php echo $row["detallecompraProductoPrecioCompra"];?></td>
+                        <td><?php echo $row["detallecompraCantidad"];?></td>
+                        <td class="text-end"><?php echo $row["detallecompraTotal"];?></td>
+                    </tr>
+                <?php
+            }
+            break;
+
+
+        /*TODO: Actualizar de compra a estado = 1*/
+        case 'guardar':
+            $datos = $compra->update_compra(
+                $_POST["compraId"],
+                $_POST["pagoId"],
+                $_POST["idProveedor"],
+                $_POST["rucProveedor"],
+                $_POST["direccionProveedor"],
+                $_POST["correoProveedor"],
+                $_POST["comentarios"],
+                $_POST["monedaId"]);
+        break;
+
+        /*TODO: Eliminar registro de detallecompra */
+         case 'mostrar':
+        $datos = $compra->getCompra($_POST["compraId"]);
+        foreach ($datos as $row){
+            $output["compraId"] = $row["compraId"];
+            $output["compraSucursalId"] = $row["compraSucursalId"];
+            $output["compraPagoId"] = $row["compraPagoId"];
+            $output["compraProveedorId"] = $row["compraProveedorId"];
+            $output["compraProveedorRuc"] = $row["compraProveedorRuc"];
+            $output["compraProveedorDireccion"] = $row["compraProveedorDireccion"];
+            $output["compraProveedorCorreo"] = $row["compraProveedorCorreo"];
+            $output["compraSubTotal"] = $row["compraSubTotal"];
+            $output["compraIgv"] = $row["compraIgv"];
+            $output["compraTotal"] = $row["compraTotal"];
+            $output["compraComentario"] = $row["compraComentario"];
+            $output["compraUsuarioId"] = $row["compraUsuarioId"];
+            $output["compraMonedaId"] = $row["compraMonedaId"]; 
+            $output["compraFechaCreacion"] = $row["compraFechaCreacion"];
+
+            $output["sucursalNombre"] = $row["sucursalNombre"];
+
+            $output["empresaNombre"] = $row["empresaNombre"];
+            $output["empresaRuc"] = $row["empresaRuc"];
+            $output["empresaCorreo"] = $row["empresaCorreo"];
+            $output["empresaTelefono"] = $row["empresaTelefono"];
+            $output["empresaDireccion"] = $row["empresaDireccion"];
+            $output["empresaPagina"] = $row["empresaPagina"];
+
+            $output["companiaNombre"] = $row["companiaNombre"];
+
+            $output["usuarioCorreo"] = $row["usuarioCorreo"];
+            $output["usuarioNombre"] = $row["usuarioNombre"];
+            $output["usuarioApellido"] = $row["usuarioApellido"];
+            $output["usuarioDni"] = $row["usuarioDni"];
+            $output["usuarioTelefono"] = $row["usuarioTelefono"];
+
+            $output["rolNombre"] = $row["rolNombre"];
+
+            $output["pagoNombre"] = $row["pagoNombre"];
+
+            $output["monedaNombre"] = $row["monedaNombre"];
+
+            $output["proveedorNombre"] = $row["proveedorNombre"]; 
+ 
+        }
+        echo json_encode($output);
+         break;
 }
+
 
 ?>

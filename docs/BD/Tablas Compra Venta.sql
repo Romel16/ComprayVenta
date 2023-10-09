@@ -207,7 +207,6 @@ create table compra(
     constraint fkusuario foreign key (compraUsuarioId) references usuario(usuarioId),
     constraint fkmoneda_2 foreign key (compraMonedaId) references moneda(monedaId),
     constraint fkdocumento foreign key (compraDocumentoId) references documento(documentoId)
-
 )
 
 create table venta(

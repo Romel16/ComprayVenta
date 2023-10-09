@@ -97,7 +97,16 @@ $(document).on("click","#btnagregar",function(){
     var prod_pcompra = $("#prod_pcompra").val();
     var detc_cant = $("#detc_cant").val();
 
-    
+    if($("#prod_id").val()=='' || $("#prod_pcompra").val()=='' || $("#detc_cant").val()=='' ){
+
+        swal.fire({
+            title:'Compra',
+            text: 'Error Campos Vacios',
+            icon: 'error'
+        });
+
+    }else{
+
 
         $.post("../../controllers/compraControllers.php?op=guardardetalle",{
             compraId:compr_id,
@@ -109,7 +118,7 @@ $(document).on("click","#btnagregar",function(){
         });
 
         $.post("../../controllers/compraControllers.php?op=calculo",{idcompra:compr_id},function(data){
-            console.log(data);
+            //console.log(data);
             data = JSON.parse(data);
             $('#txtsubtotal').html(data.compraSubTotal);
             $('#txtigv').html(data.compraIgv);
@@ -120,6 +129,8 @@ $(document).on("click","#btnagregar",function(){
         $("#detc_cant").val('');
 
         listar(compr_id);   
+    }
+
 });
 
 
@@ -214,6 +225,7 @@ $(document).on("click","#btnguardar",function(){
     var prov_correo = $("#prov_correo").val();
     var compr_coment = $("#compr_coment").val();
     var mon_id = $("#mon_id").val();
+    
 
     if($("#doc_id").val()=='0' || $("#pag_id").val()=='0' || $("#prov_id").val()=='0' || $("#mon_id").val()=='0'){
         /* TODO:Validacion de Pago , Proveedor , Moneda */
@@ -224,39 +236,43 @@ $(document).on("click","#btnguardar",function(){
         });
 
     }else{
-        $.post("../../controller/compra.php?op=calculo",{idcompra:compr_id},function(data){
+
+        
+
+
+        $.post("../../controllers/compraControllers.php?op=calculo",{idcompra:compr_id},function(data){
             data=JSON.parse(data);
-            console.log(data);
+            //console.log(data);
             if (data.compraTotal==null){
                 /* TODO:Validacion de Detalle */
                 swal.fire({
                     title:'Compra',
-                    text: 'Error No Existe Detalle',
+                    text: 'Error No Existe Detalle de Compra',
                     icon: 'error'
                 });
 
             }else{
-                $.post("../../controller/compra.php?op=guardar",{
-                    compr_id:compr_id,
-                    pag_id:pag_id,
-                    prov_id:prov_id,
-                    prov_ruc:prov_ruc,
-                    prov_direcc:prov_direcc,
-                    prov_correo:prov_correo,
-                    compr_coment:compr_coment,
-                    mon_id:mon_id,
-                    doc_id:doc_id
+                /* TODO: Guardar la compra con todos los campos */
+                $.post("../../controllers/compraControllers.php?op=guardar",{
+                    compraId:compr_id,
+                    pagoId:pag_id,
+                    idProveedor:prov_id,
+                    rucProveedor:prov_ruc,
+                    direccionProveedor:prov_direcc,
+                    correoProveedor:prov_correo,
+                    comentarios:compr_coment, 
+                    monedaId:mon_id
                 },function(data){
                     /* TODO:Mensaje de Sweetalert */
                     swal.fire({
                         title:'Compra',
-                        text: 'Compra registrada Correctamente con Nro: C-'+compr_id,
+                        text: 'Compra registrada Correctamente con Nro: C-' + compr_id,
                         icon: 'success',
                         /* TODO: Ruta para mostrar documento de compra */
                         footer: "<a href='../ViewCompra/?c="+compr_id+"' target='_blank'>Desea ver el Documento?</a>"
                     });
-
-                });
+            
+               });
             }
 
         });
