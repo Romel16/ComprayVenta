@@ -91,6 +91,8 @@ switch ($_GET["op"]) {
                 $_POST["correoProveedor"],
                 $_POST["comentarios"],
                 $_POST["monedaId"]);
+
+            $compra->update_compraStock();
         break;
 
         /*TODO: Eliminar registro de detallecompra */
@@ -140,6 +142,40 @@ switch ($_GET["op"]) {
         }
         echo json_encode($output);
          break;
+    
+         /*TODO: Listado de compra por sucursalId */
+         case 'listarcompra':
+            $datos = $compra->getCompraListado($_POST["idsucursal"]);
+            $data = Array();
+            foreach ($datos as $row) {
+                $sub_array = array();
+                $sub_array[] = "C-".$row["compraId"];
+                $sub_array[] = $row["proveedorRuc"];
+                $sub_array[] = $row["proveedorNombre"];
+                $sub_array[] = $row["pagoNombre"];
+                $sub_array[] = $row["monedaNombre"];
+                $sub_array[] = $row["compraSubTotal"];
+                $sub_array[] = $row["compraIgv"];
+                $sub_array[] = $row["compraTotal"];
+                $sub_array[] = $row["usuarioNombre"]."".$row["usuarioApellido"];
+                $sub_array[] = '<a href="../ViewCompra/?c='.$row["compraId"].'" target="_blank" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-printer-line"></i></a>';
+                $sub_array[] = '<button type="button" onClick="ver('.$row["compraId"].')" id="'.$row["compraId"].'" class="btn btn-success btn-icon waves-effect waves-light"><i class="ri-settings-2-line"></i></button>';
+                $data[] = $sub_array;
+    
+            }
+    
+            $result = array(
+                "sEcho"=>1,
+                "iTotalRecords"=>count($data),
+                "iTotalDisplayRecords"=>count($data),
+                "aaData"=>$data);
+                            
+            echo json_encode($result);
+        break;
+
+
+
+    
 }
 
 
