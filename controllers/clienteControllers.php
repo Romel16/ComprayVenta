@@ -64,8 +64,22 @@ switch ($_GET["op"]) {
     /*TODO: Cambiar estado del registro a 0 */
     case 'eliminar':
         $cliente->eliminarCliente($_POST["clienteId"]);
-        break;
+    break;
     
+     /*TODO: Listar Combobox */
+     case "combo":
+        $datos = $cliente->getCliente_x_empresaId($_POST["clienteEmpresaId"]);
+                  
+        if (is_array($datos)==true and count($datos)>0) {
+            $html="";
+            $html.="<option value='0' selected>Seleccionar</option>";
+            foreach ($datos as $row) {
+                $html.="<option value='".$row["clienteId"]."'>".$row["clienteNombre"]."</option>";
+            }
+            echo $html;
+        }
+    break;
+   
 }
 
 ?>

@@ -71,7 +71,7 @@
          /*TODO: Calcular SubTotal, Igv, Total */
         public function getCompra($idsucursal){
             $conectar = parent::Conexion();
-            $sql = "call setViewSales (?)";
+            $sql = "call setViewBuys (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1, $idsucursal);
             $query->execute();
@@ -86,15 +86,7 @@
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }       
-         /*TODO: Listado de compra por sucursalId */
-        public function update_compraStock(){
-            $conectar = parent::Conexion();
-            $sql = "call spUpdateCompraSRock()";
-            $query = $conectar->prepare($sql);
-            $query->execute();
-            return $query->fetchAll(PDO::FETCH_ASSOC);
-        }       
-
+        
     }
 
     

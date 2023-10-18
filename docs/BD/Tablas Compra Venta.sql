@@ -256,6 +256,6 @@ create table detalleventa(
     detalleventaTotal numeric(9,2) not null,
     detalleventaFechaCreacion datetime,
     detalleventaEstado int(11) DEFAULT null,
-    constraint fkcompra_2 foreign key (detalleventaVentaId) references compra(compraId),
+    constraint fkventa foreign key (detalleventaVentaId) references venta(ventaId),
     constraint fkproducto_2 foreign key (detalleventaProductoId) references producto(productoId),
 )

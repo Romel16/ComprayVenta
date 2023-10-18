@@ -92,7 +92,6 @@ switch ($_GET["op"]) {
                 $_POST["comentarios"],
                 $_POST["monedaId"]);
 
-            $compra->update_compraStock();
         break;
 
         /*TODO: Eliminar registro de detallecompra */
