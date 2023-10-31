@@ -38,10 +38,20 @@
         }        
         /*TODO: Insertar Producto*/
         public function insertarProducto($idsucursal, $idcategoria, $nombreproducto, $descripcionproducto,
-                $idmoneda,$idunidad, $preciocompraproducto,$precioventaproducto,$stockproducto,//$imagenproducto,$fechaventaproducto
+                $idmoneda,$idunidad, $preciocompraproducto,$precioventaproducto,$stockproducto,$imagenproducto
                 ){
             $conectar = parent::Conexion();
-            $sql = "call spRegistrarProducto (?,?,?,?,?,?,?,?,?)";
+
+            require_once("productoModels.php");
+            $producto = new ProductoModels();
+            $imagenproducto='';
+            if ($_FILES["productoImagen"]["name"] !='' ) {
+                $imagenproducto=$producto->upload_image();
+            }else{
+                $imagenproducto = $_POST["hidden_producto_imagen"];
+            }
+
+            $sql = "call spRegistrarProducto (?,?,?,?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->bindValue(2,$idcategoria);
@@ -52,17 +62,26 @@
             $query->bindValue(7,$preciocompraproducto);
             $query->bindValue(8,$precioventaproducto);
             $query->bindValue(9,$stockproducto);
-            //$query->bindValue(10,$fechaventaproducto);
-            //$query->bindValue(11,$imagenproducto);
+            $query->bindValue(10,$imagenproducto);
             $query->execute();
             
         }        
         /*TODO:Actualizar Registro*/
         public function updateProducto($idproducto, $idsucursal, $idcategoria, $nombreproducto, $descripcionproducto,
-                $idmoneda,$idunidad, $preciocompraproducto,$precioventaproducto,$stockproducto,//$imagenproducto,$fechaventaproducto
+                $idmoneda,$idunidad, $preciocompraproducto,$precioventaproducto,$stockproducto,$imagenproducto
                 ){
             $conectar = parent::Conexion();
-            $sql = "call spUpdateProducto (?,?,?,?,?,?,?,?,?,?)";
+
+            require_once("productoModels.php");
+            $producto=new ProductoModels();
+            $imagenproducto='';
+            if($_FILES["productoImagen"]["name"] !=''){
+                $imagenproducto=$producto->upload_image();
+            }else{
+                $imagenproducto = $_POST["hidden_producto_imagen"];
+            }
+
+            $sql = "call spUpdateProducto (?,?,?,?,?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idproducto);
             $query->bindValue(2,$idsucursal);
@@ -74,10 +93,30 @@
             $query->bindValue(8,$preciocompraproducto);
             $query->bindValue(9,$precioventaproducto);
             $query->bindValue(10,$stockproducto);
-            //$query->bindValue(11,$fechaventaproducto);
-            //$query->bindValue(12,$imagenproducto);
+            $query->bindValue(11,$imagenproducto);
             $query->execute();
         }        
+
+         /* TODO: Registrar Imagen */
+        public function upload_image(){
+            if (isset($_FILES["productoImagen"])){
+                $extension = explode('.', $_FILES['productoImagen']['name']);
+                $new_name = rand() . '.' . $extension[1];
+                $destination = '../assets/producto/' . $new_name;
+                move_uploaded_file($_FILES['productoImagen']['tmp_name'], $destination);
+                return $new_name;
+            }
+        }
+
+    /* TODO: Consumo de productos */
+        public function get_producto_consumo($prod_id){
+            $conectar=parent::Conexion();
+            $sql="SP_L_PRODUCTO_05 ?";
+            $query=$conectar->prepare($sql);
+            $query->bindValue(1,$prod_id);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
 
     }
 

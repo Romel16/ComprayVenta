@@ -57,15 +57,15 @@
                                     <table id="table_data" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>Categoria</th>
                                                 <th>Nombre</th>
                                                 <th>Descripcion</th>
-                                                <th>Un. Medida</th>
-                                                <th>Moneda</th>
+                                                <th>Und.</th>
+                                                <th>Mon.</th>
                                                 <th>P.Compra</th>
                                                 <th>P.Venta</th>
                                                 <th>Stock</th>
-                                                <!--<th>Imagen</th>-->
                                                 <th>FechaCreacion</th>
                                                 <th></th>
                                                 <th></th>

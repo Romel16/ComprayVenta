@@ -19,10 +19,9 @@ function guardaryeditar(e) {
         contentType:false,
         processData:false,
         success:function(data){
+            /* TODO: Mensaje de sweetalert */
             $('#table_data').DataTable().ajax.reload();
             $('#modalmantenimiento').modal('hide');
-
-            /* TODO: Mensaje de sweetalert */
             swal.fire({
                 title:'Producto Registrado Exitosamente',
                 icon: 'success'
@@ -108,7 +107,7 @@ function editar(productoId){
         $('#productoStock').val(data.productoStock);
         $('#productoUnidadId').val(data.productoUnidadId).trigger('change');
         $('#productoMonedaId').val(data.productoMonedaId).trigger('change');
-        //$('#productoImagen').html(data.productoImagen);
+        $('#productoImagen').html(data.productoImagen);
     });
     $('#lbltitulo').html('Editar Registro');
     $('#modalmantenimiento').modal('show');
@@ -153,9 +152,30 @@ $(document).on("click","#btnNuevo", function(){
     $('#productoCategoriaId').val('').trigger('change');
     $('#productoUnidadId').val('').trigger('change');
     $('#productoMonedaId').val('').trigger('change');
-    //$('#productoImagen').html('');
+    $('#lbltitulo').html('Nuevo Registro');
+    $('#pre_imagen').html('<img src="../../assets/producto/no_imagen.png" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image"></img><input type="hidden" name="hidden_producto_imagen" value="" />');
     $('#mantenimiento_form')[0].reset();
     $('#modalmantenimiento').modal('show');
+});
+
+
+function filePreview(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#pre_imagen').html('<img src='+e.target.result+' class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image"></img>');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$(document).on('change','#productoImagen',function(){
+    filePreview(this);
+});
+
+$(document).on("click","#btnremovephoto",function(){
+    $('#productoImagen').val('');
+    $('#pre_imagen').html('<img src="../../assets/producto/no_imagen.png" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image"></img><input type="hidden" name="hidden_producto_imagen" value="" />');
 });
 
 
