@@ -29,9 +29,19 @@
         }        
         /*TODO: Insertar Usuario*/
         public function insertarUsuario($idsucursal, $idrol, $correousuario, $nombreusuario, $apellidousuario,
-                $dniusuario, $telefonousuario,$passwordusuario){
+                $dniusuario, $telefonousuario,$passwordusuario,$imagenusuario){
             $conectar = parent::Conexion();
-            $sql = "call spRegistrarUsuario (?,?,?,?,?,?,?,?)";
+
+            require_once("usuarioModels.php");
+            $usuario = new UsuarioModels();
+            $imagenusuario='';
+            if ($_FILES["usuarioImagen"]["name"] !='' ) {
+                $imagenusuario=$usuario->upload_image();
+            }else{
+                $imagenusuario = $_POST["hidden_usaurioo_imagen"];
+            }
+
+            $sql = "call spRegistrarUsuario (?,?,?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idsucursal);
             $query->bindValue(2,$idrol);
@@ -41,14 +51,26 @@
             $query->bindValue(6,$dniusuario);
             $query->bindValue(7,$telefonousuario);
             $query->bindValue(8,$passwordusuario);
+            $query->bindValue(9,$imagenusuario);
             $query->execute();
             
         }        
         /*TODO:Actualizar Registro*/
         public function updateUsuario($idusuario, $idsucursal, $idrol, $correousuario, $nombreusuario, $apellidousuario,
-                    $dniusuario, $telefonousuario,$passwordusuario){
+                    $dniusuario, $telefonousuario,$passwordusuario, $imagenusuario){
             $conectar = parent::Conexion();
-            $sql = "call spUpdateUsuario (?,?,?,?,?,?,?,?,?)";
+
+            require_once("usuarioModels.php");
+            $usuario = new UsuarioModels();
+            $imagenusuario='';
+            if ($_FILES["usuarioImagen"]["name"] !='' ) {
+                $imagenusuario=$usuario->upload_image();
+            }else{
+                $imagenusuario = $_POST["hidden_usuario_imagen"];
+            }
+
+
+            $sql = "call spUpdateUsuario (?,?,?,?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idusuario);
             $query->bindValue(2,$idsucursal);
@@ -59,6 +81,7 @@
             $query->bindValue(7,$dniusuario);
             $query->bindValue(8,$telefonousuario);
             $query->bindValue(9,$passwordusuario);
+            $query->bindValue(10,$imagenusuario);
             $query->execute();
         }       
         
@@ -102,6 +125,7 @@
                         $_SESSION["empresaId"] = $resultado["empresaId"];
                         $_SESSION["companiaId"] = $resultado["companiaId"];
                         $_SESSION["rolId"] = $resultado["rolId"];
+                        $_SESSION["usuarioImagen"] = $resultado["usuarioImagen"];
 
                         header("Location:".Conectar::ruta()."vistas/home/");
                     }else {
@@ -113,6 +137,16 @@
             }
         }
         
+         /* TODO: Registrar Imagen */
+         public function upload_image(){
+            if (isset($_FILES["usuarioImagen"])){
+                $extension = explode('.', $_FILES['usuarioImagen']['name']);
+                $new_name = rand() . '.' . $extension[1];
+                $destination = '../assets/usuario/' . $new_name;
+                move_uploaded_file($_FILES['usuarioImagen']['tmp_name'], $destination);
+                return $new_name;
+            }
+        }
     }
 
 ?>

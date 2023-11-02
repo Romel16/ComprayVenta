@@ -107,7 +107,7 @@ function editar(productoId){
         $('#productoStock').val(data.productoStock);
         $('#productoUnidadId').val(data.productoUnidadId).trigger('change');
         $('#productoMonedaId').val(data.productoMonedaId).trigger('change');
-        $('#productoImagen').html(data.productoImagen);
+        $('#pre_imagen').html(data.productoImagen);
     });
     $('#lbltitulo').html('Editar Registro');
     $('#modalmantenimiento').modal('show');

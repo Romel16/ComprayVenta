@@ -98,6 +98,7 @@ function editar(usuarioId){
         $('#usuarioTelefono').val(data.usuarioTelefono);
         $('#usuarioPassword').val(data.usuarioPassword);
         $('#usuarioRolId').val(data.usuarioRolId).trigger('change');
+        $('#pre_imagen').val(data.usuarioImagen);
     });
     $('#lbltitulo').html('Editar Registro');
     $('#modalmantenimiento').modal('show');
@@ -141,10 +142,33 @@ $(document).on("click","#btnNuevo", function(){
     $('#usuarioTelefono').val('');
     $('#usuarioPassword').val('');
     $('#usuarioRolId').val('').trigger('change');    
+    $('#pre_imagen').html('<img src="../../assets/usuario/no_imagen.png" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image"></img><input type="hidden" name="hidden_usuario_imagen" value="" />');
     $('#lbltitulo').html('Nuevo Registro');
     $('#mantenimiento_form')[0].reset();
     $('#modalmantenimiento').modal('show');
 });
+
+
+
+function filePreview(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#pre_imagen').html('<img src='+e.target.result+' class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image"></img>');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$(document).on('change','#usuarioImagen',function(){
+    filePreview(this);
+});
+
+$(document).on("click","#btnremovephoto",function(){
+    $('#usuarioImagen').val('');
+    $('#pre_imagen').html('<img src="../../assets/usuario/no_imagen.png" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image"></img><input type="hidden" name="hidden_usuario_imagen" value="" />');
+});
+
 
 
 init();

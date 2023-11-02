@@ -75,17 +75,17 @@
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <!--<?php
-                                //if($_SESSION["USU_IMG"]==""){
+                            <?php
+                                if($_SESSION["usuarioImagen"]==""){
                                     ?>
                                         <img class="rounded-circle header-profile-user" src="../../assets/usuario/no_imagen.png" alt="Header Avatar">
                                     <?php
-                                //}else{
-                                    ?>-->
+                                }else{
+                                    ?>
                                         <img class="rounded-circle header-profile-user" src="../../assets/usuario/1268858665.jpg" alt="Header Avatar">
-                                <!--    <?php
-                                //}
-                            ?>-->
+                                    <?php
+                                }
+                            ?>
 
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php echo $_SESSION["usuarioNombre"]?> <?php echo $_SESSION["usuarioApellido"]?></span>

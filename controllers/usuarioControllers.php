@@ -13,11 +13,11 @@ switch ($_GET["op"]) {
         if (empty($_POST["idusuario"])) {
             $usuario->insertarUsuario($_POST["usuarioSucursalId"], $_POST["usuarioRolId"], $_POST["usuarioCorreo"], 
                         $_POST["usuarioNombre"], $_POST["usuarioApellido"], $_POST["usuarioDni"], 
-                        $_POST["usuarioTelefono"], $_POST["usuarioPassword"]);
+                        $_POST["usuarioTelefono"], $_POST["usuarioPassword"],@$_POST["usuarioImagen"]);
         }else{
             $usuario->updateUsuario($_POST["usuarioId"], $_POST["usuarioSucursalId"],$_POST["usuarioRolId"], 
                         $_POST["usuarioCorreo"], $_POST["usuarioNombre"], $_POST["usuarioApellido"], 
-                        $_POST["usuarioDni"], $_POST["usuarioTelefono"], $_POST["usuarioPassword"]);
+                        $_POST["usuarioDni"], $_POST["usuarioTelefono"], $_POST["usuarioPassword"], @$_POST["usuarioImagen"]);
         }
         break;
 
@@ -27,6 +27,24 @@ switch ($_GET["op"]) {
         $data = Array();
         foreach ($datos as $row) {
             $sub_array = array();
+
+            if ($row["usuarioImagen"] != ''){
+                $sub_array[] =
+                "<div class='d-flex align-items-center'>" .
+                    "<div class='flex-shrink-0 me-2'>".
+                        "<img src='../../assets/usuario/".$row["usuarioImagen"]."' alt='' class='avatar-xs rounded-circle'>".
+                    "</div>".
+                "</div>";
+            }else{
+                $sub_array[] =
+                "<div class='d-flex align-items-center'>" .
+                    "<div class='flex-shrink-0 me-2'>".
+                        "<img src='../../assets/usuario/no_imagen.png' alt='' class='avatar-xs rounded-circle'>".
+                    "</div>".
+                "</div>";
+            }
+
+
             $sub_array[] = $row["usuarioCorreo"];
             $sub_array[] = $row["usuarioNombre"];
             $sub_array[] = $row["usuarioApellido"];
@@ -52,7 +70,7 @@ switch ($_GET["op"]) {
     
         /*TODO: mostrar registros con informacion por medio ID */
     case 'mostrar':
-        $datos = $usuario->getUsuario_x_id($_POST["idusuario"]);
+        $datos = $usuario->getUsuario_x_id($_POST["usuarioId"]);
         if (is_array($datos)== true and count($datos)>0) {
             foreach ($datos as $row) {
                 $output["usuarioId"] = $row["usuarioId"];
@@ -64,6 +82,12 @@ switch ($_GET["op"]) {
                 $output["usuarioTelefono"] = $row["usuarioTelefono"];
                 $output["usuarioPassword"] = $row["usuarioPassword"];
                 $output["usuarioRolId"] = $row["usuarioRolId"];
+
+                if($row["usuarioImagen"] != ''){
+                    $output["usuarioImagen"] = '<img src="../../assets/usuario/'.$row["usuarioImagen"].'" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image"></img><input type="hidden" name="hidden_usuario_imagen" value="'.$row["usuarioImagen"].'" />';
+                }else{
+                    $output["usuarioImagen"] = '<img src="../../assets/usuario/no_imagen.png" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image"></img><input type="hidden" name="hidden_usuario_imagen" value="" />';
+                }
 
             }
             echo json_encode($output);
