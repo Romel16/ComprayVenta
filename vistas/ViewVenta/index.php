@@ -73,7 +73,7 @@
                                             <div class="row g-3">
                                                 <div class="col-lg-3 col-6">
                                                     <p class="text-muted mb-2 text-uppercase fw-semibold">Nro de Venta</p>
-                                                    <h5 class="fs-14 mb-0">V-<span id="venta_id"></span></h5>
+                                                    <h5 class="fs-14 mb-0">V-<span id="vent_id"></span></h5>
                                                 </div>
 
                                                 <div class="col-lg-3 col-6">
@@ -107,23 +107,28 @@
                                                     <p class="fw-medium mb-2" id="cli_ruc"></p>
                                                     <p class="fw-medium mb-2" id="cli_direcc"></p>
                                                     <p class="fw-medium mb-2" id="cli_correo"></p>
-                                                </div>
+                                                </div> 
 
                                             </div>
 
                                         </div>
+                                       
                                     </div>
 
                                     <div class="col-lg-12">
                                         <div class="card-body p-4 border-top border-top-dashed">
                                             <div class="row g-3">
 
-                                                <div class="col-6">
+                                                <div class="col-4">
                                                     <h6 class="text-muted text-uppercase fw-semibold mb-3">Usuario</h6>
                                                     <p class="fw-medium mb-2" id="usu_nom"></p>
                                                 </div>
+                                                <div class="col-4">
+                                                    <h6 class="text-muted text-uppercase fw-semibold mb-3">Rol</h6>
+                                                    <p class="fw-medium mb-2" id="rol_nom"></p>
+                                                </div>
 
-                                                <div class="col-6">
+                                                <div class="col-4">
                                                     <h6 class="text-muted text-uppercase fw-semibold mb-3">Moneda</h6>
                                                     <p class="fw-medium mb-2" id="mon_nom"></p>
                                                 </div>
@@ -140,7 +145,7 @@
                                                 <table class="table table-borderless text-center table-nowrap align-middle mb-0">
                                                     <thead>
                                                         <tr class="table-active">
-                                                            <!-- <th scope="col"></th> -->
+                                                            <th scope="col"></th> 
                                                             <th scope="col">Categoria</th>
                                                             <th scope="col">Producto</th>
                                                             <th scope="col" style="width: 50px;">Und</th>

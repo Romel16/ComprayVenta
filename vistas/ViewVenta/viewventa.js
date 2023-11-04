@@ -1,8 +1,9 @@
 $(document).ready(function(){
     var venta_id = getUrlParameter('v');
 
+    
     $.post("../../controllers/ventaControllers.php?op=mostrar",{idventa:venta_id},function(data){
-        console.log(data);
+       //console.log(data);
         data=JSON.parse(data);
         $('#txtdirecc').html(data.empresaDireccion);
         $('#txtruc').html(data.empresaRuc);
@@ -10,7 +11,7 @@ $(document).ready(function(){
         $('#txtweb').html(data.empresaPagina);
         $('#txttelf').html(data.empresaTelefono);
 
-        $('#venta_id').html(data.ventaId);
+        $('#vent_id').html(data.ventaId);
         $('#fech_crea').html(data.ventaFechaCreacion);
         $('#pag_nom').html(data.pagoNombre);
         $('#txttotal').html(data.ventaTotal);
@@ -22,23 +23,21 @@ $(document).ready(function(){
         $('#vent_coment').html(data.ventaComentario);
 
         $('#usu_nom').html(data.usuarioNombre +' '+ data.usuarioApellido);
+        $('#rol_nom').html(data.rolNombre);
         $('#mon_nom').html(data.monedaNombre);
 
         $('#cli_nom').html("<b>Nombre: </b>"+data.clienteNombre);
-        $('#cli_ruc').html("<b>RUC: </b>"+data.ventaClienteRuc);
-        $('#cli_direcc').html("<b>Dirección: </b>"+data.ventaClienteDireccion);
-        $('#cli_correo').html("<b>Correo: </b>"+data.ventaClienteCorreo);
-
+        $('#cli_ruc').html("<b>RUC: </b>"+data.clienteRuc);
+        $('#cli_direcc').html("<b>Dirección: </b>"+data.clienteDireccion);
+        $('#cli_correo').html("<b>Correo: </b>"+data.clienteCorreo);
     });
 
-    /* TODO: Metodo pos para el formato venta para la vista del documento */
     $.post("../../controllers/ventaControllers.php?op=listardetalleformato",{idventa:venta_id},function(data){
         $('#listdetalle').html(data);
     });
-
 });
 /* TODO: Obtener parametro de URL */
-var getUrlParameter = function getUrlParameter(sParam) {
+var getUrlParameter = function getUrlParameter(sParam) {    
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
         sParameterName,

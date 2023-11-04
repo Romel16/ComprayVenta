@@ -2,7 +2,7 @@ $(document).ready(function(){
     var compr_id = getUrlParameter('c');
 
     $.post("../../controllers/compraControllers.php?op=mostrar",{compraId:compr_id},function(data){
-       console.log(data);
+       //console.log(data);
         data=JSON.parse(data);
         $('#txtdirecc').html(data.empresaDireccion);
         $('#txtruc').html(data.empresaRuc);
@@ -22,12 +22,13 @@ $(document).ready(function(){
         $('#compr_coment').html(data.compraComentario);
 
         $('#usu_nom').html(data.usuarioNombre +' '+ data.usuarioApellido);
+        $('#rol_nom').html(data.rolNombre);
         $('#mon_nom').html(data.monedaNombre);
 
         $('#prov_nom').html("<b>Nombre: </b>"+data.proveedorNombre);
-        $('#prov_ruc').html("<b>RUC: </b>"+data.compraProveedorRuc);
-        $('#prov_direcc').html("<b>Dirección: </b>"+data.compraProveedorDireccion);
-        $('#prov_correo').html("<b>Correo: </b>"+data.compraProveedorCorreo);
+        $('#prov_ruc').html("<b>RUC: </b>"+data.proveedorRuc);
+        $('#prov_direcc').html("<b>Dirección: </b>"+data.proveedorDireccion);
+        $('#prov_correo').html("<b>Correo: </b>"+data.proveedorCorreo);
 
     });
 

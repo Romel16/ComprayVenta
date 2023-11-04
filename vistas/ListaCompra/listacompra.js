@@ -99,7 +99,7 @@ function ver(compr_id){
 
     $.post("../../controllers/compraControllers.php?op=calculo",{idcompra:compr_id},function(data){
         data=JSON.parse(data);
-        $('#txtsubtotal').html(data.compraSubtotal);
+        $('#txtsubtotal').html(data.compraSubTotal);
         $('#txtigv').html(data.compraIgv);
         $('#txttotal').html(data.compraTotal);
     });

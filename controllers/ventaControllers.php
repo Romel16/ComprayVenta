@@ -42,6 +42,22 @@ switch ($_GET["op"]) {
         $data = Array();
         foreach ($datos as $row) {
             $sub_array = array();
+            if ($row["productoImagen"] != ''){
+                $sub_array[] =
+                "<div class='d-flex align-items-center'>" .
+                    "<div class='flex-shrink-0 me-2'>".
+                        "<img src='../../assets/producto/".$row["productoImagen"]."' alt='' class='avatar-xs rounded-circle'>".
+                    "</div>".
+                "</div>";
+            }else{
+                $sub_array[] =
+                "<div class='d-flex align-items-center'>" .
+                    "<div class='flex-shrink-0 me-2'>".
+                        "<img src='../../assets/producto/no_imagen.png' alt='' class='avatar-xs rounded-circle'>".
+                    "</div>".
+                "</div>";
+            }
+
             $sub_array[] = $row["categoriaNombre"];
             $sub_array[] = $row["productoNombre"];
             $sub_array[] = $row["unidadNombre"];
@@ -68,6 +84,22 @@ switch ($_GET["op"]) {
             foreach($datos as $row){
                 ?>
                      <tr>
+                        <td><?php if ($row["productoImagen"] != '') {
+                                    echo
+                                       "<div class='d-flex align-items-center'>" .
+                                            "<div class='flex-shrink-0 me-2'>" .
+                                                "<img src='../../assets/producto/" . $row["productoImagen"] . "' alt='' class='avatar-xs rounded-circle'>" .
+                                            "</div>" .
+                                        "</div>";
+                                    } else {
+                                      echo
+                                        "<div class='d-flex align-items-center'>" .
+                                            "<div class='flex-shrink-0 me-2'>" .
+                                                "<img src='../../assets/producto/no_imagen.png' alt='' class='avatar-xs rounded-circle'>" .
+                                            "</div>" .
+                                        "</div>";
+                                    }
+                        ; ?></td>
                         <td><?php echo $row["categoriaNombre"];?></td>
                         <td><?php echo $row["productoNombre"];?></td>
                         <td scope="row"><?php echo $row["unidadNombre"];?></td>
@@ -95,25 +127,16 @@ switch ($_GET["op"]) {
         break;
 
         /*TODO: Eliminar registro de detalleventa */
-         case 'mostrar':
+        case 'mostrar':
         $datos = $venta->getVenta($_POST["idventa"]);
         foreach ($datos as $row){
+
             $output["ventaId"] = $row["ventaId"];
-            $output["ventaSucursalId"] = $row["ventaSucursalId"];
-            $output["ventaPagoId"] = $row["ventaPagoId"];
-            $output["ventaClienteId"] = $row["ventaClienteId"];
-            $output["ventaClienteRuc"] = $row["ventaClienteRuc"];
-            $output["ventaClienteDireccion"] = $row["ventaClienteDireccion"];
-            $output["ventaClienteCorreo"] = $row["ventaClienteCorreo"];
+            $output["ventaFechaCreacion"] = $row["ventaFechaCreacion"];
             $output["ventaSubTotal"] = $row["ventaSubTotal"];
             $output["ventaIgv"] = $row["ventaIgv"];
             $output["ventaTotal"] = $row["ventaTotal"];
             $output["ventaComentario"] = $row["ventaComentario"];
-            $output["ventaUsuarioId"] = $row["ventaUsuarioId"];
-            $output["ventaMonedaId"] = $row["ventaMonedaId"]; 
-            $output["ventaFechaCreacion"] = $row["ventaFechaCreacion"];
-
-            $output["sucursalNombre"] = $row["sucursalNombre"];
 
             $output["empresaNombre"] = $row["empresaNombre"];
             $output["empresaRuc"] = $row["empresaRuc"];
@@ -122,21 +145,18 @@ switch ($_GET["op"]) {
             $output["empresaDireccion"] = $row["empresaDireccion"];
             $output["empresaPagina"] = $row["empresaPagina"];
 
-            $output["companiaNombre"] = $row["companiaNombre"];
-
-            $output["usuarioCorreo"] = $row["usuarioCorreo"];
+ 
             $output["usuarioNombre"] = $row["usuarioNombre"];
             $output["usuarioApellido"] = $row["usuarioApellido"];
-            $output["usuarioDni"] = $row["usuarioDni"];
-            $output["usuarioTelefono"] = $row["usuarioTelefono"];
-
-            $output["rolNombre"] = $row["rolNombre"];
 
             $output["pagoNombre"] = $row["pagoNombre"];
-
-            $output["monedaNombre"] = $row["monedaNombre"];
+            $output["monedaNombre"] = $row["monedaNombre"]; 
+            $output["rolNombre"] = $row["rolNombre"]; 
 
             $output["clienteNombre"] = $row["clienteNombre"]; 
+            $output["clienteRuc"] = $row["clienteRuc"]; 
+            $output["clienteDireccion"] = $row["clienteDireccion"]; 
+            $output["clienteCorreo"] = $row["clienteCorreo"]; 
  
         }
         echo json_encode($output);
@@ -148,7 +168,7 @@ switch ($_GET["op"]) {
             $data = Array();
             foreach ($datos as $row) {
                 $sub_array = array();
-                $sub_array[] = "C-".$row["ventaId"];
+                $sub_array[] = "V-".$row["ventaId"];
                 $sub_array[] = $row["clienteRuc"];
                 $sub_array[] = $row["clienteNombre"];
                 $sub_array[] = $row["pagoNombre"];
@@ -157,7 +177,23 @@ switch ($_GET["op"]) {
                 $sub_array[] = $row["ventaIgv"];
                 $sub_array[] = $row["ventaTotal"];
                 $sub_array[] = $row["usuarioNombre"]."".$row["usuarioApellido"];
-                $sub_array[] = '<a href="../ViewVenta/?c='.$row["ventaId"].'" target="_blank" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-printer-line"></i></a>';
+                
+                if ($row["usuarioImagen"] != ''){
+                    $sub_array[] =
+                    "<div class='d-flex align-items-center'>" .
+                        "<div class='flex-shrink-0 me-2'>".
+                            "<img src='../../assets/usuario/".$row["usuarioImagen"]."' alt='' class='avatar-xs rounded-circle'>".
+                        "</div>".
+                    "</div>";
+                }else{
+                    $sub_array[] =
+                    "<div class='d-flex align-items-center'>" .
+                        "<div class='flex-shrink-0 me-2'>".
+                            "<img src='../../assets/usuario/no_imagen.png' alt='' class='avatar-xs rounded-circle'>".
+                        "</div>".
+                    "</div>";
+                }
+                $sub_array[] = '<a href="../ViewVenta/?v='.$row["ventaId"].'" target="_blank" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-printer-line"></i></a>';
                 $sub_array[] = '<button type="button" onClick="ver('.$row["ventaId"].')" id="'.$row["ventaId"].'" class="btn btn-success btn-icon waves-effect waves-light"><i class="ri-settings-2-line"></i></button>';
                 $data[] = $sub_array;
     

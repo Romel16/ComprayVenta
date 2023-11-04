@@ -66,8 +66,9 @@
                                                 <th>Igv</th>
                                                 <th>Total</th>
                                                 <th>Usuario</th>
-                                                <th></th>
                                                 <th></th> 
+                                                <th></th> 
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>

@@ -50,7 +50,7 @@ $(document).ready(function(){
 });
 
 
-function ver(compr_id){
+function ver(ventaId){
 
     $('#detalle_data').DataTable({
         "aProcessing": true,
@@ -64,7 +64,7 @@ function ver(compr_id){
         "ajax":{
             url:"../../controllers/ventaControllers.php?op=listardetalle",
             type:"post",
-            data:{idcompra:compr_id}
+            data:{idventa:ventaId}
         },
         "bDestroy": true,
         "responsive": true,
@@ -97,11 +97,11 @@ function ver(compr_id){
         },
     });
 
-    $.post("../../controllers/compraControllers.php?op=calculo",{idcompra:compr_id},function(data){
+    $.post("../../controllers/ventaControllers.php?op=calculo",{idventa:ventaId},function(data){
         data=JSON.parse(data);
-        $('#txtsubtotal').html(data.compraSubtotal);
-        $('#txtigv').html(data.compraIgv);
-        $('#txttotal').html(data.compraTotal);
+        $('#txtsubtotal').html(data.ventaSubTotal);
+        $('#txtigv').html(data.ventaIgv);
+        $('#txttotal').html(data.ventaTotal);
     });
 
     $('#modaldetalle').modal('show');
