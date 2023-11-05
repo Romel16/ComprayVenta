@@ -48,6 +48,17 @@
             $query->execute();
         }        
 
+        public function validar_acceso_rol($usuarioid, $menuidentificacion) {
+            $conectar = parent::Conexion();
+            $sql = "call spListarMenuAcceso (?,?)";
+            $query = $conectar->prepare($sql);
+            $query->bindValue(1,$usuarioid);
+            $query->bindValue(2,$menuidentificacion);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+
     }
 
 ?>

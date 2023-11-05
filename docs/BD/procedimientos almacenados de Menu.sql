@@ -69,3 +69,32 @@ update menu
 
 DELIMITER ;
 */
+
+DELIMITER //
+CREATE PROCEDURE spListaMenuAcceso (
+in idusuario int, 
+identificacionMenu varchar(250))
+BEGIN
+   select 
+   dm.detallemenuId,
+   dm.detallemenuMenuId,
+   dm.detallemenuRolId,
+   dm.detallemenuPermiso,
+   dm.detallemenuFechacreacion,
+   dm.detallemenuEstado,
+   m.menuNombre,
+   m.menuRuta,
+   m.menuIdentificacion,
+   m.menuGrupo,
+   u.usuarioId,
+   r.rolNombre
+   from
+   detallemenu dm
+   join menu m on dm.detallemenuMenuId = m.menuId
+   join rol r on dm.detallemenuRolId = r.rolId
+   join usuario u on u.r.rolId = u.usuarioRolId
+   where u.usuario = 1
+   and dm.detallemenuPermiso = 'Si'
+   and m.menuIdentificacion = 'mntsucursal';
+END //
+DELIMITER ;

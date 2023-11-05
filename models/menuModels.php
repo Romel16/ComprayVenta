@@ -26,7 +26,7 @@
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }
-
+       
     }
 
 ?>

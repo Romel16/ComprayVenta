@@ -1,8 +1,12 @@
 <?php
 
     require_once("../../config/conexion.php");
+    require_once("../../models/rolModels.php");
+    $rol = new RolModels();
+    $datos = $rol->validar_acceso_rol($_SESSION["usuarioId"],"mntventa");
+    if (isset($_SESSION["usuarioId"])) {
+        if(is_array($datos) and count($datos)>0){
 
-    if (isset($_SESSION["usuarioId"])){
 ?>
 
 <!doctype html>
@@ -261,7 +265,10 @@
 
 </html>
 <?php
-    }else{
-        header("Location:".Conectar::ruta()."view/404/");
+        }else {
+            header("Location:".Conectar::ruta()."vistas/404/");
+        }
+    }else {
+        header("Location:".Conectar::ruta()."vistas/404/");
     }
 ?>
