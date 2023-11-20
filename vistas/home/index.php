@@ -232,7 +232,7 @@
                                                     <div class="flex-shrink-0">
                                                         <div class="text-muted">
                                                             <!-- TODO: Redirigir a ver todas las compras -->
-                                                            <a href="../ListCompra/" class="text-decoration-underline">Ver Compras</a>
+                                                            <a href="../ListaCompra/" class="text-decoration-underline">Ver Compras</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -261,7 +261,7 @@
                                                     <div class="flex-shrink-0">
                                                         <div class="text-muted">
                                                             <!-- TODO: Redirigir a ver todas las Ventas -->
-                                                            <a href="../ListVenta/" class="text-decoration-underline">Ver Ventas</a>
+                                                            <a href="../ListaVenta/" class="text-decoration-underline">Ver Ventas</a>
                                                         </div>
                                                     </div>
                                                 </div>

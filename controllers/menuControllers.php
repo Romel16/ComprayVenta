@@ -46,7 +46,7 @@ switch ($_GET["op"]) {
     /* TODO: habilitar permiso */
     case 'insert':
         $menu = new MenuModels();
-        //$menu->insert_menu_detalle_x_rolid($_POST["rolId"]);
+        $menu->insert_menu_detalle_x_rolid($_POST["rolId"]);
     break;
 }
 

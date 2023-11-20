@@ -52,9 +52,9 @@
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }        
         /*TODO: Actualizar datos de la venta a est = 1 */
-        public function update_venta($idventa,$idpago,$idmoneda,$idcliente,$ruccliente,$direccioncliente,$correocliente,$comentario) {
+        public function update_venta($idventa,$idpago,$idmoneda,$idcliente,$ruccliente,$direccioncliente,$correocliente,$comentario,$iddocumento) {
             $conectar = parent::Conexion();
-            $sql = "call spUpdateVenta(?,?,?,?,?,?,?,?)";
+            $sql = "call spUpdateVenta(?,?,?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idventa);
             $query->bindValue(2,$idpago);
@@ -64,6 +64,7 @@
             $query->bindValue(6,$direccioncliente);
             $query->bindValue(7,$correocliente);
             $query->bindValue(8,$comentario);
+            $query->bindValue(9,$iddocumento);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -85,7 +86,17 @@
             $query->bindValue(1, $idsucursal);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
-        }                                                                                                                                                                                                                            
+        }         
+        
+         /*TODO: Listado de compra top 5 por sucursalId */
+         public function getTop5Venta($idsucursal){
+            $conectar = parent::Conexion();
+            $sql = "call spTop5Ventas (?)";
+            $query = $conectar->prepare($sql);
+            $query->bindValue(1, $idsucursal);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }       
     }
 
     

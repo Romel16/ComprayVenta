@@ -31,6 +31,11 @@ $(document).ready(function() {
         $("#prov_id").html(data);
     });
 
+    $.post("../../controllers/documentoControllers.php?op=combo",{documentoTipo:"Compra"},function(data){
+        console.log(data);
+        $("#doc_id").html(data);
+    });
+
 
     $.post("../../controllers/categoriaControllers.php?op=combo",{sucursalId:suc_id},function(data){
         $("#cat_id").html(data);
@@ -261,7 +266,8 @@ $(document).on("click","#btnguardar",function(){
                     direccionProveedor:prov_direcc,
                     correoProveedor:prov_correo,
                     comentarios:compr_coment, 
-                    monedaId:mon_id
+                    monedaId:mon_id,
+                    documentoId:doc_id,
                 },function(data){
                     /* TODO:Mensaje de Sweetalert */
                     swal.fire({

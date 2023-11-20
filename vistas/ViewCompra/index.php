@@ -2,7 +2,7 @@
     require_once("../../config/conexion.php");
     require_once("../../models/rolModels.php");
     $rol = new RolModels();
-    $datos = $rol->validar_acceso_rol($_SESSION["usuarioId"],"viewcompra");
+    $datos = $rol->validar_acceso_rol($_SESSION["usuarioId"],"listacompra");
     if(isset($_SESSION["usuarioId"])){
         if(is_array($datos) and count($datos)>0){ 
 ?>

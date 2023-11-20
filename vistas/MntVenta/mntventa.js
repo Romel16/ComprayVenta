@@ -29,6 +29,10 @@ $(document).ready(function(){
     $.post("../../controllers/clienteControllers.php?op=combo",{clienteEmpresaId:emp_id},function(data){
         $("#cli_id").html(data);
     });
+    $.post("../../controllers/documentoControllers.php?op=combo",{documentoTipo:"Venta"},function(data){
+        /* console.log(data); */
+        $("#doc_id").html(data);
+    });
 
 
     $.post("../../controllers/categoriaControllers.php?op=combo",{sucursalId:suc_id},function(data){
@@ -257,7 +261,7 @@ $(document).on("click","#btnguardar",function(){
                     correoCliente:cli_correo,
                     comentarios:vent_coment,
                     monedaId:mon_id,
-                    /* doc_id:doc_id */
+                    documentoId:doc_id 
                 },function(data){
 
                     swal.fire({

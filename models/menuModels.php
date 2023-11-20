@@ -10,6 +10,14 @@
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }
+        public function insert_menu_detalle_x_rolid($idrol) {
+            $conectar = parent::Conexion();
+            $sql = "call spRegistrarMenu (?)";
+            $query = $conectar->prepare($sql);
+            $query->bindValue(1,$idrol);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
         public function update_menu_habilitar($detallemenudId) {
             $conectar = parent::Conexion(); 
             $sql = "call spUpdateMenuSi (?)";

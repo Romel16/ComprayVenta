@@ -98,3 +98,22 @@ BEGIN
    and m.menuIdentificacion = 'mntsucursal';
 END //
 DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE spRegistrarMenu (
+in idrol int)
+BEGIN
+   if (select count(*) from detallemenu where detallemenuRolId = idrol) = 0 then
+		INSERT INTO detallemenu
+		(detallemenuMenuId,detallemenuRolId,detallemenuPermiso,detallemenuFechacreacion,detallemenuEstado)
+		(SELECT menuId,idrol,'No',NOW(3),1 FROM menu WHERE menuEstado=1);
+	else
+		-- SQLINES LICENSE FOR EVALUATION USE ONLY
+		INSERT INTO detallemenu
+		(detallemenuMenuId,detallemenuRolId,detallemenuPermiso,detallemenuFechacreacion,detallemenuEstado)
+		(SELECT detallemenuMenuId,idrol,'No',NOW(3),1 FROM menu WHERE menuEstado=1 AND menuId NOT IN (SELECT detallemenuMenuId FROM detallemenuId WHERE detallemenuRolId=idrol));
+   
+   end if;
+END //
+DELIMITER ;

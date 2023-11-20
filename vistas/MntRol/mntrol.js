@@ -125,6 +125,11 @@ function eliminar(rolId){
 
 function permiso(rolId) {
 
+
+    $.post("../../controllers/menuControllers.php?op=insert",{rolId:rolId},function(data){
+        //console.log(data);
+    });
+
     /*TODO: Listar informacion en el datatable js de permisos por Rol*/
     $('#permisos_data').DataTable({
         "aProcessing": true,

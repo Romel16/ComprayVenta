@@ -1,0 +1,27 @@
+<?php
+
+/*TODO: llamando clases*/
+require_once("../config/conexion.php");
+require_once("../models/documentoModels.php");
+
+/*TODO: inicializando clases */
+$documento = new DocumentoModels();
+
+switch ($_GET["op"]) {            
+    
+    /*TODO: Listar Combobox */
+    case "combo":
+        $datos = $documento->getDocumento($_POST["documentoTipo"]);                   
+        if (is_array($datos)==true and count($datos)>0) {
+            $html="";
+            $html.="<option value='0' selected>Seleccionar</option>";
+            foreach ($datos as $row) {
+                $html.="<option value='".$row["documentoId"]."'>".$row["documentoNombre"]."</option>";
+            }
+            echo $html;
+        }
+    break;
+   
+}
+
+?>

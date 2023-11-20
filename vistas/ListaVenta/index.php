@@ -38,7 +38,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Lisatado de Ventas</h4>
+                                <h4 class="mb-sm-0">Listado de Ventas</h4>
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
@@ -61,6 +61,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Nro</th>
+                                                <th>Documento</th>
                                                 <th>Ruc</th>
                                                 <th>Cliente</th>
                                                 <th>Pago</th>

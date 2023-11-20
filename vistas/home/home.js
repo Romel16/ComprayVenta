@@ -1,13 +1,15 @@
 var sucursalId = $('#sucursal').val();
-/*
-$.post("../../controller/compra.php?op=listartopproducto",{suc_id:suc_id},function(data){
+
+$.post("../../controllers/compraControllers.php?op=listartopproducto",{idsucursal:sucursalId},function(data){
     $("#listtopcompraproducto").html(data);
 });
 
-$.post("../../controller/venta.php?op=listartopproducto",{suc_id:suc_id},function(data){
+
+$.post("../../controllers/ventaControllers.php?op=listartopproducto",{idventa:sucursalId},function(data){
     $("#listtopventaproducto").html(data);
 });
 
+/*
 $.post("../../controller/compra.php?op=top5",{suc_id:suc_id},function(data){
     $("#listventatop5").html(data);
 });
@@ -19,6 +21,8 @@ $.post("../../controller/categoria.php?op=stock",{suc_id:suc_id},function(data){
 $.post("../../controller/compra.php?op=compraventa",{suc_id:suc_id},function(data){
     $("#listcompraventa").html(data);
 });
+
+listtopventaproducto
 
 $.ajax({
     url:"../../controller/compra.php?op=dountcompra",

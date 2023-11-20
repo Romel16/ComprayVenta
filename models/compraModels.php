@@ -52,9 +52,9 @@
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }        
         /*TODO: Actualizar datos de la compra a est = 1 */
-        public function update_compra($idcompra,$idpago,$idmoneda,$idproveedor,$rucproveedor,$direccionproveedor,$correoproveedor,$comentario) {
+        public function update_compra($idcompra,$idpago,$idmoneda,$idproveedor,$rucproveedor,$direccionproveedor,$correoproveedor,$comentario,$iddocumento) {
             $conectar = parent::Conexion();
-            $sql = "call spUpdateCompra(?,?,?,?,?,?,?,?)";
+            $sql = "call spUpdateCompra(?,?,?,?,?,?,?,?,?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1,$idcompra);
             $query->bindValue(2,$idpago);
@@ -64,6 +64,7 @@
             $query->bindValue(6,$direccionproveedor);
             $query->bindValue(7,$correoproveedor);
             $query->bindValue(8,$comentario);
+            $query->bindValue(9,$iddocumento);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -81,6 +82,15 @@
         public function getCompraListado($idsucursal){
             $conectar = parent::Conexion();
             $sql = "call ListCompra (?)";
+            $query = $conectar->prepare($sql);
+            $query->bindValue(1, $idsucursal);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }       
+         /*TODO: Listado de compra top 5 por sucursalId */
+        public function getTop5Compra($idsucursal){
+            $conectar = parent::Conexion();
+            $sql = "call spTop5Compra (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1, $idsucursal);
             $query->execute();
