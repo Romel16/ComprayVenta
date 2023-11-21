@@ -5,29 +5,29 @@ $.post("../../controllers/compraControllers.php?op=listartopproducto",{idsucursa
 });
 
 
-$.post("../../controllers/ventaControllers.php?op=listartopproducto",{idventa:sucursalId},function(data){
+$.post("../../controllers/ventaControllers.php?op=listartopproducto",{idsucursal:sucursalId},function(data){
     $("#listtopventaproducto").html(data);
 });
 
-/*
-$.post("../../controller/compra.php?op=top5",{suc_id:suc_id},function(data){
+$.post("../../controllers/compraControllers.php?op=top5",{idsucursal:sucursalId},function(data){
     $("#listventatop5").html(data);
 });
 
-$.post("../../controller/categoria.php?op=stock",{suc_id:suc_id},function(data){
+$.post("../../controllers/categoriaControllers.php?op=stock",{idsucursal:sucursalId},function(data){
     $("#listcategoriastock").html(data);
 });
 
-$.post("../../controller/compra.php?op=compraventa",{suc_id:suc_id},function(data){
+$.post("../../controllers/compraControllers.php?op=compraventa",{idsucursal:sucursalId},function(data){
     $("#listcompraventa").html(data);
 });
 
 listtopventaproducto
 
+
 $.ajax({
-    url:"../../controller/compra.php?op=dountcompra",
+    url:"../../controllers/compraControllers.php?op=dountcompra",
     method: "POST",
-    data: {suc_id:suc_id},
+    data: {idsucursal:sucursalId},
     success: function(data){
 
         data=JSON.parse(data);
@@ -35,8 +35,8 @@ $.ajax({
         var categoria=[];
         var cantidad=[];
         for (var i in data){
-            categoria.push(data[i].CAT_NOM);
-            cantidad.push(data[i].CANT);
+            categoria.push(data[i].categoriaNombre);
+            cantidad.push(data[i].cantidad);
         }
 
         var isdoughnutchart = document.getElementById("grafdona");
@@ -62,10 +62,11 @@ $.ajax({
     }
 });
 
+/*
 $.ajax({
     url:"../../controller/compra.php?op=barras",
     method: "POST",
-    data: {suc_id:suc_id},
+    data: {suc_id:sucursalId},
     success: function(data){
 
         data=JSON.parse(data);
@@ -110,7 +111,7 @@ $.ajax({
 $.ajax({
     url:"../../controller/venta.php?op=barras",
     method: "POST",
-    data: {suc_id:suc_id},
+    data: {suc_id:sucursalId},
     success: function(data){
 
         data=JSON.parse(data);

@@ -262,6 +262,101 @@ switch ($_GET["op"]) {
         <?php
         }
         break;
+
+
+        /* TODO: Mostrar TOP 5 ultimas compras */
+    case "top5":
+        $datos = $compra->getComprasRecientes($_POST["idsucursal"]);
+        foreach ($datos as $row) {
+        ?>
+            <tr>
+                <td>
+                    C-<?php echo $row["compraId"]; ?>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-2">
+                            <?php
+                            if ($row["usuarioImagen"] != '') {
+                            ?>
+                                <?php
+                                echo "<img src='../../assets/usuario/" . $row["usuarioImagen"] . "' alt='' class='avatar-xs rounded-circle' />";
+                                ?>
+                            <?php
+                            } else {
+                            ?>
+                                <?php
+                                echo "<img src='../../assets/usuario/no_imagen.png' alt='' class='avatar-xs rounded-circle' />";
+                                ?>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                        <div class="flex-grow-1"><?php echo $row["usuarioNombre"]; ?> <?php echo $row["usuarioApellido"]; ?></div>
+                    </div>
+                </td>
+                <td><?php echo $row["proveedorNombre"]; ?></td>
+                <td><?php echo $row["monedaNombre"]; ?></td>
+                <td><?php echo $row["compraSubTotal"]; ?></td>
+                <td><?php echo $row["compraIgv"]; ?></td>
+                <td><?php echo $row["compraTotal"]; ?></td>
+            </tr>
+        <?php
+        }
+    break;
+
+     /* TODO: Listado de actividades recientes para dashboard */
+     case "compraventa":
+        $datos=$compra->getComprasVentas($_POST["idsucursal"]);
+        foreach($datos as $row){
+            ?>
+                <div class="acitivity-item py-3 d-flex">
+                    <div class="flex-shrink-0 avatar-xs acitivity-avatar">
+                        <?php
+                            if ($row["Registro"] == 'Compra'){
+                                ?>
+                                    <div class="avatar-title bg-soft-success text-success rounded-circle">
+                                        <i class="ri-shopping-cart-2-line"></i>
+                                    </div>
+                                <?php
+                            }else{
+                                ?>
+                                    <div class="avatar-title bg-soft-danger text-danger rounded-circle">
+                                        <i class="ri-stack-fill"></i>
+                                    </div>
+                                <?php
+                            }
+                        ?>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1 lh-base"><?php echo $row["Registro"];?> - <?php echo $row["documentoNombre"];?></h6>
+                        <p class="text-muted mb-1"><?php echo $row["proveedorNombre"];?> </p>
+                        <small class="mb-0 text-muted"><?php echo $row["fechaCreacion"];?></small>
+                    </div>
+                </div>
+            <?php
+        }
+        break;
+    /* TODO: consumo de compras por categoria para Donut del dashboard */
+    case "dountcompra":
+        $datos=$compra->getComprasporCategoria($_POST["idsucursal"]);
+        $data = array();
+        foreach($datos as $row){
+            $data[]=$row;
+        }
+        echo json_encode($data);
+    break; 
+
+    /* case "barras":
+        $datos=$compra->get_compra_barras($_POST["suc_id"]);
+        $data = array();
+        foreach($datos as $row){
+            $data[]=$row;
+        }
+        echo json_encode($data);
+        break; */
+
+
 }
 
 

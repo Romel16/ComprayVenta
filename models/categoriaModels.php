@@ -47,6 +47,15 @@
             $query->bindValue(3,$nombrecategoria);
             $query->execute();
         }        
+        /*TODO:Mostrar total producto x Categoria*/
+        public function StockProductoxCategoria($idsucursal){
+            $conectar = parent::Conexion();
+            $sql = "call spStockporCategoria (?)";
+            $query = $conectar->prepare($sql);
+            $query->bindValue(1,$idsucursal);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }        
 
     }
 

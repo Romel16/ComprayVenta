@@ -212,7 +212,7 @@ switch ($_GET["op"]) {
 
         /* TODO: Formato compra top 5 para la vista por sucursal */
     case "listartopproducto";
-        $datos = $venta->getTop5Venta($_POST["idventa"]);
+        $datos = $venta->getTop5Venta($_POST["idsucursal"]);
         foreach ($datos as $row) {
         ?>
             <tr>

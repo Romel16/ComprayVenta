@@ -72,6 +72,17 @@ switch ($_GET["op"]) {
             echo $html;
         }
     break;
+    /*TODO: Listar Producto x Categoria */
+    case "stock":
+        $datos = $categoria->StockProductoxCategoria($_POST["idsucursal"]);
+        foreach($datos as $row){
+            ?>
+                <li class="py-1">
+                    <a href="#" class="text-muted"><?php echo $row["categoriaNombre"];?> <span class="float-end">(<?php echo $row["stock"];?>)</span></a>
+                </li>
+            <?php
+        }
+    break;
    
 }
 
