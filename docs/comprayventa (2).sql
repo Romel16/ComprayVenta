@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-10-2023 a las 22:11:43
+-- Tiempo de generación: 22-11-2023 a las 22:19:54
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -39,6 +39,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListCompra` (IN `idSucursal` INT)  
  c.compraMonedaId,   
  c.compraFechaCreacion,   
  c.compraEstado,   
+ d.documentoNombre,
  s.sucursalNombre,   
  e.empresaNombre,   
  e.empresaRuc,   
@@ -52,11 +53,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListCompra` (IN `idSucursal` INT)  
  u.usuarioApellido,   
  u.usuarioDni,   
  u.usuarioTelefono,   
+ u.usuarioImagen,
  r.rolNombre,   
  p.pagoNombre,   
  m.monedaNombre,  
  prov.proveedorRuc,
- prov.proveedorNombre
+ prov.proveedorNombre,
+ d.documentoNombre
  FROM              
  compra c JOIN  
  sucursal s ON c.compraSucursalId = s.sucursalId JOIN  
@@ -66,7 +69,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListCompra` (IN `idSucursal` INT)  
  rol r ON u.usuarioRolId = r.rolId  JOIN  
  pago p ON c.compraPagoId = p.pagoId  JOIN  
  moneda m ON c.compraMonedaId = m.monedaId  JOIN  
- proveedor prov ON c.compraProveedorId =  prov.proveedorId  
+ proveedor prov ON c.compraProveedorId =  prov.proveedorId  join
+ documento d on d.documentoId = c.compraDocumentoId
  WHERE  
  c.compraEstado=1  
  AND c.compraSucursalId = idSucursal ;
@@ -98,12 +102,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListVenta` (IN `idSucursal` INT)   
  u.usuarioNombre,   
  u.usuarioApellido,   
  u.usuarioDni,   
- u.usuarioTelefono,   
+ u.usuarioTelefono, 
+ u.usuarioImagen,
  r.rolNombre,   
  p.pagoNombre,   
  m.monedaNombre,  
  c.clienteRuc,
- c.clienteNombre
+ c.clienteNombre,
+ d.documentoNombre
  FROM              
  venta v JOIN  
  sucursal s ON v.ventaSucursalId = s.sucursalId JOIN  
@@ -113,7 +119,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListVenta` (IN `idSucursal` INT)   
  rol r ON u.usuarioRolId = r.rolId  JOIN  
  pago p ON v.ventaPagoId = p.pagoId  JOIN  
  moneda m ON v.ventaMonedaId = m.monedaId  JOIN  
- cliente c on v.ventaClienteId = c.clienteId
+ cliente c on v.ventaClienteId = c.clienteId join 
+ documento d on v.ventaDocumentoId = d.documentoId
  WHERE  
  v.ventaEstado=1  
  and v.ventaSucursalId = idSucursal ;
@@ -122,20 +129,12 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setViewBuys` (IN `idCompra` INT)   BEGIN
 	SELECT          
  c.compraId,   
- c.compraSucursalId,   
- c.compraPagoId,   
- c.compraProveedorId,   
- c.compraProveedorRuc,   
- c.compraProveedorDireccion,   
- c.compraProveedorCorreo,  	
+	
  c.compraSubTotal,   
  c.compraIgv,   
  c.compraTotal,   
- c.compraComentario,   
- c.compraUsuarioId,   
- c.compraMonedaId,   
- c.compraFechaCreacion,   
- c.compraEstado,   
+ c.compraComentario,  
+ date_format(c.compraFechaCreacion,"%d-%m-%y") as compraFechaCreacion,   
  s.sucursalNombre,   
  e.empresaNombre,   
  e.empresaRuc,   
@@ -144,15 +143,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setViewBuys` (IN `idCompra` INT)   
  e.empresaDireccion,   
  e.empresaPagina,   
  comp.companiaNombre,   
- u.usuarioCorreo,   
  u.usuarioNombre,   
  u.usuarioApellido,   
- u.usuarioDni,   
- u.usuarioTelefono,   
- r.rolNombre,   
  p.pagoNombre,   
  m.monedaNombre,  
- prov.proveedorNombre
+ r.rolNombre,
+ prov.proveedorNombre,
+ prov.proveedorDireccion,
+ prov.proveedorRuc,
+ prov.proveedorCorreo
  FROM              
  compra c JOIN  
  sucursal s ON c.compraSucursalId = s.sucursalId JOIN  
@@ -169,39 +168,35 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setViewBuys` (IN `idCompra` INT)   
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setViewSales` (IN `idVenta` INT)   BEGIN
-	SELECT          
- v.ventaId,   
- v.ventaSucursalId,   
- v.ventaPagoId,   
- v.ventaClienteId,   
- v.ventaClienteRuc,   
- v.ventaClienteDireccion,   
- v.ventaClienteCorreo,  	
- v.ventaSubTotal,   
- v.ventaIgv,   
- v.ventaTotal,   
- v.ventaComentario,   
- v.ventaUsuarioId,   
- v.ventaMonedaId,   
- v.ventaFechaCreacion,   
- v.ventaEstado,   
- s.sucursalNombre,   
- e.empresaNombre,   
- e.empresaRuc,   
- e.empresaCorreo,   
- e.empresaTelefono,   
- e.empresaDireccion,   
- e.empresaPagina,   
- comp.companiaNombre,   
- u.usuarioCorreo,   
- u.usuarioNombre,   
- u.usuarioApellido,   
- u.usuarioDni,   
- u.usuarioTelefono,   
- r.rolNombre,   
- p.pagoNombre,   
- m.monedaNombre,  
- c.clienteNombre
+	SELECT       
+ e.empresaNombre,
+ e.empresaRuc,
+ e.empresaCorreo,
+ e.empresaPagina,
+ e.empresaTelefono,
+ e.empresaDireccion,
+ 
+ v.ventaId,
+date_format(v.ventaFechaCreacion,"%d-%m-%y") as ventaFechaCreacion,   
+p.pagoNombre,
+v.ventaTotal,
+v.ventaSubTotal,
+v.ventaIgv,
+v.ventaComentario,
+
+c.clienteNombre,
+c.clienteRuc,
+c.clienteDireccion,
+c.clienteCorreo,
+
+u.usuarioNombre,
+u.usuarioApellido,
+
+comp.companiaNombre,
+m.monedaNombre,
+r.rolNombre
+
+
  FROM              
  venta v JOIN  
  sucursal s ON v.ventaSucursalId = s.sucursalId JOIN  
@@ -231,6 +226,86 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spCambioContrasena` (IN `idUsuario`
 		usuarioPassword = passwordUsuario
     where
 		usuarioId = idUsuario$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spCompraRecientes` (IN `idSucursal` INT)   BEGIN
+select
+   c.compraId,   
+ c.compraSucursalId,   
+ c.compraPagoId,   
+ c.compraProveedorId,   
+ c.compraSubTotal,   
+ c.compraIgv,   
+ c.compraTotal,   
+ c.compraComentario,   
+ c.compraUsuarioId,   
+ c.compraMonedaId,   
+ c.compraFechaCreacion,   
+ c.compraEstado,   
+ d.documentoNombre,
+ s.sucursalNombre,   
+ e.empresaNombre,   
+ e.empresaRuc,   
+ e.empresaCorreo,   
+ e.empresaTelefono,   
+ e.empresaDireccion,   
+ e.empresaPagina,   
+ comp.companiaNombre,   
+ u.usuarioCorreo,   
+ u.usuarioNombre,   
+ u.usuarioApellido,   
+ u.usuarioDni,   
+ u.usuarioTelefono,   
+ u.usuarioImagen,
+ r.rolNombre,   
+ p.pagoNombre,   
+ m.monedaNombre,  
+ prov.proveedorRuc,
+ prov.proveedorNombre,
+ d.documentoNombre
+ FROM              
+ compra c JOIN  
+ sucursal s ON c.compraSucursalId = s.sucursalId JOIN  
+ empresa e ON s.sucursalEmpresaId = e.empresaId  JOIN  
+ compania comp ON e.empresaCompaniaId = comp.companiaId JOIN  
+ usuario u ON c.compraUsuarioId = u.usuarioId  JOIN  
+ rol r ON u.usuarioRolId = r.rolId  JOIN  
+ pago p ON c.compraPagoId = p.pagoId  JOIN  
+ moneda m ON c.compraMonedaId = m.monedaId  JOIN  
+ proveedor prov ON c.compraProveedorId =  prov.proveedorId  join
+ documento d on d.documentoId = c.compraDocumentoId
+ WHERE  
+ c.compraEstado=1  
+ AND c.compraSucursalId = idSucursal 
+ ORDER BY compraId DESC
+ LIMIT 6; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spComprasBarra` (IN `idSucursal` INT)   BEGIN
+	select  
+ date_format(compraFechaCreacion, '%d/%m/%Y') as fechaCreacion,   
+ sum(compraTotal) as compraTotal   
+FROM              
+ compra 
+ WHERE  
+ compraEstado=1 
+ and compraSucursalId = idSucursal
+ group by fechaCreacion ;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spComprasCategoria` (IN `idSucursal` INT)   BEGIN
+	select 
+cat.categoriaNombre,
+sum(dc.detallecompraCantidad) as cantidad
+from compra c join
+detallecompra dc on dc.detallecompraCompraId = c.compraId join
+producto p on dc.detallecompraProductoId = p.productoId join
+categoria cat on cat.categoriaId = p.productoCategoriaId
+where 
+	c.compraEstado = 1    
+    and c.compraSucursalId = idSucursal    
+group by cat.categoriaNombre
+order by cantidad desc;
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spEliminarCategoria` (IN `idCategoria` INT)   update
  categoria 
@@ -360,8 +435,116 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarCompaniaporId` (IN `idCompa
 	 companiaId = idCompania
      and companiaEstado=1$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarCompraVenta` (IN `idSucursal` INT)   BEGIN
+	select * from 
+(
+SELECT          
+ c.compraId,   
+ c.compraSucursalId,   
+ c.compraPagoId,   
+ c.compraProveedorId,   
+ c.compraSubTotal,   
+ c.compraIgv,   
+ c.compraTotal,   
+ c.compraComentario,   
+ c.compraUsuarioId,   
+ c.compraMonedaId,   
+ date_format(c.compraFechaCreacion, '%d/%m/%Y') as fechaCreacion,   
+ c.compraEstado,   
+ s.sucursalNombre,   
+ e.empresaNombre,   
+ e.empresaRuc,   
+ e.empresaCorreo,   
+ e.empresaTelefono,   
+ e.empresaDireccion,   
+ e.empresaPagina,   
+ comp.companiaNombre,   
+ u.usuarioCorreo,   
+ u.usuarioNombre,   
+ u.usuarioApellido,   
+ u.usuarioDni,   
+ u.usuarioTelefono,   
+ u.usuarioImagen,
+ r.rolNombre,   
+ p.pagoNombre,   
+ m.monedaNombre,  
+ prov.proveedorRuc,
+ prov.proveedorNombre,
+ d.documentoNombre,
+ 'Compra' as Registro
+ FROM              
+ compra c JOIN  
+ sucursal s ON c.compraSucursalId = s.sucursalId JOIN  
+ empresa e ON s.sucursalEmpresaId = e.empresaId  JOIN  
+ compania comp ON e.empresaCompaniaId = comp.companiaId JOIN  
+ usuario u ON c.compraUsuarioId = u.usuarioId  JOIN  
+ rol r ON u.usuarioRolId = r.rolId  JOIN  
+ pago p ON c.compraPagoId = p.pagoId  JOIN  
+ moneda m ON c.compraMonedaId = m.monedaId  JOIN  
+ proveedor prov ON c.compraProveedorId =  prov.proveedorId  join
+ documento d on d.documentoId = c.compraDocumentoId
+ WHERE  
+ c.compraEstado=1  
+ AND c.compraSucursalId = idSucursal
+ 
+ Union all
+ 
+  SELECT          
+ v.ventaId,   
+ v.ventaSucursalId,   
+ v.ventaPagoId,   
+ v.ventaClienteId,   
+ v.ventaSubTotal,   
+ v.ventaIgv,   
+ v.ventaTotal,   
+ v.ventaComentario,   
+ v.ventaUsuarioId,   
+ v.ventaMonedaId,   
+ date_format(v.ventaFechaCreacion,'%d/%m/%Y') as fechaCreacion,   
+ v.ventaEstado,   
+ s.sucursalNombre,   
+ e.empresaNombre,   
+ e.empresaRuc,   
+ e.empresaCorreo,   
+ e.empresaTelefono,   
+ e.empresaDireccion,   
+ e.empresaPagina,   
+ comp.companiaNombre,   
+ u.usuarioCorreo,   
+ u.usuarioNombre,   
+ u.usuarioApellido,   
+ u.usuarioDni,   
+ u.usuarioTelefono, 
+ u.usuarioImagen,
+ r.rolNombre,   
+ p.pagoNombre,   
+ m.monedaNombre,  
+ c.clienteRuc,
+ c.clienteNombre,
+ d.documentoNombre,
+ 'Venta' as Registro
+ FROM              
+ venta v JOIN  
+ sucursal s ON v.ventaSucursalId = s.sucursalId JOIN  
+ empresa e ON s.sucursalEmpresaId = e.empresaId  JOIN  
+ compania comp ON e.empresaCompaniaId = comp.companiaId JOIN  
+ usuario u ON v.ventaUsuarioId = u.usuarioId  JOIN  
+ rol r ON u.usuarioRolId = r.rolId  JOIN  
+ pago p ON v.ventaPagoId = p.pagoId  JOIN  
+ moneda m ON v.ventaMonedaId = m.monedaId  JOIN  
+ cliente c on v.ventaClienteId = c.clienteId join 
+ documento d on v.ventaDocumentoId = d.documentoId
+ WHERE  
+ v.ventaEstado=1  
+ and v.ventaSucursalId = idSucursal
+ ) tabla
+ order by fechaCreacion desc
+ limit 20;
+ 
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarDetalleCompra` (IN `idCompra` INT)   BEGIN
-   select dc.detallecompraId, c.categoriaNombre, p.productoNombre, u.unidadNombre, dc.detallecompraProductoPrecioCompra,
+   select dc.detallecompraId, c.categoriaNombre, p.productoNombre,p.productoImagen ,u.unidadNombre, dc.detallecompraProductoPrecioCompra,
 dc.detallecompraCantidad, dc.detallecompraTotal, dc.detallecompraCompraId, dc.detallecompraProductoId
 from detallecompra dc
 join producto p on dc.detallecompraProductoId = p.productoId
@@ -373,8 +556,17 @@ and dc.detallecompraEstado = 1;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarDetalleVenta` (IN `idVenta` INT)   BEGIN
-select dv.detalleventaId, c.categoriaNombre, p.productoNombre, u.unidadNombre, dv.detalleventaProductoPrecioVenta,
-dv.detalleventaCantidad, dv.detalleventaTotal, dv.detalleventaVentaId, dv.detalleventaProductoId
+select 
+dv.detalleventaId, 
+c.categoriaNombre, 
+p.productoNombre,
+p.productoImagen ,
+u.unidadNombre, 
+dv.detalleventaProductoPrecioVenta,
+dv.detalleventaCantidad, 
+dv.detalleventaTotal, 
+dv.detalleventaVentaId,
+ dv.detalleventaProductoId
 from detalleventa dv
 join producto p on dv.detalleventaProductoId = p.productoId
 join categoria c on p.productoCategoriaId = c.categoriaId
@@ -382,6 +574,12 @@ join unidad u on p.productoUnidadId = u.unidadId
 where dv.detalleventaVentaId = idVenta
 and dv.detalleventaEstado = 1;
 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarDocumento` (IN `tipoDocumento` VARCHAR(150))   BEGIN
+  Select *from documento
+  where documentoEstado=1
+  and documentoTipo = tipoDocumento;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarEmpresa` (`IdCompania` INT)   SELECT * FROM 
@@ -401,6 +599,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarLogin` (IN `idUsuarioSucurs
 u.usuarioId,
 u.usuarioSucursalId, 
 u.usuarioRolId,
+u.usuarioImagen,																																																																																																																																																																																																																																																																																																																																																								
 u.usuarioCorreo,
 u.usuarioNombre,
 u.usuarioApellido,
@@ -434,6 +633,30 @@ FROM
     inner join menu m on dm.detallemenuMenuId = m.menuId
 WHERE  
 	 dm.detallemenuRolId = idRolMenuDetalle$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarMenuAcceso` (IN `idusuario` INT, `identificacionMenu` VARCHAR(250))   BEGIN
+   select 
+   dm.detallemenuId,
+   dm.detallemenuMenuId,
+   dm.detallemenuRolId,
+   dm.detallemenuPermiso,
+   dm.detallemenuFechacreacion,
+   dm.detallemenuEstado,
+   m.menuNombre,
+   m.menuRuta,
+   m.menuIdentificacion,
+   m.menuGrupo,
+   u.usuarioId,
+   r.rolNombre
+   from
+   detallemenu dm
+   join menu m on dm.detallemenuMenuId = m.menuId
+   join rol r on dm.detallemenuRolId = r.rolId
+   join usuario u on r.rolId = u.usuarioRolId
+   where u.usuarioId = idusuario
+   and dm.detallemenuPermiso = 'Si'
+   and m.menuIdentificacion = identificacionMenu;
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarMoneda` (IN `idMonedaSucursal` INT)   SELECT monedaId,monedaSucursalId, monedaNombre,date_format(monedaFechaCreacion,"%d-%m-%y") as monedaFechaCreacion,
 	monedaEstado
@@ -503,7 +726,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarProductoporId` (IN `idProdu
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarProveedor` (IN `idProveedorEmpresa` INT)   SELECT proveedorId, proveedorNombre, proveedorRuc, proveedorTelefono, proveedorDireccion,
 proveedorCorreo,
- date_format(proveedorFechaCreacion,"%d-%m-%y") as proveedorFechaCreacion, proveedorEstado
+ date_format(proveedorFechaCreacion,"%d-%m-%y") as proveedorFechaCreacion
  FROM 
 	proveedor  
  WHERE  
@@ -563,15 +786,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarUnidadporId` (IN `idUnidad`
      and unidadEstado=1$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarUsuario` (IN `idUsuarioSucursal` INT)   SELECT u.usuarioId, u.usuarioSucursalId,u.usuarioCorreo,u.usuarioNombre, u.usuarioApellido, 
-	u.usuarioDni, u.usuarioTelefono, u.usuarioPassword, u.usuarioRolId,
+	u.usuarioDni, u.usuarioTelefono, u.usuarioPassword, u.usuarioImagen,u.usuarioRolId,
      date_format(u.usuarioFechaCreacion,"%d-%m-%y") as usuarioFechaCreacion,
      u.usuarioEstado, r.rolNombre
  FROM 
 	usuario  u
     join rol r on r.rolId = u.usuarioRolId
- WHERE  
+WHERE  
 	 usuarioSucursalId = idUsuarioSucursal
-     and usuarioEstado=1$$
+     and usuarioEstado=1 
+order by usuarioId desc$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarUsuarioporId` (IN `idUsuario` INT)   SELECT *
  FROM 
@@ -579,6 +803,34 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spListarUsuarioporId` (IN `idUsuari
  WHERE  
 	 usuarioId = idUsuario
      and usuarioEstado=1$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spProductoConsumo` (IN `idProducto` INT)   BEGIN
+	select  * from
+(select c.compraId,date_format(c.compraFechaCreacion,'%d/%m/%Y') as fechaCreacion, dc.detallecompraCantidad, dc.detallecompraProductoId,
+doc.documentoNombre, 'Compra' as Registro
+from 
+compra c join
+detallecompra dc on dc.detallecompraCompraId = c.compraId join
+documento doc on doc.documentoId = c.compraDocumentoId
+where
+c.compraEstado=1
+and dc.detallecompraProductoId = idProducto
+
+union all
+
+select v.ventaId,date_format(v.ventaFechaCreacion, '%d/%m/%Y') as fechaCreacion, dv.detalleventaCantidad, dv.detalleventaProductoId,
+doc.documentoNombre, 'Venta' as Registro
+from 
+venta v join
+detalleventa dv on dv.detalleventaVentaId = v.ventaId join
+documento doc on doc.documentoId = v.ventaDocumentoId
+where
+v.ventaEstado=1
+and dv.detalleventaProductoId = idProducto
+)
+tabla 
+order by fechaCreacion desc;
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spRegistrarCategoria` (IN `idCategoriaSucursal` INT, `nombreCategoria` VARCHAR(150))   insert into categoria 
  (categoriaSucursalId,categoriaNombre,categoriaFechaCreacion,categoriaEstado) 
@@ -620,6 +872,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spRegistrarEmpresa` (IN `idCompania
  values  
 	 (idCompaniaEmpresa,nombreEmpresa,rucEmpresa,now(),1)$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spRegistrarMenu` (IN `idrol` INT)   BEGIN
+   if (select count(*) from detallemenu where detallemenuRolId = idrol) = 0 then
+		INSERT INTO detallemenu
+		(detallemenuMenuId,detallemenuRolId,detallemenuPermiso,detallemenuFechacreacion,detallemenuEstado)
+		(SELECT menuId,idrol,'No',NOW(3),1 FROM menu WHERE menuEstado=1);
+	else
+		-- SQLINES LICENSE FOR EVALUATION USE ONLY
+		INSERT INTO detallemenu
+		(detallemenuMenuId,detallemenuRolId,detallemenuPermiso,detallemenuFechacreacion,detallemenuEstado)
+		(SELECT detallemenuMenuId,idrol,'No',NOW(3),1 FROM menu WHERE menuEstado=1 AND menuId NOT IN (SELECT detallemenuMenuId FROM detallemenuId WHERE detallemenuRolId=idrol));
+   
+   end if;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spRegistrarMoneda` (IN `idMonedaSucursal` INT, `nombreMoneda` VARCHAR(150))   insert into moneda 
  (monedaSucursalId,monedaNombre,monedaFechaCreacion,monedaEstado) 
  values  
@@ -650,10 +916,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spRegistrarUnidad` (IN `idUnidadSuc
  values  
 	 (idUnidadSucursal,nombreUnidad,now(),1)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spRegistrarUsuario` (IN `idUsuarioSucursal` INT, `idUsuarioRol` INT, `correoUsuario` VARCHAR(150), `nombreUsuario` VARCHAR(150), `apellidoUsuario` VARCHAR(150), `dniUsuario` VARCHAR(30), `telefonoUsuario` VARCHAR(13), `passwordUsuario` VARCHAR(150))   insert into usuario 
- (usuarioSucursalId,usuarioRolId,usuarioCorreo,usuarioNombre,usuarioApellido,usuarioDni,usuarioTelefono,usuarioPassword,usuarioFechaCreacion,usuarioEstado) 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spRegistrarUsuario` (IN `idUsuarioSucursal` INT, `idUsuarioRol` INT, `correoUsuario` VARCHAR(150), `nombreUsuario` VARCHAR(150), `apellidoUsuario` VARCHAR(150), `dniUsuario` VARCHAR(30), `telefonoUsuario` VARCHAR(13), `passwordUsuario` VARCHAR(150), `imagenUsuario` LONGTEXT)   insert into usuario 
+ (usuarioSucursalId,usuarioRolId,usuarioCorreo,usuarioNombre,usuarioApellido,usuarioDni,usuarioTelefono,usuarioPassword,usuarioImagen,usuarioFechaCreacion,usuarioEstado) 
  values  
-	 (idUsuarioSucursal,idUsuarioRol,correoUsuario,nombreUsuario,apellidoUsuario,dniUsuario,telefonoUsuario,passwordUsuario,now(),1)$$
+	 (idUsuarioSucursal,idUsuarioRol,correoUsuario,nombreUsuario,apellidoUsuario,dniUsuario,telefonoUsuario,passwordUsuario,imagenUsuario,now(),1)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spRegistrarVenta` (IN `idVentaSucursal` INT, IN `idUsuario` INT)   BEGIN
     -- Insertar un nuevo venta en la tabla 'detalleventa'
@@ -661,6 +927,86 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spRegistrarVenta` (IN `idVentaSucur
     VALUES (idVentaSucursal, idUsuario,2);
     
     select ventaId from venta where ventaId = @@Identity;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spStockporCategoria` (IN `idSucursal` INT)   BEGIN
+	select c.categoriaId, c.categoriaNombre, 
+sum(p.productoStock) as stock
+from categoria c join
+producto p on p.productoCategoriaId = c.categoriaId 
+where categoriaSucursalId = idSucursal
+and p.productoEstado = 1
+and c.categoriaEstado = 1
+ group by c.categoriaId, c.categoriaNombre
+ order by stock desc;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spTop5Compra` (IN `idSucursal` INT)   BEGIN
+ select
+detallecompraProductoId, 
+sum(detallecompraCantidad) as cantidad,
+p.productoNombre,
+p.productoPrecioCompra,
+p.productoStock,
+p.productoImagen,
+c.categoriaNombre,
+u.unidadNombre,
+m.monedaNombre,
+sum(comp.compraTotal) as total
+from detallecompra dc join
+producto p on dc.detallecompraProductoId = p.productoId join
+categoria c on p.productoCategoriaId = c.categoriaId join
+unidad u on u.unidadId = p.productoUnidadId join
+compra comp on comp.compraId = dc.detallecompraCompraId join
+moneda m on comp.compraMonedaId =  m.monedaId
+where compraEstado = 1
+and p.productoEstado = 1
+and comp.compraSucursalId = idSucursal
+group by 
+dc.detallecompraProductoId, 
+p.productoNombre, 
+p.productoPrecioCompra,
+p.productoStock,
+p.productoImagen,
+c.categoriaNombre,
+u.unidadNombre,
+m.monedaNombre
+order by cantidad desc
+LIMIT 6;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spTop5Ventas` (IN `idSucursal` INT)   BEGIN
+  select
+detalleventaProductoId, 
+sum(detalleventaCantidad) as cantidad,
+p.productoNombre,
+p.productoPrecioVenta,
+p.productoStock,
+p.productoImagen,
+c.categoriaNombre,
+u.unidadNombre,
+m.monedaNombre,
+sum(v.ventaTotal) as total
+from detalleventa dv join
+producto p on dv.detalleventaProductoId = p.productoId join
+categoria c on p.productoCategoriaId = c.categoriaId join
+unidad u on u.unidadId = p.productoUnidadId join
+venta v on v.ventaId = dv.detalleventaVentaId join
+moneda m on m.monedaId = v.ventaMonedaId
+where ventaEstado = 1
+and p.productoEstado = 1
+and v.ventaSucursalId = idSucursal
+group by 
+dv.detalleventaProductoId, 
+p.productoNombre, 
+p.productoPrecioVenta,
+p.productoStock,
+p.productoImagen,
+c.categoriaNombre,
+u.unidadNombre
+order by cantidad desc
+LIMIT 6;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateCategoria` (IN `idCategoria` INT, `idCategoriaSucursal` INT, `nombreCategoria` VARCHAR(150))   update categoria
@@ -687,7 +1033,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateCompania` (IN `idCompania` 
 	where
 		companiaId = idCompania$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateCompra` (IN `idCompra` INT, IN `idPago` INT, IN `idProveedor` INT, IN `rucProveedor` VARCHAR(50), IN `direccionProveedor` VARCHAR(150), IN `correoProveedor` VARCHAR(150), IN `comentarioCompra` VARCHAR(250), IN `idMoneda` INT)   BEGIN    
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateCompra` (IN `idCompra` INT, IN `idPago` INT, IN `idProveedor` INT, IN `rucProveedor` VARCHAR(50), IN `direccionProveedor` VARCHAR(150), IN `correoProveedor` VARCHAR(150), IN `comentarioCompra` VARCHAR(250), IN `idMoneda` INT, IN `idDocumento` INT)   BEGIN    
 	DECLARE NOT_FOUND INT DEFAULT 0;
     DECLARE idRegistro INT;
     DECLARE idProducto INT;
@@ -700,6 +1046,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateCompra` (IN `idCompra` INT,
    set 
 	compraPagoId = idPago,    
     compraMonedaId = idMoneda,
+    compraDocumentoId = idDocumento,
     compraProveedorId = idProveedor,
     compraProveedorRuc  = rucProveedor,
     compraProveedorDireccion = direccionProveedor,
@@ -844,7 +1191,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateUsuario` (IN `idUsuario` IN
 	where
 		usuarioId = idUsuario$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateVenta` (IN `idVenta` INT, IN `idPago` INT, IN `idCliente` INT, IN `rucCliente` VARCHAR(50), IN `direccionCliente` VARCHAR(150), IN `correoCliente` VARCHAR(150), IN `comentarioVenta` VARCHAR(250), IN `idMoneda` INT)   BEGIN    
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateVenta` (IN `idVenta` INT, IN `idPago` INT, IN `idCliente` INT, IN `rucCliente` VARCHAR(50), IN `direccionCliente` VARCHAR(150), IN `correoCliente` VARCHAR(150), IN `comentarioVenta` VARCHAR(250), IN `idMoneda` INT, IN `idDocumento` INT)   BEGIN    
 	DECLARE NOT_FOUND INT DEFAULT 0;
     DECLARE idRegistro INT;
     DECLARE idProducto INT;
@@ -857,6 +1204,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateVenta` (IN `idVenta` INT, I
    set 
 	ventaPagoId = idPago,    
     ventaMonedaId = idMoneda,
+    ventaDocumentoId = idDocumento,
     ventaClienteId = idCliente,
     ventaClienteRuc  = rucCliente,
     ventaClienteDireccion = direccionCliente,
@@ -886,6 +1234,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spUpdateVenta` (IN `idVenta` INT, I
         FETCH NEXT FROM CUR INTO idRegistro;
     END WHILE;    
     CLOSE CUR;    
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spVentasBarra` (IN `idSucursal` INT)   BEGIN
+	select  
+ date_format(ventaFechaCreacion, '%d/%m/%Y') as fechaCreacion,   
+ sum(ventaTotal) as ventaTotal   
+FROM              
+ venta 
+ WHERE  
+ ventaEstado=1 
+ and ventaSucursalId = idSucursal
+ group by fechaCreacion ;
 END$$
 
 DELIMITER ;
@@ -1015,6 +1375,7 @@ CREATE TABLE `compra` (
   `compraComentario` varchar(250) DEFAULT NULL,
   `compraUsuarioId` int(11) DEFAULT NULL,
   `compraMonedaId` int(11) DEFAULT NULL,
+  `compraDocumentoId` int(11) DEFAULT NULL,
   `compraFechaCreacion` datetime DEFAULT NULL,
   `compraEstado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1023,12 +1384,27 @@ CREATE TABLE `compra` (
 -- Volcado de datos para la tabla `compra`
 --
 
-INSERT INTO `compra` (`compraId`, `compraSucursalId`, `compraPagoId`, `compraProveedorId`, `compraProveedorRuc`, `compraProveedorDireccion`, `compraProveedorCorreo`, `compraSubTotal`, `compraIgv`, `compraTotal`, `compraComentario`, `compraUsuarioId`, `compraMonedaId`, `compraFechaCreacion`, `compraEstado`) VALUES
-(1, 13, 3, 1, '1', 'sin numero', 'prov@gmail.com', 19.20, 3.46, 22.66, '', 5, 2, '2023-10-12 22:48:23', 1),
-(2, 13, 2, 2, '11', 'sin numero1', 'prov21@gmail.com', 52.00, 9.36, 61.36, '', 5, 8, '2023-10-12 22:49:15', 1),
-(3, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, 2),
-(4, 13, 1, 1, '1', 'sin numero', 'prov@gmail.com', 6.40, 1.15, 7.55, '', 5, 2, '2023-10-17 23:18:31', 1),
-(5, 13, 1, 1, '1', 'sin numero', 'prov@gmail.com', 61.60, 11.09, 72.69, '', 5, 1, '2023-10-18 15:47:34', 1);
+INSERT INTO `compra` (`compraId`, `compraSucursalId`, `compraPagoId`, `compraProveedorId`, `compraProveedorRuc`, `compraProveedorDireccion`, `compraProveedorCorreo`, `compraSubTotal`, `compraIgv`, `compraTotal`, `compraComentario`, `compraUsuarioId`, `compraMonedaId`, `compraDocumentoId`, `compraFechaCreacion`, `compraEstado`) VALUES
+(1, 13, 3, 1, '1', 'sin numero', 'prov@gmail.com', 19.20, 3.46, 22.66, '', 5, 2, 1, '2023-10-12 22:48:23', 1),
+(2, 13, 2, 2, '11', 'sin numero1', 'prov21@gmail.com', 52.00, 9.36, 61.36, '', 5, 8, 2, '2023-10-12 22:49:15', 1),
+(3, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(4, 13, 1, 1, '1', 'sin numero', 'prov@gmail.com', 6.40, 1.15, 7.55, '', 5, 2, 2, '2023-10-17 23:18:31', 1),
+(5, 13, 1, 1, '1', 'sin numero', 'prov@gmail.com', 61.60, 11.09, 72.69, '', 5, 1, 3, '2023-10-18 15:47:34', 1),
+(6, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(7, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(8, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(9, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(10, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(11, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(12, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(13, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(14, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(15, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(16, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(17, 13, 1, 1, '1', 'sin numero', 'prov@gmail.com', 9.60, 1.73, 11.33, 'test documento', 5, 1, 1, '2023-11-09 15:41:58', 1),
+(18, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(19, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(20, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -1057,7 +1433,8 @@ INSERT INTO `detallecompra` (`detallecompraId`, `detallecompraCompraId`, `detall
 (3, 3, 2, 3.20, 2, 6.40, '2023-10-15 13:54:32', 0),
 (4, 4, 2, 3.20, 2, 6.40, '2023-10-17 23:18:27', 1),
 (5, 5, 2, 3.20, 3, 9.60, '2023-10-18 15:47:19', 1),
-(6, 5, 3, 6.50, 8, 52.00, '2023-10-18 15:47:31', 1);
+(6, 5, 3, 6.50, 8, 52.00, '2023-10-18 15:47:31', 1),
+(7, 17, 12, 3.20, 3, 9.60, '2023-11-09 15:41:46', 1);
 
 -- --------------------------------------------------------
 
@@ -1093,7 +1470,69 @@ INSERT INTO `detallemenu` (`detallemenuId`, `detallemenuMenuId`, `detallemenuRol
 (12, 12, 1, 'Si', '2023-09-15 00:00:00', 1),
 (13, 13, 1, 'Si', '2023-09-15 00:00:00', 1),
 (14, 14, 1, 'Si', '2023-09-15 00:00:00', 1),
-(15, 15, 1, 'Si', '2023-09-15 00:00:00', 1);
+(15, 15, 1, 'Si', '2023-09-15 00:00:00', 1),
+(16, 1, 2, 'No', '2023-11-05 23:17:54', 1),
+(17, 2, 2, 'No', '2023-11-05 23:17:54', 1),
+(18, 3, 2, 'No', '2023-11-05 23:17:54', 1),
+(19, 4, 2, 'No', '2023-11-05 23:17:54', 1),
+(20, 5, 2, 'No', '2023-11-05 23:17:54', 1),
+(21, 6, 2, 'No', '2023-11-05 23:17:54', 1),
+(22, 7, 2, 'No', '2023-11-05 23:17:54', 1),
+(23, 8, 2, 'No', '2023-11-05 23:17:54', 1),
+(24, 9, 2, 'No', '2023-11-05 23:17:54', 1),
+(25, 10, 2, 'No', '2023-11-05 23:17:54', 1),
+(26, 11, 2, 'No', '2023-11-05 23:17:54', 1),
+(27, 12, 2, 'No', '2023-11-05 23:17:54', 1),
+(28, 13, 2, 'No', '2023-11-05 23:17:54', 1),
+(29, 14, 2, 'No', '2023-11-05 23:17:54', 1),
+(30, 15, 2, 'No', '2023-11-05 23:17:54', 1),
+(31, 16, 2, 'No', '2023-11-05 23:17:54', 1),
+(32, 17, 2, 'No', '2023-11-05 23:17:54', 1),
+(47, 1, 3, 'No', '2023-11-07 23:08:05', 1),
+(48, 2, 3, 'No', '2023-11-07 23:08:05', 1),
+(49, 3, 3, 'No', '2023-11-07 23:08:05', 1),
+(50, 4, 3, 'No', '2023-11-07 23:08:05', 1),
+(51, 5, 3, 'No', '2023-11-07 23:08:05', 1),
+(52, 6, 3, 'No', '2023-11-07 23:08:05', 1),
+(53, 7, 3, 'No', '2023-11-07 23:08:05', 1),
+(54, 8, 3, 'No', '2023-11-07 23:08:05', 1),
+(55, 9, 3, 'No', '2023-11-07 23:08:05', 1),
+(56, 10, 3, 'No', '2023-11-07 23:08:05', 1),
+(57, 11, 3, 'No', '2023-11-07 23:08:05', 1),
+(58, 12, 3, 'No', '2023-11-07 23:08:05', 1),
+(59, 13, 3, 'No', '2023-11-07 23:08:05', 1),
+(60, 14, 3, 'No', '2023-11-07 23:08:05', 1),
+(61, 15, 3, 'No', '2023-11-07 23:08:05', 1),
+(62, 1, 26, 'No', '2023-11-07 23:08:20', 1),
+(63, 2, 26, 'No', '2023-11-07 23:08:20', 1),
+(64, 3, 26, 'No', '2023-11-07 23:08:20', 1),
+(65, 4, 26, 'No', '2023-11-07 23:08:20', 1),
+(66, 5, 26, 'No', '2023-11-07 23:08:20', 1),
+(67, 6, 26, 'No', '2023-11-07 23:08:20', 1),
+(68, 7, 26, 'No', '2023-11-07 23:08:20', 1),
+(69, 8, 26, 'No', '2023-11-07 23:08:20', 1),
+(70, 9, 26, 'No', '2023-11-07 23:08:20', 1),
+(71, 10, 26, 'No', '2023-11-07 23:08:20', 1),
+(72, 11, 26, 'No', '2023-11-07 23:08:20', 1),
+(73, 12, 26, 'No', '2023-11-07 23:08:20', 1),
+(74, 13, 26, 'No', '2023-11-07 23:08:20', 1),
+(75, 14, 26, 'No', '2023-11-07 23:08:20', 1),
+(76, 15, 26, 'No', '2023-11-07 23:08:20', 1),
+(77, 1, 27, 'No', '2023-11-07 23:16:00', 1),
+(78, 2, 27, 'No', '2023-11-07 23:16:00', 1),
+(79, 3, 27, 'No', '2023-11-07 23:16:00', 1),
+(80, 4, 27, 'No', '2023-11-07 23:16:00', 1),
+(81, 5, 27, 'No', '2023-11-07 23:16:00', 1),
+(82, 6, 27, 'No', '2023-11-07 23:16:00', 1),
+(83, 7, 27, 'No', '2023-11-07 23:16:00', 1),
+(84, 8, 27, 'No', '2023-11-07 23:16:00', 1),
+(85, 9, 27, 'No', '2023-11-07 23:16:00', 1),
+(86, 10, 27, 'No', '2023-11-07 23:16:00', 1),
+(87, 11, 27, 'No', '2023-11-07 23:16:00', 1),
+(88, 12, 27, 'No', '2023-11-07 23:16:00', 1),
+(89, 13, 27, 'No', '2023-11-07 23:16:00', 1),
+(90, 14, 27, 'No', '2023-11-07 23:16:00', 1),
+(91, 15, 27, 'No', '2023-11-07 23:16:00', 1);
 
 -- --------------------------------------------------------
 
@@ -1117,7 +1556,12 @@ CREATE TABLE `detalleventa` (
 --
 
 INSERT INTO `detalleventa` (`detalleventaId`, `detalleventaVentaId`, `detalleventaProductoId`, `detalleventaProductoPrecioVenta`, `detalleventaCantidad`, `detalleventaTotal`, `detalleventaFechaCreacion`, `detalleventaEstado`) VALUES
-(1, 1, 11, 6.50, 5, 32.50, '2023-10-18 15:33:02', 1);
+(1, 1, 11, 6.50, 5, 32.50, '2023-10-18 15:33:02', 1),
+(2, 3, 13, 6.50, 3, 19.50, '2023-11-02 16:06:02', 1),
+(3, 3, 3, 6.50, 3, 19.50, '2023-11-02 16:06:35', 1),
+(4, 6, 20, 0.20, 2, 0.40, '2023-11-03 00:04:00', 0),
+(5, 7, 2, 3.20, 2, 6.40, '2023-11-03 15:17:42', 0),
+(6, 16, 15, 3.20, 3, 9.60, '2023-11-09 15:53:27', 1);
 
 -- --------------------------------------------------------
 
@@ -1132,6 +1576,18 @@ CREATE TABLE `documento` (
   `documentoFechaCreacion` datetime DEFAULT NULL,
   `documentoEstado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `documento`
+--
+
+INSERT INTO `documento` (`documentoId`, `documentoNombre`, `documentoTipo`, `documentoFechaCreacion`, `documentoEstado`) VALUES
+(1, 'Guia de Remision', 'Compra', '2023-11-07 00:00:00', 1),
+(2, 'Factura', 'Compra', '2023-11-07 00:00:00', 1),
+(3, 'Boleta', 'Compra', '2023-11-07 00:00:00', 1),
+(4, 'Factura', 'Venta', '2023-11-07 00:00:00', 1),
+(5, 'Boleta', 'Venta', '2023-11-07 00:00:00', 1),
+(6, 'Guia de Remision', 'Venta', '2023-11-07 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -1188,21 +1644,21 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`menuId`, `menuNombre`, `menuRuta`, `menuIdentificacion`, `menuGrupo`, `menuFechaCreacion`, `menuEstado`) VALUES
-(1, 'Dashboard', '../home/', 'dashboard', 'Dashboard', '2023-09-11 00:00:00', 1),
-(2, 'Mnt.Categoria', '../MntCategoria/', 'mntcategoria', 'Mantenimiento', '2023-09-11 00:00:00', 1),
-(3, 'Mnt.Producto', '../MntProducto/', 'mntproducto', 'Mantenimiento', '2023-09-11 00:00:00', 1),
-(4, 'Mnt.Cliente', '../MntCliente/', 'mntcliente', 'Mantenimiento', '2023-09-11 00:00:00', 1),
-(5, 'Mnt.Proveedor', '../MntProveedor/', 'mntproveedor', 'Mantenimiento', '2023-09-11 00:00:00', 1),
-(6, 'Mnt.Moneda', '../MntMoneda/', 'mntmoneda', 'Mantenimiento', '2023-09-11 00:00:00', 1),
-(7, 'Mnt.UndMedida', '../MntUnidadmedida/', 'mntundmedida', 'Mantenimiento', '2023-09-11 00:00:00', 1),
-(8, 'Mnt.Empresa', '../MntEmpresa/', 'mntempresa', 'Mantenimiento', '2023-09-11 00:00:00', 1),
-(9, 'Mnt.Sucursal', '../MntSucursal/', 'mntsucursal', 'Mantenimiento', '2023-09-11 00:00:00', 1),
-(10, 'Mnt.Usuario', '../MntUsuario/', 'mntusuario', 'Mantenimiento', '2023-09-11 00:00:00', 1),
-(11, 'Mnt.Rol', '../MntRol/', 'mntrol', 'Mantenimiento', '2023-09-11 00:00:00', 1),
-(12, 'NuevaCompra', '../MntCompra/', 'mntcompra', 'Compra', '2023-09-15 00:00:00', 1),
-(13, 'ListaCompra', '../ListaCompra/', 'listacompra', 'Compra', '2023-09-15 00:00:00', 1),
-(14, 'NuevaVenta', '../MntVenta/', 'mntventa', 'Venta', '2023-09-15 00:00:00', 1),
-(15, 'ListaVenta', '../ListaVenta/', 'listaventa', 'Venta', '2023-09-15 00:00:00', 1);
+(1, 'Dashboard', '../home/', 'Dashboard', 'Dashboard', '0000-00-00 00:00:00', 1),
+(2, 'Mnt.Categoria', '../MntCategoria/', 'mntcategoria', 'Mantenimiento', '0000-00-00 00:00:00', 1),
+(3, 'Mnt.Producto', '../MntProducto/', 'mntproducto', 'Mantenimiento', '0000-00-00 00:00:00', 1),
+(4, 'Mnt.Cliente', '../MntCliente/', 'mntcliente', 'Mantenimiento', '0000-00-00 00:00:00', 1),
+(5, 'Mnt.Proveedor', '../MntProveedor/', 'mntproveedor', 'Mantenimiento', '0000-00-00 00:00:00', 1),
+(6, 'Mnt.Moneda', '../MntMoneda/', 'mntmoneda', 'Mantenimiento', '0000-00-00 00:00:00', 1),
+(7, 'Mnt.UndMedida', '../MntUnidadmedida/', 'mntundmedida', 'Mantenimiento', '0000-00-00 00:00:00', 1),
+(8, 'Mnt.Empresa', '../MntEmpresa/', 'mntempresa', 'Mantenimiento', '0000-00-00 00:00:00', 1),
+(9, 'Mnt.Sucursal', '../MntSucursal/', 'mntsucursal', 'Mantenimiento', '0000-00-00 00:00:00', 1),
+(10, 'Mnt.Usuario', '../MntUsuario/', 'mntusuario', 'Mantenimiento', '0000-00-00 00:00:00', 1),
+(11, 'Mnt.Rol', '../MntRol/', 'mntrol', 'Mantenimiento', '0000-00-00 00:00:00', 1),
+(12, 'NuevaCompra', '../MntCompra/', 'mntcompra', 'Compra', '0000-00-00 00:00:00', 1),
+(13, 'ListaCompra', '../ListaCompra/', 'listacompra', 'Compra', '0000-00-00 00:00:00', 1),
+(14, 'NuevaVenta', '../MntVenta/', 'mntventa', 'Venta', '0000-00-00 00:00:00', 1),
+(15, 'ListaVenta', '../ListaVenta/', 'listaventa', 'Venta', '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -1293,7 +1749,7 @@ CREATE TABLE `producto` (
 INSERT INTO `producto` (`productoId`, `productoSucursalId`, `productoCategoriaId`, `productoNombre`, `productoDescripcion`, `productoMonedaId`, `productoUnidadId`, `productoPrecioCompra`, `productoPrecioVenta`, `productoStock`, `productoImagen`, `productoFechaCreacion`, `productoEstado`) VALUES
 (1, 13, 1, 'panes', 'desc', 2, 1, 1.20, 1.60, 2, '', '2019-07-23 00:00:00', 0),
 (2, 13, 2, 'picaras', 'desc', 2, 2, 3.20, 3.50, 10, '756409889.png', '2019-07-23 00:00:00', 1),
-(3, 13, 3, 'toffi', 'desc', 2, 3, 6.50, 7.00, 10, '1458419149.png', '2023-07-17 00:00:00', 1),
+(3, 13, 3, 'toffi', 'desc', 2, 3, 6.50, 7.00, 7, '1458419149.png', '2023-07-17 00:00:00', 1),
 (4, 14, 4, 'big beng', 'desc', 4, 6, 0.60, 1.00, 5, '', '2023-07-17 00:00:00', 1),
 (5, 14, 5, 'prod', 'desc', 4, 6, 0.20, 0.40, 6, '', '2023-07-17 00:00:00', 1),
 (6, 15, 7, 'prod2', 'descripcion', 6, 9, 0.30, 0.60, 8, '', '2023-07-17 00:00:00', 1),
@@ -1302,10 +1758,10 @@ INSERT INTO `producto` (`productoId`, `productoSucursalId`, `productoCategoriaId
 (9, 16, 12, 'prod5', 'desc', 2, 2, 1.30, 1.50, 6, '', '2023-07-17 00:00:00', 1),
 (10, 16, 12, 'prod 6', 'desc', 2, 2, 1.20, 2.50, 5, '', '2023-09-07 00:00:00', 1),
 (11, 13, 2, 'test', 'algos nomas', 1, 1, 6.50, 2.50, 15, '', '2023-09-07 16:25:07', 1),
-(12, 13, 1, 'algo', 'desc', 1, 2, 3.20, 1.20, 12, NULL, '2023-10-20 23:30:55', 1),
-(13, 13, 1, 'panes', 'algos nomas', 1, 2, 6.50, 7.00, 12, NULL, '2023-10-23 22:55:39', 1),
+(12, 13, 1, 'algo', 'desc', 1, 2, 3.20, 1.20, 15, NULL, '2023-10-20 23:30:55', 1),
+(13, 13, 1, 'panes', 'algos nomas', 1, 2, 6.50, 7.00, 9, NULL, '2023-10-23 22:55:39', 1),
 (14, 13, 3, 'test', 'Imagen prueba', 1, 1, 1.20, 2.50, 2, NULL, '2023-10-23 23:17:56', 1),
-(15, 13, 20, 'test2', 'otro ', 1, 1, 3.20, 7.00, 20, NULL, '2023-10-24 15:32:09', 1),
+(15, 13, 20, 'test2', 'otro ', 1, 1, 3.20, 7.00, 17, NULL, '2023-10-24 15:32:09', 1),
 (16, 13, 1, 'mas test 2', 'mas test 3', 2, 2, 0.20, 0.50, 10, NULL, '2023-10-24 15:36:09', 1),
 (17, 13, 2, 'dos', 'dos mas', 3, 1, 0.20, 0.80, 12, NULL, '2023-10-24 15:46:18', 1),
 (18, 13, 3, 'panes', 'otro ', 1, 2, 1.20, 1.60, 12, NULL, '2023-10-24 23:20:02', 1),
@@ -1409,7 +1865,8 @@ INSERT INTO `rol` (`rolId`, `rolSucursalId`, `rolNombre`, `rolFechaCreacion`, `r
 (23, 13, 'Cajero', '2023-09-10 22:45:02', 0),
 (24, 13, 'Cajera', '2023-09-10 22:45:11', 0),
 (25, 13, 'Cajeros', '2023-09-10 22:47:18', 0),
-(26, 13, 'Cajero', '2023-09-10 22:52:08', 1);
+(26, 13, 'Cajero', '2023-09-10 22:52:08', 1),
+(27, 13, 'Reparto', '2023-11-07 23:15:53', 1);
 
 -- --------------------------------------------------------
 
@@ -1492,6 +1949,7 @@ CREATE TABLE `usuario` (
   `usuarioDni` int(8) NOT NULL,
   `usuarioTelefono` varchar(30) NOT NULL,
   `usuarioPassword` varchar(250) NOT NULL,
+  `usuarioImagen` longtext DEFAULT NULL,
   `usuarioFechaCreacion` datetime NOT NULL,
   `usuarioEstado` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1500,18 +1958,23 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`usuarioId`, `usuarioSucursalId`, `usuarioRolId`, `usuarioCorreo`, `usuarioNombre`, `usuarioApellido`, `usuarioDni`, `usuarioTelefono`, `usuarioPassword`, `usuarioFechaCreacion`, `usuarioEstado`) VALUES
-(5, 13, 1, 'usuario1@gmail.com', 'Usuario 1', 'Apellido 1', 1, '0', '123456', '2023-08-08 00:00:00', 1),
-(6, 14, 4, 'usuario2@gmail.com', 'Usuario 2', 'Apellido 2', 1, '0', '123456', '2023-08-08 00:00:00', 1),
-(7, 15, 7, 'usuario3@gmail.com', 'Usuario 3', 'Apellido 3', 1, '0', '123456', '2023-08-08 00:00:00', 1),
-(8, 16, 1, 'usuario4@gmail.com', 'Usuario 4', 'Apellido 4', 1, '0', '123456', '2023-08-08 00:00:00', 1),
-(9, 17, 1, 'usuario5@gmail.com', 'Usuario 5', 'Apellido 5', 1, '0', '123456', '2023-08-08 00:00:00', 1),
-(10, 13, 1, 'test@gmail.com', 'UserTes', 'TEst', 34325421, '1231412', '123456', '2023-09-09 22:54:13', 1),
-(11, 13, 1, 'test@gmail.com', 'User11', 'TEst', 34325421, '1231412', '123456', '2023-09-09 22:54:37', 1),
-(12, 13, 2, 'test1@gmail.com', 'UserTes', 'TEst', 34325421, '12315135', '123456', '2023-09-09 22:55:08', 0),
-(13, 13, 3, 'test2@gmail.com', 'Test2', 'otro test', 123314, '12451', '123456', '2023-09-09 22:57:26', 0),
-(14, 13, 2, 'test3@gmail.com', 'Test3', 'TEst3', 124124, '1341221', '123456', '2023-09-09 22:59:45', 1),
-(15, 13, 2, 'test3@gmail.com', 'Test32', 'TEst32', 124124, '1341221', '123456', '2023-09-09 23:00:20', 1);
+INSERT INTO `usuario` (`usuarioId`, `usuarioSucursalId`, `usuarioRolId`, `usuarioCorreo`, `usuarioNombre`, `usuarioApellido`, `usuarioDni`, `usuarioTelefono`, `usuarioPassword`, `usuarioImagen`, `usuarioFechaCreacion`, `usuarioEstado`) VALUES
+(5, 13, 1, 'usuario1@gmail.com', 'Usuario 1', 'Apellido 1', 1, '0', '123456', NULL, '2023-08-08 00:00:00', 1),
+(6, 14, 4, 'usuario2@gmail.com', 'Usuario 2', 'Apellido 2', 1, '0', '123456', NULL, '2023-08-08 00:00:00', 1),
+(7, 15, 7, 'usuario3@gmail.com', 'Usuario 3', 'Apellido 3', 1, '0', '123456', NULL, '2023-08-08 00:00:00', 1),
+(8, 16, 1, 'usuario4@gmail.com', 'Usuario 4', 'Apellido 4', 1, '0', '123456', NULL, '2023-08-08 00:00:00', 1),
+(9, 17, 1, 'usuario5@gmail.com', 'Usuario 5', 'Apellido 5', 1, '0', '123456', NULL, '2023-08-08 00:00:00', 1),
+(10, 13, 1, 'test@gmail.com', 'UserTes', 'TEst', 34325421, '1231412', '123456', NULL, '2023-09-09 22:54:13', 1),
+(11, 13, 1, 'test@gmail.com', 'User11', 'TEst', 34325421, '1231412', '123456', NULL, '2023-09-09 22:54:37', 1),
+(12, 13, 2, 'test1@gmail.com', 'UserTes', 'TEst', 34325421, '12315135', '123456', NULL, '2023-09-09 22:55:08', 0),
+(13, 13, 3, 'test2@gmail.com', 'Test2', 'otro test', 123314, '12451', '123456', NULL, '2023-09-09 22:57:26', 0),
+(14, 13, 2, 'test3@gmail.com', 'Test3', 'TEst3', 124124, '1341221', '123456', NULL, '2023-09-09 22:59:45', 1),
+(15, 13, 2, 'test3@gmail.com', 'Test32', 'TEst32', 124124, '1341221', '123456', NULL, '2023-09-09 23:00:20', 1),
+(16, 13, 2, 'test1@gmail.com', 'UserTes', 'TEst32', 34325421, '12315135', '123456', '1058367106.png', '2023-11-01 23:01:22', 1),
+(18, 13, 1, 'test@gmail.com', 'UserTes', 'TEst', 34325421, '1231412', '123456', '1319282223.png', '2023-11-02 14:25:47', 1),
+(19, 13, 1, '1@gmail.com', 'Uno', 'Uno', 987656712, '98765456', '123456', '1589968858.png', '2023-11-02 14:39:16', 1),
+(20, 13, 1, 'usuario1@gmail.com', 'Usuario 1', 'Apellido 1', 1, '0', '123456', '1472357561.png', '2023-11-02 15:24:18', 1),
+(21, 13, 1, 'dos@gmail.com', 'dos', 'dos', 12456462, '2362532', '123456', '1259047642.png', '2023-11-02 15:30:40', 0);
 
 -- --------------------------------------------------------
 
@@ -1533,6 +1996,7 @@ CREATE TABLE `venta` (
   `ventaComentario` varchar(250) DEFAULT NULL,
   `ventaUsuarioId` int(11) DEFAULT NULL,
   `ventaMonedaId` int(11) DEFAULT NULL,
+  `ventaDocumentoId` int(11) DEFAULT NULL,
   `ventaFechaCreacion` datetime DEFAULT NULL,
   `ventaEstado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1541,8 +2005,25 @@ CREATE TABLE `venta` (
 -- Volcado de datos para la tabla `venta`
 --
 
-INSERT INTO `venta` (`ventaId`, `ventaSucursalId`, `ventaPagoId`, `ventaClienteId`, `ventaClienteRuc`, `ventaClienteDireccion`, `ventaClienteCorreo`, `ventaSubTotal`, `ventaIgv`, `ventaTotal`, `ventaComentario`, `ventaUsuarioId`, `ventaMonedaId`, `ventaFechaCreacion`, `ventaEstado`) VALUES
-(1, 13, 1, 19, '1', 'sin numero 123', 'cliente1@gmail.com', 32.50, 5.85, 38.35, '', 5, 1, '2023-10-18 15:33:06', 1);
+INSERT INTO `venta` (`ventaId`, `ventaSucursalId`, `ventaPagoId`, `ventaClienteId`, `ventaClienteRuc`, `ventaClienteDireccion`, `ventaClienteCorreo`, `ventaSubTotal`, `ventaIgv`, `ventaTotal`, `ventaComentario`, `ventaUsuarioId`, `ventaMonedaId`, `ventaDocumentoId`, `ventaFechaCreacion`, `ventaEstado`) VALUES
+(1, 13, 1, 19, '1', 'sin numero 123', 'cliente1@gmail.com', 32.50, 5.85, 38.35, '', 5, 1, 1, '2023-10-18 15:33:06', 1),
+(2, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(3, 13, 2, 28, '123', 'otro mas 1', 'otro@gmial.com', 39.00, 7.02, 46.02, 'test con imagen', 5, 1, 2, '2023-11-02 16:08:40', 1),
+(4, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(5, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(6, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(7, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(8, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(9, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(10, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(11, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(12, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(13, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(14, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(15, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(16, 13, 2, 19, '1', 'sin numero 123', 'cliente1@gmail.com', 9.60, 1.73, 11.33, 'test documento venta', 5, 1, 4, '2023-11-09 15:53:38', 1),
+(17, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2),
+(18, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, NULL, NULL, 2);
 
 --
 -- Índices para tablas volcadas
@@ -1577,7 +2058,8 @@ ALTER TABLE `compra`
   ADD KEY `fkpago` (`compraPagoId`),
   ADD KEY `fkproveedor` (`compraProveedorId`),
   ADD KEY `fkusuario` (`compraUsuarioId`),
-  ADD KEY `fkmoneda_2` (`compraMonedaId`);
+  ADD KEY `fkmoneda_2` (`compraMonedaId`),
+  ADD KEY `fkdocumento_idx` (`compraDocumentoId`);
 
 --
 -- Indices de la tabla `detallecompra`
@@ -1690,7 +2172,8 @@ ALTER TABLE `venta`
   ADD KEY `fkpago_2` (`ventaPagoId`),
   ADD KEY `fkcliente` (`ventaClienteId`),
   ADD KEY `fkusuario_2` (`ventaUsuarioId`),
-  ADD KEY `fkmoneda_3` (`ventaMonedaId`);
+  ADD KEY `fkmoneda_3` (`ventaMonedaId`),
+  ADD KEY `fkdocumento_2_idx` (`ventaDocumentoId`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -1718,31 +2201,31 @@ ALTER TABLE `compania`
 -- AUTO_INCREMENT de la tabla `compra`
 --
 ALTER TABLE `compra`
-  MODIFY `compraId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `compraId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `detallecompra`
 --
 ALTER TABLE `detallecompra`
-  MODIFY `detallecompraId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `detallecompraId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `detallemenu`
 --
 ALTER TABLE `detallemenu`
-  MODIFY `detallemenuId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `detallemenuId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT de la tabla `detalleventa`
 --
 ALTER TABLE `detalleventa`
-  MODIFY `detalleventaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `detalleventaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `documento`
 --
 ALTER TABLE `documento`
-  MODIFY `documentoId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `documentoId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `empresa`
@@ -1784,7 +2267,7 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `rolId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `rolId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `sucursal`
@@ -1802,13 +2285,13 @@ ALTER TABLE `unidad`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuarioId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `usuarioId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `venta`
 --
 ALTER TABLE `venta`
-  MODIFY `ventaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ventaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Restricciones para tablas volcadas
@@ -1830,7 +2313,7 @@ ALTER TABLE `cliente`
 -- Filtros para la tabla `compra`
 --
 ALTER TABLE `compra`
-  ADD CONSTRAINT `fkmoneda_2` FOREIGN KEY (`compraMonedaId`) REFERENCES `moneda` (`monedaId`),
+  ADD CONSTRAINT `fkdocumento` FOREIGN KEY (`compraDocumentoId`) REFERENCES `documento` (`documentoId`),
   ADD CONSTRAINT `fkpago` FOREIGN KEY (`compraPagoId`) REFERENCES `pago` (`pagoId`),
   ADD CONSTRAINT `fkproveedor` FOREIGN KEY (`compraProveedorId`) REFERENCES `proveedor` (`proveedorId`),
   ADD CONSTRAINT `fksucursal_7` FOREIGN KEY (`compraSucursalId`) REFERENCES `sucursal` (`sucursalId`),
@@ -1914,6 +2397,7 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `venta`
   ADD CONSTRAINT `fkcliente` FOREIGN KEY (`ventaClienteId`) REFERENCES `cliente` (`clienteId`),
+  ADD CONSTRAINT `fkdocumento_2` FOREIGN KEY (`ventaDocumentoId`) REFERENCES `venta` (`ventaId`),
   ADD CONSTRAINT `fkmoneda_3` FOREIGN KEY (`ventaMonedaId`) REFERENCES `moneda` (`monedaId`),
   ADD CONSTRAINT `fkpago_2` FOREIGN KEY (`ventaPagoId`) REFERENCES `pago` (`pagoId`),
   ADD CONSTRAINT `fksucursal_8` FOREIGN KEY (`ventaSucursalId`) REFERENCES `sucursal` (`sucursalId`),
