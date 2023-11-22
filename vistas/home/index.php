@@ -7,6 +7,21 @@
     if (isset($_SESSION["usuarioId"])) {
         if(is_array($datos) and count($datos)>0){
     
+            require_once("../../models/productoModels.php");
+            $producto = new ProductoModels();
+            $datos_producto=$producto->getProducto_x_sucursalId($_SESSION["sucursalId"]);
+
+            require_once("../../models/categoriaModels.php");
+            $categoria = new CategoriaModels();
+            $datos_categoria=$categoria->getCategoria_x_sucursalId($_SESSION["sucursalId"]);
+
+            require_once("../../models/clienteModels.php");
+            $cliente = new ClienteModels();
+            $datos_cliente=$cliente->getCliente_x_empresaId($_SESSION["empresaId"]);
+
+            require_once("../../models/proveedorModels.php");
+            $proveedor = new ProveedorModels();
+            $datos_proveedor=$proveedor->getProveedor_x_empresaId($_SESSION["empresaId"]);
 
 ?>
 
@@ -60,7 +75,7 @@
                                     <div class="col-12">
                                         <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                                             <div class="flex-grow-1">
-                                                <h4 class="fs-16 mb-1">Buen dia, !</h4>
+                                                <h4 class="fs-16 mb-1">Buen dia, <?php echo $_SESSION["usuarioNombre"]?>!!</h4>
                                                 <p class="text-muted mb-0">Here's what's happening with your store today.</p>
                                             </div>
                                             <div class="mt-3 mt-lg-0">
@@ -97,7 +112,7 @@
                                                 </div>
                                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                                     <div>
-                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target=""><?  ?></span></h4>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="<?php echo count($datos_producto);?>"><?  ?></span></h4>
                                                         <a href="../MntProducto/" class="text-decoration-underline">Ver Productos</a>
                                                     </div>
                                                     <div class="avatar-sm flex-shrink-0">
@@ -120,7 +135,7 @@
                                                 </div>
                                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                                     <div>
-                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="">0</span></h4>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="<?php echo count($datos_categoria);?>">0</span></h4>
                                                         <a href="../MntCategoria/" class="text-decoration-underline">Ver Categorias</a>
                                                     </div>
                                                     <div class="avatar-sm flex-shrink-0">
@@ -144,7 +159,7 @@
                                                 </div>
                                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                                     <div>
-                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="">0</span> </h4>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="<?php echo count($datos_cliente);?>">0</span> </h4>
                                                         <a href="../MntCliente/" class="text-decoration-underline">Ver Clientes</a>
                                                     </div>
                                                     <div class="avatar-sm flex-shrink-0">
@@ -167,7 +182,7 @@
                                                 </div>
                                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                                     <div>
-                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="">0</span> </h4>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="<?php echo count($datos_proveedor);?>">0</span> </h4>
                                                         <a href="../MntProveedor/" class="text-decoration-underline">Ver Proveedores</a>
                                                     </div>
                                                     <div class="avatar-sm flex-shrink-0">
