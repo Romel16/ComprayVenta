@@ -72,6 +72,7 @@
                                                 <th>FechaCreacion</th>
                                                 <th></th>
                                                 <th></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -92,6 +93,8 @@
     </div>
 
     <?php require_once("mantenimientoProducto.php"); ?>
+
+    <?php require_once("modalconsumo.php"); ?>
 
 
     <?php require_once("../html/js.php"); ?>

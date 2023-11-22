@@ -97,7 +97,7 @@
                                                 </div>
                                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                                     <div>
-                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="">0</span></h4>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target=""><?  ?></span></h4>
                                                         <a href="../MntProducto/" class="text-decoration-underline">Ver Productos</a>
                                                     </div>
                                                     <div class="avatar-sm flex-shrink-0">
@@ -271,15 +271,14 @@
                                     </div>
                                 </div>
 
+                                <!-- TODO: Consumo de Compras por categoria -->
                                 <div class="row">
                                     <div class="col-xl-4">
                                         <div class="card card-height-100">
                                             <div class="card-header align-items-center d-flex">
                                                 <h4 class="card-title mb-0 flex-grow-1">Consumo Compras x Categoria</h4>
                                             </div>
-
                                             <div class="card-body">
-                                                <!-- TODO: Consumo de Compras por categoria -->
                                                 <canvas id="grafdona" class="chartjs-chart" data-colors='["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info", "--vz-black"]'></canvas>
                                             </div>
                                         </div>

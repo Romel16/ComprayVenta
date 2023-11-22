@@ -81,7 +81,7 @@
          /*TODO: Listado de compra por sucursalId */
         public function getCompraListado($idsucursal){
             $conectar = parent::Conexion();
-            $sql = "call     (?)";
+            $sql = "call  ListCompra(?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1, $idsucursal);
             $query->execute();
@@ -118,6 +118,15 @@
         public function getComprasporCategoria($idsucursal){
             $conectar = parent::Conexion();
             $sql = "call spComprasCategoria (?)";
+            $query = $conectar->prepare($sql);
+            $query->bindValue(1, $idsucursal);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }       
+         /*TODO: Reporte en barras de compra por sucursalId */
+        public function get_compra_barras($idsucursal){
+            $conectar = parent::Conexion();
+            $sql = "call spComprasBarra (?)";
             $query = $conectar->prepare($sql);
             $query->bindValue(1, $idsucursal);
             $query->execute();

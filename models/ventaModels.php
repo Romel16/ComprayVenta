@@ -97,6 +97,16 @@
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }       
+
+          /*TODO: Reporte en barras de compra por sucursalId */
+          public function get_venta_barras($idsucursal){
+            $conectar = parent::Conexion();
+            $sql = "call spVentasBarra (?)";
+            $query = $conectar->prepare($sql);
+            $query->bindValue(1, $idsucursal);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }       
     }
 
     

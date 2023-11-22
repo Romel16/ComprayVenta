@@ -68,6 +68,7 @@ switch ($_GET["op"]) {
             $sub_array[] = $row["productoFechaCreacion"];
             $sub_array[] = '<button type="button" onClick="editar('.$row["productoId"].')" id="'.$row["productoId"].'" class="btn btn-warning btn-icon waves-effect waves-light"><i class="ri-edit-2-line"></i></button>';;
             $sub_array[] = '<button type="button" onClick="eliminar('.$row["productoId"].')" id="'.$row["productoId"].'" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-delete-bin-5-line"></i></button>';;
+            $sub_array[] = '<button type="button" onClick="ver('.$row["productoId"].')" id="'.$row["productoId"].'" class="btn btn-success btn-icon waves-effect waves-light"><i class="ri-settings-2-line"></i></button>';
             $data[] = $sub_array;
 
         }
@@ -129,19 +130,19 @@ switch ($_GET["op"]) {
 
     /* TODO: Listar consumo de Productos */
     case "consumo":
-        $datos=$producto->get_producto_consumo($_POST["prod_id"]);
+        $datos=$producto->get_producto_consumo($_POST["idproducto"]);
         $data=Array();
         foreach($datos as $row){
             $sub_array = array();
-            if ($row["REGISTRO"] == 'Compra'){
+            if ($row["Registro"] == 'Compra'){
                 $sub_array[] = "<div class='flex-shrink-0 avatar-xs acitivity-avatar'><div class='avatar-title bg-soft-success text-success rounded-circle'><i class='ri-shopping-cart-2-line'></i></div></div>";
             }else{
                 $sub_array[] = "<div class='flex-shrink-0 avatar-xs acitivity-avatar'><div class='avatar-title bg-soft-danger text-danger rounded-circle'><i class='ri-stack-fill'></i></div></div>";
             }
-            $sub_array[] = $row["REGISTRO"];
-            $sub_array[] = $row["DOC_NOM"];
-            $sub_array[] = $row["FECH_CREA"];
-            $sub_array[] = $row["DETC_CANT"];
+            $sub_array[] = $row["Registro"];
+            $sub_array[] = $row["documentoNombre"];
+            $sub_array[] = $row["fechaCreacion"];
+            $sub_array[] = $row["detallecompraCantidad"];
             $data[] = $sub_array;
         }
 

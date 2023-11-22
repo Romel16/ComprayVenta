@@ -258,9 +258,19 @@ switch ($_GET["op"]) {
                     <span class="text-muted">Total</span>
                 </td>
             </tr>
-<?php
+        <?php
         }
         break;
+
+        case "barras":
+            $datos=$venta->get_venta_barras($_POST["idsucursal"]);
+            $data = array();
+            foreach($datos as $row){
+                $data[]=$row;
+            }
+            echo json_encode($data);
+            break; 
+    
 }
 
 

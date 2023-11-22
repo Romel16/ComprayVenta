@@ -62,11 +62,11 @@ $.ajax({
     }
 });
 
-/*
+
 $.ajax({
-    url:"../../controller/compra.php?op=barras",
+    url:"../../controllers/compraControllers.php?op=barras",
     method: "POST",
-    data: {suc_id:sucursalId},
+    data: {idsucursal:sucursalId},
     success: function(data){
 
         data=JSON.parse(data);
@@ -74,8 +74,8 @@ $.ajax({
         var fecha=[];
         var total=[];
         for (var i in data){
-            fecha.push(data[i].FECH_CREA);
-            total.push(data[i].COMPR_TOTAL);
+            fecha.push(data[i].fechaCreacion);
+            total.push(data[i].compraTotal);
         }
 
         var barChart,
@@ -109,9 +109,9 @@ $.ajax({
 });
 
 $.ajax({
-    url:"../../controller/venta.php?op=barras",
+    url:"../../controllers/ventaControllers.php?op=barras",
     method: "POST",
-    data: {suc_id:sucursalId},
+    data: {idsucursal:sucursalId},
     success: function(data){
 
         data=JSON.parse(data);
@@ -119,8 +119,8 @@ $.ajax({
         var fechav=[];
         var totalv=[];
         for (var i in data){
-            fechav.push(data[i].FECH_CREA);
-            totalv.push(data[i].VENT_TOTAL);
+            fechav.push(data[i].fechaCreacion);
+            totalv.push(data[i].ventaTotal);
         }
 
     var barChart,
@@ -152,4 +152,3 @@ $.ajax({
         })));
     }
 });
-*/

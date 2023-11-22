@@ -109,11 +109,11 @@
         }
 
     /* TODO: Consumo de productos */
-        public function get_producto_consumo($prod_id){
+        public function get_producto_consumo($productoid){
             $conectar=parent::Conexion();
-            $sql="SP_L_PRODUCTO_05 ?";
+            $sql="call spProductoConsumo (?)";
             $query=$conectar->prepare($sql);
-            $query->bindValue(1,$prod_id);
+            $query->bindValue(1,$productoid);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }

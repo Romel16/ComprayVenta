@@ -347,14 +347,14 @@ switch ($_GET["op"]) {
         echo json_encode($data);
     break; 
 
-    /* case "barras":
-        $datos=$compra->get_compra_barras($_POST["suc_id"]);
+    case "barras":
+        $datos=$compra->get_compra_barras($_POST["idsucursal"]);
         $data = array();
         foreach($datos as $row){
             $data[]=$row;
         }
         echo json_encode($data);
-        break; */
+        break; 
 
 
 }
