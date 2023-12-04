@@ -70,11 +70,11 @@
         }
 
          /*TODO: Calcular SubTotal, Igv, Total */
-        public function getVenta($idsucursal){
+        public function getVenta($idventa){
             $conectar = parent::Conexion();
             $sql = "call setViewSales (?)";
             $query = $conectar->prepare($sql);
-            $query->bindValue(1, $idsucursal);
+            $query->bindValue(1, $idventa);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }       

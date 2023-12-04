@@ -271,11 +271,16 @@ $(document).on("click","#btnguardar",function(){
                         footer: "<a href='../ViewVenta/?v="+vent_id+"' target='_blank'>Desea ver el Documento?</a>"
                     });
 
-                });
+                });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                $.get("../../controllers/printPdfControllers.php?op=pdfventa",{idventa:vent_id},function(data){
+                    console.log(data);
+
+                });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                
             }
 
         });
-
+   
     }
 
 });
